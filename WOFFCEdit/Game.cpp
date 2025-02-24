@@ -86,10 +86,11 @@ void Game::SetGridState(bool state)
 
 #pragma region Frame Update
 // Executes the basic game loop.
-void Game::Tick(InputCommands *Input)
+void Game::Tick(InputCommands *Input, RECT windowRect)
 {
 	//copy over the input commands so we have a local version to use elsewhere.
 	m_InputCommands = *Input;
+    winRect = windowRect;
     m_timer.Tick([&]()
     {
         Update(m_timer);
@@ -112,7 +113,7 @@ void Game::Tick(InputCommands *Input)
 void Game::Update(DX::StepTimer const& timer)
 {
 
-	m_view = camera.Update(m_InputCommands);
+	m_view = camera.Update(m_InputCommands, winRect);
 
     m_batchEffect->SetView(m_view);
     m_batchEffect->SetWorld(Matrix::Identity);
@@ -175,6 +176,10 @@ void Game::Render()
 	WCHAR   Buffer[256];
 	std::wstring var = L"CamX: " + std::to_wstring(camera.getPosition().x) + L" CamZ: " + std::to_wstring(camera.getPosition().z);
 	m_font->DrawString(m_sprites.get(), var.c_str() , XMFLOAT2(10, 10), Colors::Yellow);
+
+    ////mouse
+    //std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_mouse->GetState().x) + L" MouseY: " + std::to_wstring(m_mouse->GetState().y);
+    //m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);
 
     //mouse
     std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_InputCommands.mousePosX) + L" MouseY: " + std::to_wstring(m_InputCommands.mousePosY);

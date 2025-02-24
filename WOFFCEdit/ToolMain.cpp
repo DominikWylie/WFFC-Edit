@@ -2,6 +2,7 @@
 #include "resource.h"
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 //
 //ToolMain Class
@@ -41,6 +42,8 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 	m_height	= height;
 	
 	m_d3dRenderer.Initialize(handle, m_width, m_height);
+
+	m_toolHandle = handle;
 
 	//database connection establish
 	int rc;
@@ -288,7 +291,7 @@ void ToolMain::Tick(MSG *msg)
 		//resend scenegraph to Direct X renderer
 
 	//Renderer Update Call
-	m_d3dRenderer.Tick(&m_toolInputCommands);
+	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect);
 }
 
 void ToolMain::UpdateInput(MSG * msg)
@@ -316,6 +319,8 @@ void ToolMain::UpdateInput(MSG * msg)
 	else {
 		m_toolInputCommands.LMBDown = false;
 	}
+
+	GetWindowRect(m_toolHandle, &windowRect);
 
 	m_toolInputCommands.mousePosX = msg->pt.x;
 	m_toolInputCommands.mousePosY = msg->pt.y;
@@ -355,6 +360,11 @@ void ToolMain::UpdateInput(MSG * msg)
 		m_toolInputCommands.rotLeft = true;
 	}
 	else m_toolInputCommands.rotLeft = false;
+
+	//esc
+	if (m_keyArray[27]) {
+		std::cout << "esc hit! \n";
+	}
 
 	//WASD
 }

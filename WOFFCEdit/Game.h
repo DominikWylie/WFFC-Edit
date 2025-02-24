@@ -30,7 +30,7 @@ public:
 	void SetGridState(bool state);
 
 	// Basic game loop
-	void Tick(InputCommands * Input);
+	void Tick(InputCommands * Input, RECT windowRect);
 	void Render();
 
 	// Rendering helpers
@@ -72,6 +72,7 @@ private:
 	InputCommands						m_InputCommands;
 
 	Camera camera;
+	RECT winRect;
 
 	//control variables
 	bool m_grid;							//grid rendering on / off

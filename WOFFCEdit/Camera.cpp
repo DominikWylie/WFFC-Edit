@@ -35,7 +35,7 @@ Camera::~Camera() {
 
 }
 
-Matrix Camera::Update(InputCommands& m_InputCommands) {
+Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect) {
 
 	//TODO  any more complex than this, and the camera should be abstracted out to somewhere else
 	//camera motion is on a plane, so kill the 7 component of the look direction
@@ -51,10 +51,39 @@ Matrix Camera::Update(InputCommands& m_InputCommands) {
 		m_camOrientation.y += m_camRotRate;
 	}
 
-	//create look direction from Euler angles in m_camOrientation
-	m_camLookDirection.x = sin((m_camOrientation.y) * 3.1415 / 180);
-	m_camLookDirection.z = cos((m_camOrientation.y) * 3.1415 / 180);
-	m_camLookDirection.Normalize();
+	//float centreX = ((windowRect.right - windowRect.left) / 2);
+	//float centreY = ((windowRect.bottom - windowRect.top) / 2);
+
+	//m_camOrientation.y -= m_InputCommands.mousePosX - centreX;
+	//m_camOrientation.x -= m_InputCommands.mousePosY - centreY;
+
+	//SetCursorPos(centreX, centreY);
+
+
+
+	//previousMouseX = m_InputCommands.mousePosX;
+	//previousMouseY = m_InputCommands.mousePosY;
+
+	//if (m_InputCommands.LMBDown) {
+
+		m_camOrientation.y -= m_InputCommands.mousePosX - previousMouseX;
+		m_camOrientation.x -= m_InputCommands.mousePosY - previousMouseY;
+
+		previousMouseX = m_InputCommands.mousePosX;
+		previousMouseY = m_InputCommands.mousePosY;
+	//}
+
+	////create look direction from Euler angles in m_camOrientation
+	//m_camLookDirection.x = sin((m_camOrientation.y) * 3.1415 / 180);
+	//m_camLookDirection.z = cos((m_camOrientation.y) * 3.1415 / 180);
+	//m_camLookDirection.Normalize();
+
+	float pitch = m_camOrientation.y * (3.1415 / 180);
+	float yaw = m_camOrientation.x * (3.1415 / 180);
+
+	m_camLookDirection.x = sinf(pitch) * cosf(yaw);
+	m_camLookDirection.y = sinf(yaw);
+	m_camLookDirection.z = cosf(yaw) * cosf(pitch);
 
 	//create right vector from look Direction
 	m_camLookDirection.Cross(Vector3::UnitY, m_camRight);

@@ -10,7 +10,7 @@ public:
 	Camera();
 	~Camera();
 
-	DirectX::SimpleMath::Matrix Update(InputCommands& m_InputCommands);
+	DirectX::SimpleMath::Matrix Update(InputCommands& m_InputCommands, RECT windowRect);
 
 	DirectX::SimpleMath::Vector3 getPosition() { return m_camPosition; }
 
@@ -26,5 +26,8 @@ private:
 
 	//functionality
 	float m_movespeed;
+
+	float previousMouseX = -1;
+	float previousMouseY = -1;
 };
 
