@@ -12,7 +12,7 @@ Camera::~Camera() {
 
 }
 
-Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepTimer const& timer) {
+Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepTimer const& timer) {
 
 	//TODO  any more complex than this, and the camera should be abstracted out to somewhere else
 	//camera motion is on a plane, so kill the 7 component of the look direction
@@ -29,13 +29,13 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 		dt = 1.f / timer.GetFramesPerSecond();
 	}
 
-	if (m_InputCommands.rise)
+	if (m_InputCommands->rise)
 	{
 		//m_camOrientation.y -= m_camRotRate;
 
 		m_camPosition.y -= (m_movespeed * dt);
 	}
-	if (m_InputCommands.fall)
+	if (m_InputCommands->fall)
 	{
 		//m_camOrientation.y += m_camRotRate;
 
@@ -44,29 +44,36 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 	}
 
 
-	if (m_InputCommands.RMBDown) {
-		if (m_InputCommands.RMBClicked) {
+	if (m_InputCommands->RMBDown) {
+		if (m_InputCommands->RMBClicked) {
 			//new click
-			mouseAnchor.x = m_InputCommands.mousePosX;
-			mouseAnchor.y = m_InputCommands.mousePosY;
+			mouseAnchor.x = m_InputCommands->mousePosX;
+			mouseAnchor.y = m_InputCommands->mousePosY;
 			//ShowCursor(false);
-			
 		}
 
-		//doesnt work in clicked
 		SetCursor(NULL);
 
-		m_camOrientation.y -= ((m_InputCommands.mousePosX - mouseAnchor.x) * dt) * cameraMoveSpeed;
-		m_camOrientation.x -= ((m_InputCommands.mousePosY - mouseAnchor.y) * dt) * cameraMoveSpeed;
+
+		//doesnt work in clicked
+
+		m_camOrientation.y -= ((m_InputCommands->mousePosX - mouseAnchor.x) * dt) * cameraMoveSpeed;
+		m_camOrientation.x -= ((m_InputCommands->mousePosY - mouseAnchor.y) * dt) * cameraMoveSpeed;
 
 		//reset mouse pos to anchor
 
 		SetCursorPos(mouseAnchor.x, mouseAnchor.y);
+
+		if (m_InputCommands->wheelDelta < -0.1f || m_InputCommands->wheelDelta > 0.1f) {
+			m_movespeed += m_InputCommands->wheelDelta;
+			m_InputCommands->wheelDelta = 0.f;
+			//ShowCursor(true);
+		}
 	}
-	else if (m_InputCommands.RMBUnclick) {
+	else if (m_InputCommands->RMBUnclick) {
 		//ShowCursor(true);
 		SetCursor(cursor);
-		m_InputCommands.RMBUnclick = false;
+		m_InputCommands->RMBUnclick = false;
 	}
 
 	float pitch = m_camOrientation.y * (3.1415 / 180);
@@ -80,19 +87,19 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 	m_camLookDirection.Cross(Vector3::UnitY, m_camRight);
 
 	//process input and update stuff
-	if (m_InputCommands.forward)
+	if (m_InputCommands->forward)
 	{
 		m_camPosition += (m_camLookDirection * m_movespeed) * dt;
 	}
-	if (m_InputCommands.back)
+	if (m_InputCommands->back)
 	{
 		m_camPosition -= (m_camLookDirection * m_movespeed) * dt;
 	}
-	if (m_InputCommands.right)
+	if (m_InputCommands->right)
 	{
 		m_camPosition += (m_camRight * m_movespeed) * dt;
 	}
-	if (m_InputCommands.left)
+	if (m_InputCommands->left)
 	{
 		m_camPosition -= (m_camRight * m_movespeed) * dt;
 	}

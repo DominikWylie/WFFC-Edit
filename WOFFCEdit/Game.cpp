@@ -14,7 +14,6 @@ using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 Game::Game()
-
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     m_deviceResources->RegisterDeviceNotify(this);
@@ -91,7 +90,7 @@ void Game::SetGridState(bool state)
 void Game::Tick(InputCommands *Input, RECT windowRect)
 {
 	//copy over the input commands so we have a local version to use elsewhere.
-	m_InputCommands = *Input;
+	m_InputCommands = Input;
     winRect = windowRect;
     m_timer.Tick([&]()
     {
@@ -173,21 +172,7 @@ void Game::Render()
 		const XMVECTORF32 yaxis = { 0.f, 0.f, 512.f };
 		DrawGrid(xaxis, yaxis, g_XMZero, 512, 512, Colors::Gray);
 	}
-	//CAMERA POSITION ON HUD
-	m_sprites->Begin();
-	WCHAR   Buffer[256];
-	std::wstring var = L"CamX: " + std::to_wstring(camera.getPosition().x) + L" CamZ: " + std::to_wstring(camera.getPosition().z);
-	m_font->DrawString(m_sprites.get(), var.c_str() , XMFLOAT2(10, 10), Colors::Yellow);
 
-    ////mouse
-    //std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_mouse->GetState().x) + L" MouseY: " + std::to_wstring(m_mouse->GetState().y);
-    //m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);
-
-    //mouse
-    std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_InputCommands.mousePosX) + L" MouseY: " + std::to_wstring(m_InputCommands.mousePosY);
-    m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);
-
-	m_sprites->End();
 
 	//RENDER OBJECTS FROM SCENEGRAPH
 	int numRenderObjects = m_displayList.size();
@@ -218,6 +203,26 @@ void Game::Render()
 
 	//Render the batch,  This is handled in the Display chunk becuase it has the potential to get complex
 	m_displayChunk.RenderBatch(m_deviceResources);
+
+    //CAMERA POSITION ON HUD
+    m_sprites->Begin();
+    WCHAR   Buffer[256];
+    std::wstring var = L"CamX: " + std::to_wstring(camera.getPosition().x) + L" CamZ: " + std::to_wstring(camera.getPosition().z);
+    m_font->DrawString(m_sprites.get(), var.c_str(), XMFLOAT2(10, 10), Colors::Yellow);
+
+    ////mouse
+    //std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_mouse->GetState().x) + L" MouseY: " + std::to_wstring(m_mouse->GetState().y);
+    //m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);
+
+    //mouse
+    std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_InputCommands->mousePosX) + L" MouseY: " + std::to_wstring(m_InputCommands->mousePosY);
+    m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);    
+    
+
+    std::wstring efwnoj = L"scrollspeed: " + std::to_wstring(m_InputCommands->wheelDelta) + L" camspeed: " + std::to_wstring(camera.m_movespeed);
+    m_font->DrawString(m_sprites.get(), efwnoj.c_str(), XMFLOAT2(10, 60), Colors::Blue);
+
+    m_sprites->End();
 
     m_deviceResources->Present();
 }

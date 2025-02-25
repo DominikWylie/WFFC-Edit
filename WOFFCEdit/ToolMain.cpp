@@ -313,6 +313,10 @@ void ToolMain::UpdateInput(MSG * msg)
 		m_toolInputCommands.RMBClicked = false;
 		m_toolInputCommands.RMBUnclick = true;
 		break;
+	case WM_MOUSEWHEEL:
+		//m_toolInputCommands.wheelMoved = true;
+		m_toolInputCommands.wheelDelta = (float)GET_WHEEL_DELTA_WPARAM(msg->wParam) / 120;
+		break;
 	}
 
 	//esc

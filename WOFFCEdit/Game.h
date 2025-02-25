@@ -69,7 +69,7 @@ private:
 	//tool specific
 	std::vector<DisplayObject>			m_displayList;
 	DisplayChunk						m_displayChunk;
-	InputCommands						m_InputCommands;
+	InputCommands*						m_InputCommands;
 
 	Camera camera;
 	RECT winRect;

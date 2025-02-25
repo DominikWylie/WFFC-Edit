@@ -19,4 +19,7 @@ struct InputCommands
 
 	float mousePosX = 0;
 	float mousePosY = 0;
+
+	//bool wheelMoved;
+	float wheelDelta = 0.f;
 };
