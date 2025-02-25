@@ -31,7 +31,6 @@ ToolMain::~ToolMain()
 
 int ToolMain::getCurrentSelectionID()
 {
-
 	return m_selectedObject;
 }
 
@@ -310,14 +309,17 @@ void ToolMain::UpdateInput(MSG * msg)
 
 	case WM_MOUSEMOVE:
 		break;
+	case WM_RBUTTONDOWN:
+		m_toolInputCommands.RMBDown = true;
+		break;
+	case WM_RBUTTONUP:
+		m_toolInputCommands.RMBDown = false;
+		break;
 	}
 
-	//mouse
-	if (msg->message == WM_LBUTTONDOWN) {
-		m_toolInputCommands.LMBDown = true;
-	}
-	else {
-		m_toolInputCommands.LMBDown = false;
+	//esc
+	if (m_keyArray[VK_ESCAPE]) {
+		PostQuitMessage(0);
 	}
 
 	GetWindowRect(m_toolHandle, &windowRect);
@@ -360,11 +362,6 @@ void ToolMain::UpdateInput(MSG * msg)
 		m_toolInputCommands.rotLeft = true;
 	}
 	else m_toolInputCommands.rotLeft = false;
-
-	//esc
-	if (m_keyArray[27]) {
-		std::cout << "esc hit! \n";
-	}
 
 	//WASD
 }

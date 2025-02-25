@@ -64,14 +64,14 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect) {
 	//previousMouseX = m_InputCommands.mousePosX;
 	//previousMouseY = m_InputCommands.mousePosY;
 
-	//if (m_InputCommands.LMBDown) {
+	if (m_InputCommands.RMBDown) {
 
 		m_camOrientation.y -= m_InputCommands.mousePosX - previousMouseX;
 		m_camOrientation.x -= m_InputCommands.mousePosY - previousMouseY;
 
 		previousMouseX = m_InputCommands.mousePosX;
 		previousMouseY = m_InputCommands.mousePosY;
-	//}
+	}
 
 	////create look direction from Euler angles in m_camOrientation
 	//m_camLookDirection.x = sin((m_camOrientation.y) * 3.1415 / 180);
