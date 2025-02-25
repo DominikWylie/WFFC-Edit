@@ -29,5 +29,10 @@ private:
 
 	float previousMouseX = -1;
 	float previousMouseY = -1;
+
+	//doing custom anchor so the mouse will be in the same place after camera move
+	DirectX::SimpleMath::Vector2 mouseAnchor = DirectX::SimpleMath::Vector2(5, 5);
+
+	HCURSOR cursor;
 };
 

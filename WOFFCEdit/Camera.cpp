@@ -29,6 +29,8 @@ Camera::Camera()
 	m_camRight.x = 0.0f;
 	m_camRight.y = 0.0f;
 	m_camRight.z = 0.0f;
+
+	cursor = LoadCursor(NULL, IDC_ARROW);
 }
 
 Camera::~Camera() {
@@ -51,32 +53,31 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect) {
 		m_camOrientation.y += m_camRotRate;
 	}
 
-	//float centreX = ((windowRect.right - windowRect.left) / 2);
-	//float centreY = ((windowRect.bottom - windowRect.top) / 2);
-
-	//m_camOrientation.y -= m_InputCommands.mousePosX - centreX;
-	//m_camOrientation.x -= m_InputCommands.mousePosY - centreY;
-
-	//SetCursorPos(centreX, centreY);
-
-
-
-	//previousMouseX = m_InputCommands.mousePosX;
-	//previousMouseY = m_InputCommands.mousePosY;
 
 	if (m_InputCommands.RMBDown) {
+		if (m_InputCommands.RMBClicked) {
+			//new click
+			mouseAnchor.x = m_InputCommands.mousePosX;
+			mouseAnchor.y = m_InputCommands.mousePosY;
+			//ShowCursor(false);
+			
+		}
 
-		m_camOrientation.y -= m_InputCommands.mousePosX - previousMouseX;
-		m_camOrientation.x -= m_InputCommands.mousePosY - previousMouseY;
+		//doesnt work in clicked
+		SetCursor(NULL);
 
-		previousMouseX = m_InputCommands.mousePosX;
-		previousMouseY = m_InputCommands.mousePosY;
+		m_camOrientation.y -= m_InputCommands.mousePosX - mouseAnchor.x;
+		m_camOrientation.x -= m_InputCommands.mousePosY - mouseAnchor.y;
+
+		//reset mouse pos to anchor
+
+		SetCursorPos(mouseAnchor.x, mouseAnchor.y);
 	}
-
-	////create look direction from Euler angles in m_camOrientation
-	//m_camLookDirection.x = sin((m_camOrientation.y) * 3.1415 / 180);
-	//m_camLookDirection.z = cos((m_camOrientation.y) * 3.1415 / 180);
-	//m_camLookDirection.Normalize();
+	else if (m_InputCommands.RMBUnclick) {
+		//ShowCursor(true);
+		SetCursor(cursor);
+		m_InputCommands.RMBUnclick = false;
+	}
 
 	float pitch = m_camOrientation.y * (3.1415 / 180);
 	float yaw = m_camOrientation.x * (3.1415 / 180);

@@ -33,6 +33,8 @@ public:	//variables
 
 private:	//methods
 	void	onContentAdded();
+
+	void MouseLogicCheck();
 		
 private:	//variables
 	HWND	m_toolHandle;		//Handle to the  window

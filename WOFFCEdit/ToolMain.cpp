@@ -13,12 +13,6 @@ ToolMain::ToolMain()
 	m_selectedObject = 0;	//initial selection ID
 	m_sceneGraph.clear();	//clear the vector for the scenegraph
 	m_databaseConnection = NULL;
-
-	//zero input commands
-	m_toolInputCommands.forward		= false;
-	m_toolInputCommands.back		= false;
-	m_toolInputCommands.left		= false;
-	m_toolInputCommands.right		= false;
 	
 }
 
@@ -291,6 +285,8 @@ void ToolMain::Tick(MSG *msg)
 
 	//Renderer Update Call
 	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect);
+
+	MouseLogicCheck();
 }
 
 void ToolMain::UpdateInput(MSG * msg)
@@ -310,10 +306,12 @@ void ToolMain::UpdateInput(MSG * msg)
 	case WM_MOUSEMOVE:
 		break;
 	case WM_RBUTTONDOWN:
-		m_toolInputCommands.RMBDown = true;
+		m_toolInputCommands.RMBClicked = true;
 		break;
 	case WM_RBUTTONUP:
 		m_toolInputCommands.RMBDown = false;
+		m_toolInputCommands.RMBClicked = false;
+		m_toolInputCommands.RMBUnclick = true;
 		break;
 	}
 
@@ -362,6 +360,15 @@ void ToolMain::UpdateInput(MSG * msg)
 		m_toolInputCommands.rotLeft = true;
 	}
 	else m_toolInputCommands.rotLeft = false;
+}
 
-	//WASD
+void ToolMain::MouseLogicCheck()
+{
+	//if clicked, set down to true, if both true set clicked to false, RMBdown is set in UpdateInput
+	if (m_toolInputCommands.RMBClicked && !m_toolInputCommands.RMBDown) {
+		m_toolInputCommands.RMBDown = true;
+	}
+	else if (m_toolInputCommands.RMBDown && m_toolInputCommands.RMBDown) {
+		m_toolInputCommands.RMBClicked = false;
+	}
 }
