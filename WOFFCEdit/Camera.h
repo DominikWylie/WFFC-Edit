@@ -25,7 +25,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_camRight = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);;
 
 	////functionality
-	float m_movespeed = 0.3;
+	float m_movespeed = 9.f;
 
 	float previousMouseX = -1;
 	float previousMouseY = -1;

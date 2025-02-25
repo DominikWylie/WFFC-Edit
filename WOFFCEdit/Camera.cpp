@@ -19,17 +19,27 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 	Vector3 planarMotionVector = m_camLookDirection;
 	planarMotionVector.y = 0.0;
 
+	float dt;
+
+	//so camera cam be moved in the 1st second (not super importatnt but i did it)
+	if (timer.GetFramesPerSecond() == 0) {
+		dt = 1.f / 60.f;
+	}
+	else {
+		dt = 1.f / timer.GetFramesPerSecond();
+	}
+
 	if (m_InputCommands.rise)
 	{
 		//m_camOrientation.y -= m_camRotRate;
 
-		m_camPosition.y += m_movespeed;
+		m_camPosition.y -= (m_movespeed * dt);
 	}
 	if (m_InputCommands.fall)
 	{
 		//m_camOrientation.y += m_camRotRate;
 
-		m_camPosition.y -= m_movespeed;
+		m_camPosition.y += (m_movespeed * dt);
 
 	}
 
@@ -45,16 +55,6 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 
 		//doesnt work in clicked
 		SetCursor(NULL);
-
-		float dt;
-
-		//so camera cam be moved in the 1st second (not super importatnt but i did it)
-		if (timer.GetFramesPerSecond() == 0) {
-			dt = 1.f / 60.f;
-		}
-		else{
-			dt = 1.f / timer.GetFramesPerSecond();
-		}
 
 		m_camOrientation.y -= ((m_InputCommands.mousePosX - mouseAnchor.x) * dt) * cameraMoveSpeed;
 		m_camOrientation.x -= ((m_InputCommands.mousePosY - mouseAnchor.y) * dt) * cameraMoveSpeed;
@@ -82,19 +82,19 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 	//process input and update stuff
 	if (m_InputCommands.forward)
 	{
-		m_camPosition += m_camLookDirection * m_movespeed;
+		m_camPosition += (m_camLookDirection * m_movespeed) * dt;
 	}
 	if (m_InputCommands.back)
 	{
-		m_camPosition -= m_camLookDirection * m_movespeed;
+		m_camPosition -= (m_camLookDirection * m_movespeed) * dt;
 	}
 	if (m_InputCommands.right)
 	{
-		m_camPosition += m_camRight * m_movespeed;
+		m_camPosition += (m_camRight * m_movespeed) * dt;
 	}
 	if (m_InputCommands.left)
 	{
-		m_camPosition -= m_camRight * m_movespeed;
+		m_camPosition -= (m_camRight * m_movespeed) * dt;
 	}
 
 	//update lookat point
