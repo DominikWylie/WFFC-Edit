@@ -18,15 +18,14 @@ public:
 private:
 
 	//camera
-	DirectX::SimpleMath::Vector3 m_camPosition;
-	DirectX::SimpleMath::Vector3 m_camOrientation;
-	DirectX::SimpleMath::Vector3 m_camLookAt;
-	DirectX::SimpleMath::Vector3 m_camLookDirection;
-	DirectX::SimpleMath::Vector3 m_camRight;
-	float m_camRotRate;
+	DirectX::SimpleMath::Vector3 m_camPosition = DirectX::SimpleMath::Vector3(0.f, 3.7f, -3.5f);
+	DirectX::SimpleMath::Vector3 m_camOrientation = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
+	DirectX::SimpleMath::Vector3 m_camLookAt = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);;
+	DirectX::SimpleMath::Vector3 m_camLookDirection = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);;
+	DirectX::SimpleMath::Vector3 m_camRight = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);;
 
-	//functionality
-	float m_movespeed;
+	////functionality
+	float m_movespeed = 0.3;
 
 	float previousMouseX = -1;
 	float previousMouseY = -1;

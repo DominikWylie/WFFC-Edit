@@ -6,8 +6,8 @@ struct InputCommands
 	bool back = false;
 	bool right = false;
 	bool left = false;
-	bool rotRight = false;
-	bool rotLeft = false;
+	bool rise = false;
+	bool fall = false;
 
 	bool LMBDown = false;
 	bool LMBClicked = false;

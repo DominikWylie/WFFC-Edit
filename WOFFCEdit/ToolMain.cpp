@@ -352,14 +352,14 @@ void ToolMain::UpdateInput(MSG * msg)
 	//rotation
 	if (m_keyArray['E'])
 	{
-		m_toolInputCommands.rotRight = true;
+		m_toolInputCommands.fall = true;
 	}
-	else m_toolInputCommands.rotRight = false;
+	else m_toolInputCommands.fall = false;
 	if (m_keyArray['Q'])
 	{
-		m_toolInputCommands.rotLeft = true;
+		m_toolInputCommands.rise = true;
 	}
-	else m_toolInputCommands.rotLeft = false;
+	else m_toolInputCommands.rise = false;
 }
 
 void ToolMain::MouseLogicCheck()

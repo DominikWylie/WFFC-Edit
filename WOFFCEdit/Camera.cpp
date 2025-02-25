@@ -5,31 +5,6 @@ using namespace DirectX::SimpleMath;
 
 Camera::Camera()
 {
-	//functional
-	m_movespeed = 0.30;
-	m_camRotRate = 3.0;
-
-	//camera
-	m_camPosition.x = 0.0f;
-	m_camPosition.y = 3.7f;
-	m_camPosition.z = -3.5f;
-
-	m_camOrientation.x = 0;
-	m_camOrientation.y = 0;
-	m_camOrientation.z = 0;
-
-	m_camLookAt.x = 0.0f;
-	m_camLookAt.y = 0.0f;
-	m_camLookAt.z = 0.0f;
-
-	m_camLookDirection.x = 0.0f;
-	m_camLookDirection.y = 0.0f;
-	m_camLookDirection.z = 0.0f;
-
-	m_camRight.x = 0.0f;
-	m_camRight.y = 0.0f;
-	m_camRight.z = 0.0f;
-
 	cursor = LoadCursor(NULL, IDC_ARROW);
 }
 
@@ -44,13 +19,18 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepT
 	Vector3 planarMotionVector = m_camLookDirection;
 	planarMotionVector.y = 0.0;
 
-	if (m_InputCommands.rotRight)
+	if (m_InputCommands.rise)
 	{
-		m_camOrientation.y -= m_camRotRate;
+		//m_camOrientation.y -= m_camRotRate;
+
+		m_camPosition.y += m_movespeed;
 	}
-	if (m_InputCommands.rotLeft)
+	if (m_InputCommands.fall)
 	{
-		m_camOrientation.y += m_camRotRate;
+		//m_camOrientation.y += m_camRotRate;
+
+		m_camPosition.y -= m_movespeed;
+
 	}
 
 
