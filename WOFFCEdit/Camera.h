@@ -3,6 +3,7 @@
 #include "d3d11.h"
 #include <SimpleMath.h>
 #include "InputCommands.h"
+#include "StepTimer.h"
 
 class Camera
 {
@@ -10,7 +11,7 @@ public:
 	Camera();
 	~Camera();
 
-	DirectX::SimpleMath::Matrix Update(InputCommands& m_InputCommands, RECT windowRect);
+	DirectX::SimpleMath::Matrix Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepTimer const& timer);
 
 	DirectX::SimpleMath::Vector3 getPosition() { return m_camPosition; }
 
@@ -34,5 +35,7 @@ private:
 	DirectX::SimpleMath::Vector2 mouseAnchor = DirectX::SimpleMath::Vector2(5, 5);
 
 	HCURSOR cursor;
+
+	float cameraMoveSpeed = 7.f;
 };
 

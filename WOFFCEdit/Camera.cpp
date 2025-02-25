@@ -37,7 +37,7 @@ Camera::~Camera() {
 
 }
 
-Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect) {
+Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect, DX::StepTimer const& timer) {
 
 	//TODO  any more complex than this, and the camera should be abstracted out to somewhere else
 	//camera motion is on a plane, so kill the 7 component of the look direction
@@ -66,8 +66,18 @@ Matrix Camera::Update(InputCommands& m_InputCommands, RECT windowRect) {
 		//doesnt work in clicked
 		SetCursor(NULL);
 
-		m_camOrientation.y -= m_InputCommands.mousePosX - mouseAnchor.x;
-		m_camOrientation.x -= m_InputCommands.mousePosY - mouseAnchor.y;
+		float dt;
+
+		//so camera cam be moved in the 1st second (not super importatnt but i did it)
+		if (timer.GetFramesPerSecond() == 0) {
+			dt = 1.f / 60.f;
+		}
+		else{
+			dt = 1.f / timer.GetFramesPerSecond();
+		}
+
+		m_camOrientation.y -= ((m_InputCommands.mousePosX - mouseAnchor.x) * dt) * cameraMoveSpeed;
+		m_camOrientation.x -= ((m_InputCommands.mousePosY - mouseAnchor.y) * dt) * cameraMoveSpeed;
 
 		//reset mouse pos to anchor
 
