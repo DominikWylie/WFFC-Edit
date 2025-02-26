@@ -284,6 +284,9 @@ void ToolMain::Tick(MSG *msg)
 		//resend scenegraph to Direct X renderer
 
 	//Renderer Update Call
+	if (m_toolInputCommands.LMBClicked) {
+		m_selectedObject = m_d3dRenderer.MousePicking();
+	}
 	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect);
 	MouseLogicCheck();
 	ResetNeededInputs();
@@ -312,6 +315,15 @@ void ToolMain::UpdateInput(MSG * msg)
 		m_toolInputCommands.RMBDown = false;
 		m_toolInputCommands.RMBClicked = false;
 		m_toolInputCommands.RMBUnclick = true;
+		break;
+	case WM_LBUTTONDOWN:
+		//not too sure the best way nut down with button down for now
+		m_toolInputCommands.LMBClicked = true;
+		break;
+	case WM_LBUTTONUP:
+		m_toolInputCommands.LMBDown = false;
+		m_toolInputCommands.LMBClicked = false;
+		m_toolInputCommands.LMBUnclick = true;
 		break;
 	case WM_MOUSEWHEEL:
 		//m_toolInputCommands.wheelMoved = true;
@@ -374,6 +386,13 @@ void ToolMain::MouseLogicCheck()
 	}
 	else if (m_toolInputCommands.RMBClicked && m_toolInputCommands.RMBDown) {
 		m_toolInputCommands.RMBClicked = false;
+	}
+
+	if (m_toolInputCommands.LMBClicked && !m_toolInputCommands.LMBDown) {
+		m_toolInputCommands.LMBDown = true;
+	}
+	else if (m_toolInputCommands.LMBClicked && m_toolInputCommands.LMBDown) {
+		m_toolInputCommands.LMBClicked = false;
 	}
 }
 
