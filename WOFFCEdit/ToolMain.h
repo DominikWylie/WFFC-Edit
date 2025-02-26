@@ -35,6 +35,7 @@ private:	//methods
 	void	onContentAdded();
 
 	void MouseLogicCheck();
+	void ResetNeededInputs();
 		
 private:	//variables
 	HWND	m_toolHandle;		//Handle to the  window

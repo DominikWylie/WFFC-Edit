@@ -64,11 +64,7 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 
 		SetCursorPos(mouseAnchor.x, mouseAnchor.y);
 
-		if (m_InputCommands->wheelDelta < -0.1f || m_InputCommands->wheelDelta > 0.1f) {
-			m_movespeed += m_InputCommands->wheelDelta;
-			m_InputCommands->wheelDelta = 0.f;
-			//ShowCursor(true);
-		}
+		m_movespeed += m_InputCommands->wheelDelta;
 	}
 	else if (m_InputCommands->RMBUnclick) {
 		//ShowCursor(true);

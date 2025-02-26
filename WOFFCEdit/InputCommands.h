@@ -20,6 +20,6 @@ struct InputCommands
 	float mousePosX = 0;
 	float mousePosY = 0;
 
-	//bool wheelMoved;
+	//this is reset evrey tick in toolmail
 	float wheelDelta = 0.f;
 };

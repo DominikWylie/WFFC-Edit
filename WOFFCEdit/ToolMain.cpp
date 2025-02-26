@@ -285,8 +285,8 @@ void ToolMain::Tick(MSG *msg)
 
 	//Renderer Update Call
 	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect);
-
 	MouseLogicCheck();
+	ResetNeededInputs();
 }
 
 void ToolMain::UpdateInput(MSG * msg)
@@ -372,7 +372,14 @@ void ToolMain::MouseLogicCheck()
 	if (m_toolInputCommands.RMBClicked && !m_toolInputCommands.RMBDown) {
 		m_toolInputCommands.RMBDown = true;
 	}
-	else if (m_toolInputCommands.RMBDown && m_toolInputCommands.RMBDown) {
+	else if (m_toolInputCommands.RMBClicked && m_toolInputCommands.RMBDown) {
 		m_toolInputCommands.RMBClicked = false;
+	}
+}
+
+void ToolMain::ResetNeededInputs()
+{
+	if (m_toolInputCommands.wheelDelta < -0.1f || m_toolInputCommands.wheelDelta > 0.1f) {
+		m_toolInputCommands.wheelDelta = 0.f;
 	}
 }
