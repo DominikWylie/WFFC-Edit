@@ -6,7 +6,8 @@
 #include "Game.h"
 #include "DisplayObject.h"
 #include <string>
-
+#include <vector>
+#include <algorithm>
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -429,8 +430,10 @@ void Game::SaveDisplayChunk(ChunkObject * SceneChunk)
 
 int Game::MousePicking()
 {
-    int selectedID = -1;
     float pickedDistance = 0;
+
+    std::vector<int> selectedIDs;
+    std::vector<float> pickedDistances;
 
     //setup near and far planes of frustum with mouse X and mouse y passed down from Toolmain. 
     //they may look the same but note, the difference in Z
@@ -466,13 +469,24 @@ int Game::MousePicking()
             //checking for ray intersection
             if (m_displayList[i].m_model.get()->meshes[y]->boundingBox.Intersects(nearPoint, pickingVector, pickedDistance))
             {
-                selectedID = i;
+                //selectedID = i;
+                selectedIDs.push_back(i);
+                pickedDistances.push_back(pickedDistance);
+
             }
         }
     }
 
+    if (selectedIDs.empty()) {
+        return -1;
+    }
+
+    auto cloasestDistanceIt = std::min_element(pickedDistances.begin(), pickedDistances.end());
+
+    int indexOfCloasest = std::distance(pickedDistances.begin(), cloasestDistanceIt);
+
     //if we got a hit.  return it.  
-    return selectedID;
+    return selectedIDs.at(indexOfCloasest);
 }
 
 #ifdef DXTK_AUDIO
