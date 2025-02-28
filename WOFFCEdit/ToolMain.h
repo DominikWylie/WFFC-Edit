@@ -7,7 +7,7 @@
 #include "SceneObject.h"
 #include "InputCommands.h"
 #include <vector>
-
+#include "Input.h"
 
 class ToolMain
 {
@@ -33,9 +33,6 @@ public:	//variables
 
 private:	//methods
 	void	onContentAdded();
-
-	void MouseLogicCheck();
-	void ResetNeededInputs();
 		
 private:	//variables
 	HWND	m_toolHandle;		//Handle to the  window
@@ -44,6 +41,7 @@ private:	//variables
 	CRect	WindowRECT;		//Window area rectangle. 
 	char	m_keyArray[256];
 	sqlite3 *m_databaseConnection;	//sqldatabase handle
+	Input input;
 
 	int m_width;		//dimensions passed to directX
 	int m_height;
