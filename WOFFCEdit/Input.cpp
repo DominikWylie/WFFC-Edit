@@ -90,7 +90,7 @@ void Input::Update(MSG* msg)
 	else m_toolInputCommands.rise = false;
 }
 
-void Input::tick()
+void Input::Tick()
 {
 	//if clicked, set down to true, if both true set clicked to false, RMBclicked is set in Update
 	if (m_toolInputCommands.RMBClicked && !m_toolInputCommands.RMBDown) {
