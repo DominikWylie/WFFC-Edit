@@ -33,7 +33,8 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 	m_width		= width;
 	m_height	= height;
 	
-	m_d3dRenderer.Initialize(handle, m_width, m_height);
+	m_d3dRenderer.Initialize(handle, m_width, m_height, input);
+	//input.AttachObserver()
 
 	m_toolHandle = handle;
 

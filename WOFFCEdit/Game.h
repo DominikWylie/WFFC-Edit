@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "Camera.h"
+#include "Input.h"
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -26,7 +27,7 @@ public:
 	~Game();
 
 	// Initialization and management
-	void Initialize(HWND window, int width, int height);
+	void Initialize(HWND window, int width, int height, Input &input);
 	void SetGridState(bool state);
 
 	// Basic game loop

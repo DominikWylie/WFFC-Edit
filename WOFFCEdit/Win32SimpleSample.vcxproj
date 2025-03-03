@@ -175,6 +175,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MFCFrame.cpp" />
     <ClCompile Include="MFCRenderFrame.cpp" />
+    <ClCompile Include="InputObserver.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="MFCMain.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="InputCommands.h" />
     <ClInclude Include="MFCFrame.h" />
     <ClInclude Include="MFCRenderFrame.h" />
+    <ClInclude Include="InputObserver.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneObject.h" />

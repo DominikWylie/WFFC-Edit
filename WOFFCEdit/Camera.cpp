@@ -6,6 +6,14 @@ using namespace DirectX::SimpleMath;
 Camera::Camera()
 {
 	cursor = LoadCursor(NULL, IDC_ARROW);
+
+	for (int key : keys) {
+		KeysDown.insert({ key, false });
+	}
+	
+	//for (int i = 0; i < keys.size(); i++) {
+	//	KeysDown.insert()
+	//}
 }
 
 Camera::~Camera() {
@@ -29,13 +37,13 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 		dt = 1.f / timer.GetFramesPerSecond();
 	}
 
-	if (m_InputCommands->rise)
+	if (keys['E'])
 	{
 		//m_camOrientation.y -= m_camRotRate;
 
 		m_camPosition.y -= (m_movespeed * dt);
 	}
-	if (m_InputCommands->fall)
+	if (keys['Q'])
 	{
 		//m_camOrientation.y += m_camRotRate;
 
@@ -86,22 +94,40 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 	m_camLookDirection.Cross(Vector3::UnitY, m_camRight);
 
 	//process input and update stuff
-	if (m_InputCommands->forward)
+	if (keys['W'])
 	{
 		m_camPosition += (m_camLookDirection * m_movespeed) * dt;
 	}
-	if (m_InputCommands->back)
+	if (keys['S'])
 	{
 		m_camPosition -= (m_camLookDirection * m_movespeed) * dt;
 	}
-	if (m_InputCommands->right)
+	if (keys['D'])
 	{
 		m_camPosition += (m_camRight * m_movespeed) * dt;
 	}
-	if (m_InputCommands->left)
+	if (keys['A'])
 	{
 		m_camPosition -= (m_camRight * m_movespeed) * dt;
 	}
+
+	////process input and update stuff
+	//if (m_InputCommands->forward)
+	//{
+	//	m_camPosition += (m_camLookDirection * m_movespeed) * dt;
+	//}
+	//if (m_InputCommands->back)
+	//{
+	//	m_camPosition -= (m_camLookDirection * m_movespeed) * dt;
+	//}
+	//if (m_InputCommands->right)
+	//{
+	//	m_camPosition += (m_camRight * m_movespeed) * dt;
+	//}
+	//if (m_InputCommands->left)
+	//{
+	//	m_camPosition -= (m_camRight * m_movespeed) * dt;
+	//}
 
 	//update lookat point
 	m_camLookAt = m_camPosition + m_camLookDirection;
@@ -109,4 +135,39 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 	//apply camera vectors
 	return Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
 
+}
+
+void Camera::keyUp(int key)
+{
+	if (KeysDown.find(key) != KeysDown.end()) {
+		KeysDown[key] = true;
+	}
+
+
+	//for (int i = 0; i < keys.size(); i++) {
+	//	if (keys.at(i) = key) {
+	//		KeysDown.at(i) = false;
+	//	}
+	//}
+}
+
+void Camera::keyDown(int key)
+{
+	if (KeysDown.find(key) != KeysDown.end()) {
+		KeysDown[key] = true;
+	}
+
+
+	//for (int i = 0; i < keys.size(); i++) {
+	//	if (keys.at(i) = key) {
+	//		KeysDown.at(i) = true;
+	//	}
+	//}
+
+
+}
+
+std::vector<int> Camera::getKeysToObserve()
+{
+	return keys;
 }
