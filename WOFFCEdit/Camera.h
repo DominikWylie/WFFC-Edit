@@ -4,8 +4,10 @@
 #include <SimpleMath.h>
 #include "InputCommands.h"
 #include "StepTimer.h"
+#include "InputObserver.h"
+#include <map>
 
-class Camera
+class Camera : public InputObserver
 {
 public:
 	Camera();
@@ -14,6 +16,12 @@ public:
 	DirectX::SimpleMath::Matrix Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepTimer const& timer);
 
 	DirectX::SimpleMath::Vector3 getPosition() { return m_camPosition; }
+
+	virtual void KeyDown(int key) override;
+	virtual void KeyUp(int key) override;
+
+	virtual std::vector<int> getKeysToObserve() override;
+
 
 private:
 
@@ -38,5 +46,8 @@ private:
 	HCURSOR cursor;
 
 	float cameraMoveSpeed = 7.f;
+
+	std::vector<int> keys{ 'W', 'A', 'S', 'D', 'Q', 'E' };
+	std::map<int, bool> KeysDown;
 };
 

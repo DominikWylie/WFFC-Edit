@@ -15,6 +15,8 @@
 
 #include "Camera.h"
 
+class Input;
+
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -26,7 +28,7 @@ public:
 	~Game();
 
 	// Initialization and management
-	void Initialize(HWND window, int width, int height);
+	void Initialize(HWND window, int width, int height, Input &input);
 	void SetGridState(bool state);
 
 	// Basic game loop

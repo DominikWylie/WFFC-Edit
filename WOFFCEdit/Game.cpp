@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "Input.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -38,7 +39,7 @@ Game::~Game()
 }
 
 // Initialize the Direct3D resources required to run.
-void Game::Initialize(HWND window, int width, int height)
+void Game::Initialize(HWND window, int width, int height, Input& input)
 {
     m_gamePad = std::make_unique<GamePad>();
 
@@ -49,7 +50,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     m_deviceResources->SetWindow(window, width, height);
 
-    
+    //input.AttachObserver(&camera);
 
     m_deviceResources->CreateDeviceResources();
     CreateDeviceDependentResources();

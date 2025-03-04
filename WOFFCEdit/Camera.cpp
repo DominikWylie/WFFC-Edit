@@ -110,3 +110,18 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 	return Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
 
 }
+
+void Camera::KeyDown(int key)
+{
+
+}
+
+void Camera::KeyUp(int key)
+{
+
+}
+
+std::vector<int> Camera::getKeysToObserve()
+{
+	return keys;
+}

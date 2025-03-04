@@ -1,5 +1,8 @@
 #include "Input.h"
 
+#include <afxwin.h>
+
+
 Input::Input(InputCommands& toolInput) : m_toolInputCommands(toolInput) {
 }
 
@@ -110,5 +113,14 @@ void Input::Tick()
 
 	if (m_toolInputCommands.wheelDelta < -0.1f || m_toolInputCommands.wheelDelta > 0.1f) {
 		m_toolInputCommands.wheelDelta = 0.f;
+	}
+}
+
+void Input::AttachObserver(InputObserver* observer)
+{
+	std::vector<int> keys = observer->getKeysToObserve();
+
+	for (int key : keys) {
+		observerArray[key].push_back(observer);
 	}
 }
