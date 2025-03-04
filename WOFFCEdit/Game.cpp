@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Input.h"
+//#include "Input.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -27,7 +27,7 @@ Game::Game()
 
 }
 
-Game::~Game()
+Game::~Game() 
 {
 
 #ifdef DXTK_AUDIO
@@ -39,8 +39,10 @@ Game::~Game()
 }
 
 // Initialize the Direct3D resources required to run.
-void Game::Initialize(HWND window, int width, int height, Input& input)
+void Game::Initialize(HWND window, int width, int height, Camera *cam)
 {
+    camera = cam;
+
     m_gamePad = std::make_unique<GamePad>();
 
     m_keyboard = std::make_unique<Keyboard>();
@@ -116,7 +118,8 @@ void Game::Tick(InputCommands *Input, RECT windowRect)
 void Game::Update(DX::StepTimer const& timer)
 {
 
-	m_view = camera.Update(m_InputCommands, winRect, timer);
+	m_view = camera->Update(m_InputCommands, winRect, timer);
+    //m_view = camera.Update(m_InputCommands, winRect, timer);
 
     m_batchEffect->SetView(m_view);
     m_batchEffect->SetWorld(Matrix::Identity);
@@ -209,7 +212,7 @@ void Game::Render()
     //CAMERA POSITION ON HUD
     m_sprites->Begin();
     WCHAR   Buffer[256];
-    std::wstring var = L"CamX: " + std::to_wstring(camera.getPosition().x) + L" CamZ: " + std::to_wstring(camera.getPosition().z);
+    std::wstring var = L"CamX: " + std::to_wstring(camera->getPosition().x) + L" CamZ: " + std::to_wstring(camera->getPosition().z);
     m_font->DrawString(m_sprites.get(), var.c_str(), XMFLOAT2(10, 10), Colors::Yellow);
 
     ////mouse
@@ -221,7 +224,7 @@ void Game::Render()
     m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);    
     
 
-    std::wstring efwnoj = L"scrollspeed: " + std::to_wstring(m_InputCommands->wheelDelta) + L" camspeed: " + std::to_wstring(camera.m_movespeed);
+    std::wstring efwnoj = L"scrollspeed: " + std::to_wstring(m_InputCommands->wheelDelta) + L" camspeed: " + std::to_wstring(camera->m_movespeed);
     m_font->DrawString(m_sprites.get(), efwnoj.c_str(), XMFLOAT2(10, 60), Colors::Blue);
 
     m_sprites->End();

@@ -15,7 +15,7 @@
 
 #include "Camera.h"
 
-class Input;
+//class Input;
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -28,7 +28,7 @@ public:
 	~Game();
 
 	// Initialization and management
-	void Initialize(HWND window, int width, int height, Input &input);
+	void Initialize(HWND window, int width, int height, Camera *cam);
 	void SetGridState(bool state);
 
 	// Basic game loop
@@ -75,7 +75,8 @@ private:
 	DisplayChunk						m_displayChunk;
 	InputCommands*						m_InputCommands;
 
-	Camera camera;
+	Camera *camera;
+	//Camera camera;
 	RECT winRect;
 
 	//control variables

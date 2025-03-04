@@ -1,7 +1,5 @@
 #include "Input.h"
 
-#include <afxwin.h>
-
 
 Input::Input(InputCommands& toolInput) : m_toolInputCommands(toolInput) {
 }

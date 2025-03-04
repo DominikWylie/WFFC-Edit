@@ -8,6 +8,7 @@
 #include "InputCommands.h"
 #include <vector>
 #include "Input.h"
+#include "Camera.h"
 
 class ToolMain
 {
@@ -29,7 +30,11 @@ public: //methods
 public:	//variables
 	std::vector<SceneObject>    m_sceneGraph;	//our scenegraph storing all the objects in the current chunk
 	ChunkObject					m_chunk;		//our landscape chunk
-	int m_selectedObject;						//ID of current Selection
+	int m_selectedObject;
+
+	Camera camera;
+	
+	//ID of current Selection
 
 private:	//methods
 	void	onContentAdded();
