@@ -7,7 +7,7 @@
 enum MouseInput {
 	RMB,
 	LMB,
-	SCROLLCLICK
+	MMB
 };
 
 class InputObserver

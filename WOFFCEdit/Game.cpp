@@ -430,6 +430,20 @@ void Game::SaveDisplayChunk(ChunkObject * SceneChunk)
 	m_displayChunk.SaveHeightMap();			//save heightmap to file.
 }
 
+void Game::mouseDown(MouseInput mouse)
+{
+    MousePicking();
+}
+
+void Game::mouseUp(MouseInput mouse)
+{
+}
+
+void Game::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
+{
+    mousePos = mousePosition;
+}
+
 int Game::MousePicking()
 {
     float pickedDistance = 0;
@@ -439,8 +453,8 @@ int Game::MousePicking()
 
     //setup near and far planes of frustum with mouse X and mouse y passed down from Toolmain. 
     //they may look the same but note, the difference in Z
-    const XMVECTOR nearSource = XMVectorSet(m_InputCommands->mousePosX, m_InputCommands->mousePosY, 0.0f, 1.0f);
-    const XMVECTOR farSource = XMVectorSet(m_InputCommands->mousePosX, m_InputCommands->mousePosY, 1.0f, 1.0f);
+    const XMVECTOR nearSource = XMVectorSet(mousePos.x, mousePos.y, 0.0f, 1.0f);
+    const XMVECTOR farSource = XMVectorSet(mousePos.x, mousePos.y, 1.0f, 1.0f);
 
     //Loop through entire display list of objects and pick with each in turn. 
     for (int i = 0; i < m_displayList.size(); i++)

@@ -11,6 +11,7 @@
 #include "DisplayChunk.h"
 #include "ChunkObject.h"
 #include "InputCommands.h"
+#include "InputObserver.h"
 #include <vector>
 
 #include "Camera.h"
@@ -20,7 +21,7 @@
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
-class Game : public DX::IDeviceNotify
+class Game : public DX::IDeviceNotify, public InputObserver
 {
 public:
 
@@ -55,7 +56,21 @@ public:
 	void SaveDisplayChunk(ChunkObject *SceneChunk);	//saves geometry et al
 	void ClearDisplayList();
 
+	//temporary
+	virtual void KeyDown(int key) override {};
+	virtual void KeyUp(int key) override {};
+	virtual void mouseDown(MouseInput mouse) override;
+	virtual void mouseUp(MouseInput mouse) override;
+	virtual void scrollWheelMove(float wheel) override {};
+	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
+
+	virtual std::vector<int> getKeysToObserve() override { return {}; };
+	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return std::vector<MouseInput>{ LMB }; };
+	virtual bool getScrollWheelToObserve() override { return false; };
+	virtual bool getMousePositionToObserve() override { return true; };
+
 	int MousePicking();
+	DirectX::SimpleMath::Vector2 mousePos;
 
 #ifdef DXTK_AUDIO
 	void NewAudioDevice();

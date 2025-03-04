@@ -36,6 +36,7 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 	m_d3dRenderer.Initialize(handle, m_width, m_height, &camera);
 
 	input.AttachObserver(&camera);
+	input.AttachObserver(&m_d3dRenderer);
 
 	m_toolHandle = handle;
 
