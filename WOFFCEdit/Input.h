@@ -27,5 +27,7 @@ private:
 	char	m_keyArray[KEYARRAYSIZE];
 	InputCommands& m_toolInputCommands;
 
-	std::vector<InputObserver*> observerArray[256];
+	std::vector<InputObserver*> observerKeyArray[256];
+	std::vector<InputObserver*> observerMouseArray[3];
+	std::vector<InputObserver*> observerScrollWheellArray;
 };

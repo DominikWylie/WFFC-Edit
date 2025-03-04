@@ -6,6 +6,14 @@ using namespace DirectX::SimpleMath;
 Camera::Camera()
 {
 	cursor = LoadCursor(NULL, IDC_ARROW);
+
+	for (int key : keys){
+		KeysDown.insert({ key, false });
+	}
+
+	for (MouseInput mouse : mice) {
+		miceDown.insert({ mouse, false });
+	}
 }
 
 Camera::~Camera() {
@@ -29,20 +37,19 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 		dt = 1.f / timer.GetFramesPerSecond();
 	}
 
-	if (m_InputCommands->rise)
+	if (KeysDown.at('Q'))
 	{
 		//m_camOrientation.y -= m_camRotRate;
 
 		m_camPosition.y -= (m_movespeed * dt);
 	}
-	if (m_InputCommands->fall)
+	if (KeysDown.at('E'))
 	{
 		//m_camOrientation.y += m_camRotRate;
 
 		m_camPosition.y += (m_movespeed * dt);
 
 	}
-
 
 	if (m_InputCommands->RMBDown) {
 		if (m_InputCommands->RMBClicked) {
@@ -86,19 +93,19 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 	m_camLookDirection.Cross(Vector3::UnitY, m_camRight);
 
 	//process input and update stuff
-	if (m_InputCommands->forward)
+	if (KeysDown.at('W'))
 	{
 		m_camPosition += (m_camLookDirection * m_movespeed) * dt;
 	}
-	if (m_InputCommands->back)
+	if (KeysDown.at('S'))
 	{
 		m_camPosition -= (m_camLookDirection * m_movespeed) * dt;
 	}
-	if (m_InputCommands->right)
+	if (KeysDown.at('D'))
 	{
 		m_camPosition += (m_camRight * m_movespeed) * dt;
 	}
-	if (m_InputCommands->left)
+	if (KeysDown.at('A'))
 	{
 		m_camPosition -= (m_camRight * m_movespeed) * dt;
 	}
@@ -109,19 +116,45 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 	//apply camera vectors
 	return Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
 
+	mouseWheelDelta = 0.f;
 }
 
 void Camera::KeyDown(int key)
 {
-
+	KeysDown.at(key) = true;
 }
 
 void Camera::KeyUp(int key)
 {
+	KeysDown.at(key) = false;
+}
 
+void Camera::mouseDown(MouseInput mouse)
+{
+	miceDown.at(mouse) = true;
+}
+
+void Camera::mouseUp(MouseInput mouse)
+{
+	miceDown.at(mouse) = false;
+}
+
+void Camera::scrollWheelMove(float wheel)
+{
+	mouseWheelDelta = wheel;
 }
 
 std::vector<int> Camera::getKeysToObserve()
 {
 	return keys;
+}
+
+std::vector<MouseInput> Camera::getMouseInputsToObserve()
+{
+	return mice;
+}
+
+bool Camera::getScrollWheelToObserve()
+{
+	return true;
 }

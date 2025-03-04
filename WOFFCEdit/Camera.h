@@ -19,8 +19,14 @@ public:
 
 	virtual void KeyDown(int key) override;
 	virtual void KeyUp(int key) override;
+	virtual void mouseDown(MouseInput mouse) override;
+	virtual void mouseUp(MouseInput mouse) override;
+	virtual void scrollWheelMove(float wheel) override;
+
 
 	virtual std::vector<int> getKeysToObserve() override;
+	virtual std::vector<MouseInput> getMouseInputsToObserve() override;
+	virtual bool getScrollWheelToObserve() override;
 
 
 private:
@@ -49,5 +55,8 @@ private:
 
 	std::vector<int> keys{ 'W', 'A', 'S', 'D', 'Q', 'E' };
 	std::map<int, bool> KeysDown;
+	std::vector<MouseInput> mice{ RMB, LMB };
+	std::map<MouseInput, bool> miceDown;
+	float mouseWheelDelta = 0.f;
 };
 

@@ -52,8 +52,6 @@ void Game::Initialize(HWND window, int width, int height, Camera *cam)
 
     m_deviceResources->SetWindow(window, width, height);
 
-    //input.AttachObserver(&camera);
-
     m_deviceResources->CreateDeviceResources();
     CreateDeviceDependentResources();
 
