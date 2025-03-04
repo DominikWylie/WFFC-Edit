@@ -32,27 +32,62 @@ void Input::Update(MSG* msg)
 		break;
 
 	case WM_MOUSEMOVE:
+	{
+		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(msg->pt.x, msg->pt.y);
+
+		for (InputObserver* observer : observerMousePositionArray) {
+			observer->mousePosition(pos);
+		}
+
 		break;
+	}
 	case WM_RBUTTONDOWN:
-		m_toolInputCommands.RMBClicked = true;
+		//m_toolInputCommands.RMBClicked = true;
+
+		for (InputObserver* observer : observerMouseArray[RMB]) {
+			observer->mouseDown(RMB);
+		}
+
 		break;
 	case WM_RBUTTONUP:
-		m_toolInputCommands.RMBDown = false;
-		m_toolInputCommands.RMBClicked = false;
-		m_toolInputCommands.RMBUnclick = true;
+		//m_toolInputCommands.RMBDown = false;
+		//m_toolInputCommands.RMBClicked = false;
+		//m_toolInputCommands.RMBUnclick = true;
+
+		for (InputObserver* observer : observerMouseArray[RMB]) {
+			observer->mouseUp(RMB);
+		}
+
 		break;
 	case WM_LBUTTONDOWN:
 		//not too sure the best way nut down with button down for now
-		m_toolInputCommands.LMBClicked = true;
+		//m_toolInputCommands.LMBClicked = true;
+
+		for (InputObserver* observer : observerMouseArray[RMB]) {
+			observer->mouseDown(LMB);
+		}
+
 		break;
 	case WM_LBUTTONUP:
-		m_toolInputCommands.LMBDown = false;
-		m_toolInputCommands.LMBClicked = false;
-		m_toolInputCommands.LMBUnclick = true;
+		//m_toolInputCommands.LMBDown = false;
+		//m_toolInputCommands.LMBClicked = false;
+		//m_toolInputCommands.LMBUnclick = true;
+
+		for (InputObserver* observer : observerMouseArray[RMB]) {
+			observer->mouseUp(LMB);
+		}
+
 		break;
 	case WM_MOUSEWHEEL:
 		//m_toolInputCommands.wheelMoved = true;
-		m_toolInputCommands.wheelDelta = (float)GET_WHEEL_DELTA_WPARAM(msg->wParam) / 120;
+		//m_toolInputCommands.wheelDelta = (float)GET_WHEEL_DELTA_WPARAM(msg->wParam) / 120;
+
+		float wheelDelta = (float)GET_WHEEL_DELTA_WPARAM(msg->wParam) / 120;
+
+		for (InputObserver* observer : observerScrollWheellArray) {
+			observer->scrollWheelMove(wheelDelta);
+		}
+
 		break;
 	}
 
@@ -61,8 +96,8 @@ void Input::Update(MSG* msg)
 		PostQuitMessage(0);
 	}
 
-	m_toolInputCommands.mousePosX = msg->pt.x;
-	m_toolInputCommands.mousePosY = msg->pt.y;
+	//m_toolInputCommands.mousePosX = msg->pt.x;
+	//m_toolInputCommands.mousePosY = msg->pt.y;
 
 	////here we update all the actual app functionality that we want.  This information will either be used int toolmain, or sent down to the renderer (Camera movement etc
 	////WASD movement
@@ -140,5 +175,9 @@ void Input::AttachObserver(InputObserver* observer)
 
 	if (observer->getScrollWheelToObserve()) {
 		observerScrollWheellArray.push_back(observer);
+	}
+
+	if (observer->getMousePositionToObserve()) {
+		observerMousePositionArray.push_back(observer);
 	}
 }

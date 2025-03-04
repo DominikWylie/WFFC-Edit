@@ -13,7 +13,7 @@ public:
 	Camera();
 	~Camera();
 
-	DirectX::SimpleMath::Matrix Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepTimer const& timer);
+	DirectX::SimpleMath::Matrix Update(DX::StepTimer const& timer);
 
 	DirectX::SimpleMath::Vector3 getPosition() { return m_camPosition; }
 
@@ -22,11 +22,12 @@ public:
 	virtual void mouseDown(MouseInput mouse) override;
 	virtual void mouseUp(MouseInput mouse) override;
 	virtual void scrollWheelMove(float wheel) override;
-
+	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
 
 	virtual std::vector<int> getKeysToObserve() override;
 	virtual std::vector<MouseInput> getMouseInputsToObserve() override;
 	virtual bool getScrollWheelToObserve() override;
+	virtual bool getMousePositionToObserve() override;
 
 
 private:
@@ -48,6 +49,7 @@ private:
 
 	//doing custom anchor so the mouse will be in the same place after camera move
 	DirectX::SimpleMath::Vector2 mouseAnchor = DirectX::SimpleMath::Vector2(5, 5);
+	DirectX::SimpleMath::Vector2 mousePos = DirectX::SimpleMath::Vector2(5, 5);
 
 	HCURSOR cursor;
 

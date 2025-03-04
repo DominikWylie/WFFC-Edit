@@ -116,7 +116,7 @@ void Game::Tick(InputCommands *Input, RECT windowRect)
 void Game::Update(DX::StepTimer const& timer)
 {
 
-	m_view = camera->Update(m_InputCommands, winRect, timer);
+	m_view = camera->Update(timer);
     //m_view = camera.Update(m_InputCommands, winRect, timer);
 
     m_batchEffect->SetView(m_view);

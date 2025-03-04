@@ -20,9 +20,8 @@ Camera::~Camera() {
 
 }
 
-Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepTimer const& timer) {
+Matrix Camera::Update(DX::StepTimer const& timer) {
 
-	//TODO  any more complex than this, and the camera should be abstracted out to somewhere else
 	//camera motion is on a plane, so kill the 7 component of the look direction
 	Vector3 planarMotionVector = m_camLookDirection;
 	planarMotionVector.y = 0.0;
@@ -39,47 +38,29 @@ Matrix Camera::Update(InputCommands* m_InputCommands, RECT windowRect, DX::StepT
 
 	if (KeysDown.at('Q'))
 	{
-		//m_camOrientation.y -= m_camRotRate;
-
 		m_camPosition.y -= (m_movespeed * dt);
 	}
 	if (KeysDown.at('E'))
 	{
-		//m_camOrientation.y += m_camRotRate;
-
 		m_camPosition.y += (m_movespeed * dt);
-
 	}
 
-	if (m_InputCommands->RMBDown) {
-		if (m_InputCommands->RMBClicked) {
-			//new click
-			mouseAnchor.x = m_InputCommands->mousePosX;
-			mouseAnchor.y = m_InputCommands->mousePosY;
-			//ShowCursor(false);
-		}
+	if (miceDown.at(RMB)) {
 
 		SetCursor(NULL);
 
-
-		//doesnt work in clicked
-
-		m_camOrientation.y -= ((m_InputCommands->mousePosX - mouseAnchor.x) * dt) * cameraMoveSpeed;
-		m_camOrientation.x -= ((m_InputCommands->mousePosY - mouseAnchor.y) * dt) * cameraMoveSpeed;
+		m_camOrientation.y -= ((mousePos.x - mouseAnchor.x) * dt) * cameraMoveSpeed;
+		m_camOrientation.x -= ((mousePos.y - mouseAnchor.y) * dt) * cameraMoveSpeed;
 
 		//reset mouse pos to anchor
 
 		SetCursorPos(mouseAnchor.x, mouseAnchor.y);
 
-		m_movespeed += m_InputCommands->wheelDelta;
+		m_movespeed += mouseWheelDelta;
+		mouseWheelDelta = 0.f;
 
 		if (m_movespeed < -0.5f) m_movespeed = 0.f;
 
-	}
-	else if (m_InputCommands->RMBUnclick) {
-		//ShowCursor(true);
-		SetCursor(cursor);
-		m_InputCommands->RMBUnclick = false;
 	}
 
 	float pitch = m_camOrientation.y * (3.1415 / 180);
@@ -132,16 +113,30 @@ void Camera::KeyUp(int key)
 void Camera::mouseDown(MouseInput mouse)
 {
 	miceDown.at(mouse) = true;
+
+	if (mouse == RMB) {
+		mouseAnchor = mousePos;
+		ShowCursor(false);
+	}
 }
 
 void Camera::mouseUp(MouseInput mouse)
 {
 	miceDown.at(mouse) = false;
+
+	if (mouse == RMB) {
+		ShowCursor(true);
+	}
 }
 
 void Camera::scrollWheelMove(float wheel)
 {
 	mouseWheelDelta = wheel;
+}
+
+void Camera::mousePosition(DirectX::SimpleMath::Vector2 mouse)
+{
+	mousePos = mouse;
 }
 
 std::vector<int> Camera::getKeysToObserve()
@@ -155,6 +150,11 @@ std::vector<MouseInput> Camera::getMouseInputsToObserve()
 }
 
 bool Camera::getScrollWheelToObserve()
+{
+	return true;
+}
+
+bool Camera::getMousePositionToObserve()
 {
 	return true;
 }

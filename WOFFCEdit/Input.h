@@ -30,4 +30,5 @@ private:
 	std::vector<InputObserver*> observerKeyArray[256];
 	std::vector<InputObserver*> observerMouseArray[3];
 	std::vector<InputObserver*> observerScrollWheellArray;
+	std::vector<InputObserver*> observerMousePositionArray;
 };
