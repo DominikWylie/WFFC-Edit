@@ -37,6 +37,7 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 
 	input.AttachObserver(&camera);
 	input.AttachObserver(&m_d3dRenderer);
+	input.AttachObserver(this);
 
 	m_toolHandle = handle;
 
@@ -286,11 +287,11 @@ void ToolMain::Tick(MSG *msg)
 		//resend scenegraph to Direct X renderer
 
 	//Renderer Update Call
-	if (m_toolInputCommands.LMBClicked) {
-		m_selectedObject = m_d3dRenderer.MousePicking();
-	}
+	//if (m_toolInputCommands.LMBClicked) {
+	//	m_selectedObject = m_d3dRenderer.MousePicking();
+	//}
 	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect);
-	input.Tick();
+	//input.Tick();
 }
 
 void ToolMain::UpdateInput(MSG * msg)
@@ -298,4 +299,17 @@ void ToolMain::UpdateInput(MSG * msg)
 	input.Update(msg);
 
 	GetWindowRect(m_toolHandle, &windowRect);
+}
+
+void ToolMain::mouseDown(MouseInput mouse)
+{
+	m_selectedObject = m_d3dRenderer.MousePicking();
+}
+
+void ToolMain::mouseUp(MouseInput mouse)
+{
+}
+
+void ToolMain::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
+{
 }

@@ -13,8 +13,6 @@ enum MouseInput {
 class InputObserver
 {
 public:
-	//virtual ~InputObserver() {};
-
 	virtual void KeyDown(int key) = 0;
 	virtual void KeyUp(int key) = 0;
 	virtual void mouseDown(MouseInput mouse) = 0;

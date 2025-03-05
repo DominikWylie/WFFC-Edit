@@ -56,7 +56,7 @@ Matrix Camera::Update(DX::StepTimer const& timer) {
 
 		SetCursorPos(mouseAnchor.x, mouseAnchor.y);
 
-		m_movespeed += mouseWheelDelta;
+		m_movespeed += mouseWheelDelta * mouseWheelSensitivity;
 		mouseWheelDelta = 0.f;
 
 		if (m_movespeed < -0.5f) m_movespeed = 0.f;

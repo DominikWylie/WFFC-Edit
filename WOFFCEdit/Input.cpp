@@ -6,6 +6,7 @@ Input::Input(InputCommands& toolInput) : m_toolInputCommands(toolInput) {
 
 Input::~Input()
 {
+
 }
 
 void Input::Update(MSG* msg)
@@ -67,7 +68,7 @@ void Input::Update(MSG* msg)
 		}
 
 		break;
-	case WM_MOUSEWHEEL:;
+	case WM_MOUSEWHEEL:
 
 		float wheelDelta = (float)GET_WHEEL_DELTA_WPARAM(msg->wParam) / 120;
 

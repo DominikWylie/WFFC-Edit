@@ -60,5 +60,6 @@ private:
 	std::vector<MouseInput> mice{ RMB, LMB };
 	std::map<MouseInput, bool> miceDown;
 	float mouseWheelDelta = 0.f;
+	const float mouseWheelSensitivity = 5.f;
 };
 

@@ -65,7 +65,6 @@
     <ClCompile Include="Input.cpp">
       <Filter>Tool</Filter>
     </ClCompile>
-    <ClCompile Include="InputObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h">
@@ -121,7 +120,9 @@
     <ClInclude Include="Input.h">
       <Filter>Tool</Filter>
     </ClInclude>
-    <ClInclude Include="InputObserver.h" />
+    <ClInclude Include="InputObserver.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

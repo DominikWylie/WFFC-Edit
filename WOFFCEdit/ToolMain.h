@@ -10,7 +10,7 @@
 #include "Input.h"
 #include "Camera.h"
 
-class ToolMain
+class ToolMain : public InputObserver
 {
 public: //methods
 	ToolMain();
@@ -26,6 +26,18 @@ public: //methods
 
 	void	Tick(MSG *msg);
 	void	UpdateInput(MSG *msg);
+
+	virtual void KeyDown(int key) override {};
+	virtual void KeyUp(int key) override {};
+	virtual void mouseDown(MouseInput mouse) override;
+	virtual void mouseUp(MouseInput mouse) override;
+	virtual void scrollWheelMove(float wheel) override {};
+	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
+
+	virtual std::vector<int> getKeysToObserve() override { return{}; };
+	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{ LMB }; };
+	virtual bool getScrollWheelToObserve() override { return false; };
+	virtual bool getMousePositionToObserve() override { return true; };
 
 public:	//variables
 	std::vector<SceneObject>    m_sceneGraph;	//our scenegraph storing all the objects in the current chunk
