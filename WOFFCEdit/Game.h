@@ -33,8 +33,8 @@ public:
 	void SetGridState(bool state);
 
 	// Basic game loop
-	void Tick(InputCommands * Input, RECT windowRect);
-	void Render();
+	void Tick(InputCommands * Input, RECT windowRect, int selectedObject);
+	void Render(int selectedObject);
 
 	// Rendering helpers
 	void Clear();
@@ -71,6 +71,7 @@ public:
 
 	int MousePicking();
 	DirectX::SimpleMath::Vector2 mousePos;
+	void DrawMovers(int displayLisrIndex);
 
 #ifdef DXTK_AUDIO
 	void NewAudioDevice();

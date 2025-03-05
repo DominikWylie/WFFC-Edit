@@ -89,7 +89,7 @@ void Game::SetGridState(bool state)
 
 #pragma region Frame Update
 // Executes the basic game loop.
-void Game::Tick(InputCommands *Input, RECT windowRect)
+void Game::Tick(InputCommands *Input, RECT windowRect, int selectedObject)
 {
 	//copy over the input commands so we have a local version to use elsewhere.
 	m_InputCommands = Input;
@@ -109,7 +109,7 @@ void Game::Tick(InputCommands *Input, RECT windowRect)
     }
 #endif
 
-    Render();
+    Render(selectedObject);
 }
 
 // Updates the world.
@@ -155,7 +155,7 @@ void Game::Update(DX::StepTimer const& timer)
 
 #pragma region Frame Render
 // Draws the scene.
-void Game::Render()
+void Game::Render(int selectedObject)
 {
     // Don't try to render anything before the first Update.
     if (m_timer.GetFrameCount() == 0)
@@ -192,12 +192,45 @@ void Game::Render()
 
 		XMMATRIX local = m_world * XMMatrixTransformation(g_XMZero, Quaternion::Identity, scale, g_XMZero, rotate, translate);
 
+        if (i == selectedObject) {
+            m_displayList[i].m_model->UpdateEffects(
+                [](DirectX::IEffect* effect) {
+                    static_cast<BasicEffect*>(effect)->SetColorAndAlpha({ 1.f, 0.f, 1.f, 1.f});
+                }
+            );
+        }
+        else {
+            m_displayList[i].m_model->UpdateEffects(
+                [](DirectX::IEffect* effect) {
+                    static_cast<BasicEffect*>(effect)->SetColorAndAlpha({ 1.f, 1.f, 1.f, 1.f});
+                }
+            );
+        }
 
 		m_displayList[i].m_model->Draw(context, *m_states, local, m_view, m_projection, false);	//last variable in draw,  make TRUE for wireframe
 
 		m_deviceResources->PIXEndEvent();
 	}
     m_deviceResources->PIXEndEvent();
+
+    //std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> primitiveBatch;
+    //std::unique_ptr<DirectX::BasicEffect> basicEffect;
+    //Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
+
+    //context->IASetInputLayout(inputLayout.Get());
+    //context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+
+    //basicEffect->Apply(context);
+
+    //primitiveBatch->Begin();
+
+    //// Define two points forming a line
+    //DirectX::VertexPositionColor v1({ -0.5f, 0.0f, 0.0f }, DirectX::Colors::Red);
+    //DirectX::VertexPositionColor v2({ 0.5f, 0.0f, 0.0f }, DirectX::Colors::Blue);
+
+    //primitiveBatch->DrawLine(v1, v2);
+
+    //primitiveBatch->End();
 
 	//RENDER TERRAIN
 	context->OMSetBlendState(m_states->Opaque(), nullptr, 0xFFFFFFFF);
@@ -504,6 +537,15 @@ int Game::MousePicking()
 
     //if we got a hit.  return it.  
     return selectedIDs.at(indexOfCloasest);
+}
+
+void Game::DrawMovers(int displayLustIndex)
+{
+    //m_displayList[displayLustIndex].m_position;
+
+    auto context = m_deviceResources->GetD3DDeviceContext();
+
+
 }
 
 #ifdef DXTK_AUDIO

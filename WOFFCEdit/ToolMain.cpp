@@ -3,6 +3,10 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <PrimitiveBatch.h>
+#include <VertexTypes.h>
+#include <Effects.h>
+#include <wrl/client.h>
 
 //
 //ToolMain Class
@@ -56,6 +60,8 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 	}
 
 	onActionLoad();
+
+	//std::make_unique<DirectX::BasicEffect>()
 }
 
 void ToolMain::onActionLoad()
@@ -290,7 +296,7 @@ void ToolMain::Tick(MSG *msg)
 	//if (m_toolInputCommands.LMBClicked) {
 	//	m_selectedObject = m_d3dRenderer.MousePicking();
 	//}
-	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect);
+	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect, m_selectedObject);
 	//input.Tick();
 }
 
