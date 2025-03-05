@@ -17,6 +17,7 @@ public:
 
 	DirectX::SimpleMath::Vector3 getPosition() { return m_camPosition; }
 
+
 	virtual void KeyDown(int key) override;
 	virtual void KeyUp(int key) override;
 	virtual void mouseDown(MouseInput mouse) override;
