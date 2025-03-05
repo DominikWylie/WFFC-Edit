@@ -63,12 +63,19 @@ Matrix Camera::Update(DX::StepTimer const& timer) {
 
 	}
 
-	float pitch = m_camOrientation.y * (3.1415 / 180);
-	float yaw = m_camOrientation.x * (3.1415 / 180);
+	if (m_camOrientation.x < -90.f) {
+		m_camOrientation.x = -89.f;
+	}
+	else if (m_camOrientation.x > 90.f) {
+		m_camOrientation.x = 89.f;
+	}
 
-	m_camLookDirection.x = sinf(pitch) * cosf(yaw);
-	m_camLookDirection.y = sinf(yaw);
-	m_camLookDirection.z = cosf(yaw) * cosf(pitch);
+	float yaw = m_camOrientation.y * (3.1415 / 180);
+	float pitch = m_camOrientation.x * (3.1415 / 180);
+
+	m_camLookDirection.x = sinf(yaw) * cosf(pitch);
+	m_camLookDirection.y = sinf(pitch);
+	m_camLookDirection.z = cosf(pitch) * cosf(yaw);
 
 	//create right vector from look Direction
 	m_camLookDirection.Cross(Vector3::UnitY, m_camRight);

@@ -105,13 +105,13 @@ void MFCMain::MenuEditSelect()
 
 void MFCMain::ToolBarButton1()
 {
-	
 	m_ToolSystem.onActionSave();
 }
 
 
 MFCMain::MFCMain()
 {
+
 }
 
 

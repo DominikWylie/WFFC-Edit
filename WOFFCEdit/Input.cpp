@@ -80,9 +80,10 @@ void Input::Update(MSG* msg)
 	}
 
 	//esc
-	if (m_keyArray[VK_ESCAPE]) {
+	if (msg->wParam == VK_ESCAPE) {
 		PostQuitMessage(0);
 	}
+
 }
 
 
