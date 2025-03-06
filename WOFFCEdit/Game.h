@@ -75,14 +75,6 @@ public:
 
 	ObjectEditor objectEditor;
 
-	//temp---------
-
-	//std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> primitiveBatch;
-	//std::unique_ptr<DirectX::BasicEffect> basicEffect;
-	//Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
-
-	//------------
-
 #ifdef DXTK_AUDIO
 	void NewAudioDevice();
 #endif

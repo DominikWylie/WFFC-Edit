@@ -20,10 +20,6 @@ void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 	context = con;
 	device = dev;
 
-	//deviceResources = m_deviceResources;
-	//auto context = deviceResources->GetD3DDeviceContext();
-	//auto device = deviceResources->GetD3DDevice();
-
 	// Create PrimitiveBatch for rendering
 	primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(context);
 
@@ -45,13 +41,6 @@ void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 
 void ObjectEditor::DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix projection)
 {
-
-	//primitiveBatch->DrawLine(
-	//    VertexPositionColor(m_displayList[selectedObject].m_position, { 1.f, 0.f, 0.f, 1.f }),
-	//    VertexPositionColor(m_displayList[selectedObject].m_position + DirectX::SimpleMath::Vector3{ 5.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f })
-	//);
-
-	//auto context = deviceResources->GetD3DDeviceContext();
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> oldDepthStencilState;
