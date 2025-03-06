@@ -1,34 +1,41 @@
 #pragma once
 
-#include "DeviceResources.h"
-#include <SimpleMath.h>
+#include "pch.h"
 #include <memory>
+#include <d3d11.h>
+#include <SimpleMath.h>
+#include "DeviceResources.h"
 
 class DisplayObject;
-//class D3D11DeviceContext;
-//class D3D11Device;
+class ID3D11DeviceContext;
+class ID3D11Device;
 
-//namespace XD {
-//	class DeviceResources;
+namespace XD {
+	class DeviceResources;
+}
+
+//namespace std {
+//	class shared_ptr;
 //}
+
+using namespace DirectX::SimpleMath;
 
 class ObjectEditor
 {
 public:
-	ObjectEditor(std::shared_ptr<DX::DeviceResources> m_deviceResources);
-	//ObjectEditor(ID3D11DeviceContext* con, ID3D11Device* dev);
+	ObjectEditor();
 	~ObjectEditor();
 
-	void Initialize();
+	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev);
 
-	void DrawTranslators(DisplayObject object);
+	void DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix projection);
 
 private:
 
-	std::shared_ptr<DX::DeviceResources> deviceResources;
+	//std::shared_ptr<DX::DeviceResources> deviceResources;
 
-	//ID3D11DeviceContext* context;
-	//ID3D11Device* device;
+	ID3D11DeviceContext* context;
+	ID3D11Device* device;
 
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> primitiveBatch;
 	std::unique_ptr<DirectX::BasicEffect> basicEffect;

@@ -1,13 +1,12 @@
 #include "ObjectEditor.h"
 #include "DisplayObject.h"
-#include <memory>
-#include <d3d11.h>
+#include "DeviceResources.h"
 
 //ObjectEditor::ObjectEditor(ID3D11DeviceContext* con, ID3D11Device* dev) : context(con), device(dev)
 //{
 //}
 
-ObjectEditor::ObjectEditor(std::shared_ptr<DX::DeviceResources> m_deviceResources) : deviceResources(m_deviceResources)
+ObjectEditor::ObjectEditor() 
 {
 }
 
@@ -15,11 +14,15 @@ ObjectEditor::~ObjectEditor()
 {
 }
 
-void ObjectEditor::Initialize()
+void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 {
 
-	auto context = deviceResources->GetD3DDeviceContext();
-	auto device = deviceResources->GetD3DDevice();
+	context = con;
+	device = dev;
+
+	//deviceResources = m_deviceResources;
+	//auto context = deviceResources->GetD3DDeviceContext();
+	//auto device = deviceResources->GetD3DDevice();
 
 	// Create PrimitiveBatch for rendering
 	primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(context);
@@ -40,7 +43,7 @@ void ObjectEditor::Initialize()
 	);
 }
 
-void ObjectEditor::DrawTranslators(DisplayObject object)
+void ObjectEditor::DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix projection)
 {
 
 	//primitiveBatch->DrawLine(
@@ -48,7 +51,7 @@ void ObjectEditor::DrawTranslators(DisplayObject object)
 	//    VertexPositionColor(m_displayList[selectedObject].m_position + DirectX::SimpleMath::Vector3{ 5.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f })
 	//);
 
-	auto context = deviceResources->GetD3DDeviceContext();
+	//auto context = deviceResources->GetD3DDeviceContext();
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> oldDepthStencilState;
@@ -60,7 +63,8 @@ void ObjectEditor::DrawTranslators(DisplayObject object)
 	dissableDepthStencilDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
 
 
-	deviceResources->GetD3DDevice()->CreateDepthStencilState(&dissableDepthStencilDesc, dissableDepthStencilState.GetAddressOf());
+	//deviceResources->GetD3DDevice()->CreateDepthStencilState(&dissableDepthStencilDesc, dissableDepthStencilState.GetAddressOf());
+	device->CreateDepthStencilState(&dissableDepthStencilDesc, dissableDepthStencilState.GetAddressOf());
 
 	D3D11_DEPTH_STENCIL_DESC oldDepthStencilDesc = {};
 	context->OMGetDepthStencilState(oldDepthStencilState.GetAddressOf(), nullptr);
@@ -73,16 +77,16 @@ void ObjectEditor::DrawTranslators(DisplayObject object)
 
 	// Apply world, view, and projection transformations
 	basicEffect->SetWorld(Matrix::Identity);
-	basicEffect->SetView(m_view);
-	basicEffect->SetProjection(m_projection);
+	basicEffect->SetView(view);
+	basicEffect->SetProjection(projection);
 	basicEffect->Apply(context);
 
 	primitiveBatch->Begin();
 
 
 	primitiveBatch->DrawLine(
-		VertexPositionColor(DirectX::SimpleMath::Vector3{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f }),
-		VertexPositionColor(DirectX::SimpleMath::Vector3{ 300.f, 300.f, 300.f }, { 1.f, 0.f, 0.f, 1.f })
+		DirectX::VertexPositionColor(Vector3{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f }),
+		DirectX::VertexPositionColor(Vector3{ 300.f, 300.f, 300.f }, { 1.f, 0.f, 0.f, 1.f })
 	);
 
 	primitiveBatch->End();

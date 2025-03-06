@@ -15,9 +15,9 @@
 #include <vector>
 
 #include "Camera.h"
+#include "ObjectEditor.h"
 
 //class Input;
-
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -72,6 +72,8 @@ public:
 	int MousePicking();
 	DirectX::SimpleMath::Vector2 mousePos;
 	void DrawMovers(int displayLisrIndex);
+
+	ObjectEditor objectEditor;
 
 	//temp---------
 

@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-//#include "Input.h"
+
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -57,6 +57,8 @@ void Game::Initialize(HWND window, int width, int height, Camera *cam)
 
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
+
+    objectEditor.Initialize(m_deviceResources->GetD3DDeviceContext(), m_deviceResources->GetD3DDevice());
 
     //temp------------
 
@@ -247,56 +249,58 @@ void Game::Render(int selectedObject)
     //Render the batch,  This is handled in the Display chunk becuase it has the potential to get complex
     m_displayChunk.RenderBatch(m_deviceResources);
 
-    //temp------------
+    objectEditor.DrawTranslators(m_view, m_projection);
 
-    if (selectedObject >= 0) {
+    ////temp------------
 
-        //primitiveBatch->DrawLine(
-        //    VertexPositionColor(m_displayList[selectedObject].m_position, { 1.f, 0.f, 0.f, 1.f }),
-        //    VertexPositionColor(m_displayList[selectedObject].m_position + DirectX::SimpleMath::Vector3{ 5.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f })
-        //);
+    //if (selectedObject >= 0) {
 
-        Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
-        Microsoft::WRL::ComPtr<ID3D11DepthStencilState> oldDepthStencilState;
+    //    //primitiveBatch->DrawLine(
+    //    //    VertexPositionColor(m_displayList[selectedObject].m_position, { 1.f, 0.f, 0.f, 1.f }),
+    //    //    VertexPositionColor(m_displayList[selectedObject].m_position + DirectX::SimpleMath::Vector3{ 5.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f })
+    //    //);
 
-        // Disable depth testing (always draw on top)
-        D3D11_DEPTH_STENCIL_DESC dissableDepthStencilDesc = {};
-        dissableDepthStencilDesc.DepthEnable = FALSE;  // Disable depth test
-        dissableDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-        dissableDepthStencilDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
+    //    Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
+    //    Microsoft::WRL::ComPtr<ID3D11DepthStencilState> oldDepthStencilState;
 
-
-        m_deviceResources->GetD3DDevice()->CreateDepthStencilState(&dissableDepthStencilDesc, dissableDepthStencilState.GetAddressOf());
-
-        D3D11_DEPTH_STENCIL_DESC oldDepthStencilDesc = {};
-        context->OMGetDepthStencilState(oldDepthStencilState.GetAddressOf(), nullptr);
-
-        // Set the "always on top" depth state
-        context->OMSetDepthStencilState(dissableDepthStencilState.Get(), 0);
-
-        context->IASetInputLayout(inputLayout.Get());
-        context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-
-        // Apply world, view, and projection transformations
-        basicEffect->SetWorld(Matrix::Identity);
-        basicEffect->SetView(m_view);
-        basicEffect->SetProjection(m_projection);
-        basicEffect->Apply(context);
-
-        primitiveBatch->Begin();
+    //    // Disable depth testing (always draw on top)
+    //    D3D11_DEPTH_STENCIL_DESC dissableDepthStencilDesc = {};
+    //    dissableDepthStencilDesc.DepthEnable = FALSE;  // Disable depth test
+    //    dissableDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+    //    dissableDepthStencilDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
 
 
-        primitiveBatch->DrawLine(
-            VertexPositionColor(DirectX::SimpleMath::Vector3{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f }),
-            VertexPositionColor(DirectX::SimpleMath::Vector3{ 300.f, 300.f, 300.f }, { 1.f, 0.f, 0.f, 1.f })
-        );
+    //    m_deviceResources->GetD3DDevice()->CreateDepthStencilState(&dissableDepthStencilDesc, dissableDepthStencilState.GetAddressOf());
 
-        primitiveBatch->End();
+    //    D3D11_DEPTH_STENCIL_DESC oldDepthStencilDesc = {};
+    //    context->OMGetDepthStencilState(oldDepthStencilState.GetAddressOf(), nullptr);
 
-        context->OMSetDepthStencilState(oldDepthStencilState.Get(), 0);
-    }
+    //    // Set the "always on top" depth state
+    //    context->OMSetDepthStencilState(dissableDepthStencilState.Get(), 0);
 
-    //----------------
+    //    context->IASetInputLayout(inputLayout.Get());
+    //    context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+
+    //    // Apply world, view, and projection transformations
+    //    basicEffect->SetWorld(Matrix::Identity);
+    //    basicEffect->SetView(m_view);
+    //    basicEffect->SetProjection(m_projection);
+    //    basicEffect->Apply(context);
+
+    //    primitiveBatch->Begin();
+
+
+    //    primitiveBatch->DrawLine(
+    //        VertexPositionColor(DirectX::SimpleMath::Vector3{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f }),
+    //        VertexPositionColor(DirectX::SimpleMath::Vector3{ 300.f, 300.f, 300.f }, { 1.f, 0.f, 0.f, 1.f })
+    //    );
+
+    //    primitiveBatch->End();
+
+    //    context->OMSetDepthStencilState(oldDepthStencilState.Get(), 0);
+    //}
+
+    ////----------------
 
     //CAMERA POSITION ON HUD
     m_sprites->Begin();
