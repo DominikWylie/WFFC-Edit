@@ -39,7 +39,7 @@ void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 	);
 }
 
-void ObjectEditor::DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix projection)
+void ObjectEditor::DrawTranslators(DisplayObject& object, Matrix view, Matrix projection)
 {
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
@@ -63,7 +63,6 @@ void ObjectEditor::DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix
 
 	context->IASetInputLayout(inputLayout.Get());
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-
 	// Apply world, view, and projection transformations
 	basicEffect->SetWorld(Matrix::Identity);
 	basicEffect->SetView(view);
@@ -72,11 +71,28 @@ void ObjectEditor::DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix
 
 	primitiveBatch->Begin();
 
-
+	//x
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(Vector3{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f }),
-		DirectX::VertexPositionColor(Vector3{ 300.f, 300.f, 300.f }, { 1.f, 0.f, 0.f, 1.f })
+		DirectX::VertexPositionColor(object.m_position, { 1.f, 0.f, 0.f, 1.f }),
+		DirectX::VertexPositionColor(object.m_position + Vector3{ 2.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f })
 	);
+
+	//y
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(object.m_position, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(object.m_position + Vector3{ 0.f, 2.f, 0.f }, DirectX::Colors::Blue)
+	);
+
+	//z
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(object.m_position, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(object.m_position + Vector3{ 0.f, 0.f, 2.f }, DirectX::Colors::Green)
+	);
+
+	//primitiveBatch->DrawLine(
+	//	DirectX::VertexPositionColor(Vector3{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f, 1.f }),
+	//	DirectX::VertexPositionColor(Vector3{ 300.f, 300.f, 300.f }, { 1.f, 0.f, 0.f, 1.f })
+	//);
 
 	primitiveBatch->End();
 

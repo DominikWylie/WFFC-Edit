@@ -224,8 +224,9 @@ void Game::Render(int selectedObject)
 
     //Render the batch,  This is handled in the Display chunk becuase it has the potential to get complex
     m_displayChunk.RenderBatch(m_deviceResources);
-
-    objectEditor.DrawTranslators(m_view, m_projection);
+    if (selectedObject >= 0) {
+        objectEditor.DrawTranslators(m_displayList[selectedObject], m_view, m_projection);
+    }
 
     //CAMERA POSITION ON HUD
     m_sprites->Begin();

@@ -28,7 +28,7 @@ public:
 
 	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev);
 
-	void DrawTranslators(/*DisplayObject object,*/ Matrix view, Matrix projection);
+	void DrawTranslators(DisplayObject& object, Matrix view, Matrix projection);
 
 private:
 
