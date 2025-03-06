@@ -60,26 +60,26 @@ void Game::Initialize(HWND window, int width, int height, Camera *cam)
 
     //temp------------
 
-    auto context = m_deviceResources->GetD3DDeviceContext();
-    auto device = m_deviceResources->GetD3DDevice();
+    //auto context = m_deviceResources->GetD3DDeviceContext();
+    //auto device = m_deviceResources->GetD3DDevice();
 
-    // Create PrimitiveBatch for rendering
-    primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(context);
+    //// Create PrimitiveBatch for rendering
+    //primitiveBatch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(context);
 
-    // Create BasicEffect for simple shaders
-    basicEffect = std::make_unique<DirectX::BasicEffect>(device);
-    basicEffect->SetVertexColorEnabled(true);
+    //// Create BasicEffect for simple shaders
+    //basicEffect = std::make_unique<DirectX::BasicEffect>(device);
+    //basicEffect->SetVertexColorEnabled(true);
 
-    // Create input layout for vertex shader
-    void const* shaderBytecode;
-    size_t bytecodeLength;
-    basicEffect->GetVertexShaderBytecode(&shaderBytecode, &bytecodeLength);
-    device->CreateInputLayout(
-        DirectX::VertexPositionColor::InputElements,
-        DirectX::VertexPositionColor::InputElementCount,
-        shaderBytecode, bytecodeLength,
-        inputLayout.GetAddressOf()
-    );
+    //// Create input layout for vertex shader
+    //void const* shaderBytecode;
+    //size_t bytecodeLength;
+    //basicEffect->GetVertexShaderBytecode(&shaderBytecode, &bytecodeLength);
+    //device->CreateInputLayout(
+    //    DirectX::VertexPositionColor::InputElements,
+    //    DirectX::VertexPositionColor::InputElementCount,
+    //    shaderBytecode, bytecodeLength,
+    //    inputLayout.GetAddressOf()
+    //);
 
     //----------
 

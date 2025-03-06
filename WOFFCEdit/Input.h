@@ -1,15 +1,11 @@
 #pragma once
 
-//#include "pch.h"
 #include <afxwin.h>
 #include <afxext.h>
 #include "InputCommands.h"
 #include "InputObserver.h"
 #include <vector>
 #include <map>
-
-//class MSG;
-//typedef tagMSG MSG;
 
 class Input
 {
