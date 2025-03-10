@@ -32,6 +32,10 @@ public:
 
 private:
 
+	void drawX(DisplayObject& object);
+	void drawY(DisplayObject& object);
+	void drawZ(DisplayObject& object);
+
 	//std::shared_ptr<DX::DeviceResources> deviceResources;
 
 	ID3D11DeviceContext* context;
