@@ -180,6 +180,7 @@
     <ClCompile Include="ObjectEditor.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="MFCMain.cpp" />
+    <ClCompile Include="Picker.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SelectDialogue.cpp" />
     <ClCompile Include="sqlite3.c" />
@@ -199,6 +200,7 @@
     <ClInclude Include="MFCRenderFrame.h" />
     <ClInclude Include="ObjectEditor.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Picker.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SelectDialogue.h" />
