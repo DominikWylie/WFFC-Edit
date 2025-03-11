@@ -154,58 +154,58 @@ void ObjectEditor::drawY(DisplayObject& object)
 
 	//y
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(object.m_position, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(object.m_position, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos, DirectX::Colors::Green)
 	);
 	
 	float cubeRadius = 0.1f;
 
 	//back plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, cubeRadius}, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, cubeRadius}, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f , -cubeRadius}, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, -cubeRadius}, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, cubeRadius}, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, cubeRadius}, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f , -cubeRadius}, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, -cubeRadius}, DirectX::Colors::Green)
 	);
 
 	//front plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, -cubeRadius }, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, -cubeRadius }, DirectX::Colors::Green)
 	);
 
 	//side plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Green)
 	);
 
 	//other side plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Green)
 	);
 
 	//top plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, cubeRadius }, DirectX::Colors::Green)
 	);
 
 	//bottom plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, -cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Blue),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Blue)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius * 2, -cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius * 2 , -cubeRadius }, DirectX::Colors::Green),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, 0.f, -cubeRadius }, DirectX::Colors::Green)
 	);
 }
 
@@ -213,8 +213,8 @@ void ObjectEditor::drawZ(DisplayObject& object)
 {
 	//z
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(object.m_position, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(object.m_position + Vector3{ 0.f, 0.f, 2.f }, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(object.m_position, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(object.m_position + Vector3{ 0.f, 0.f, 2.f }, DirectX::Colors::Blue)
 	);
 
 	//make cube - migh change so it overlaps the line
@@ -226,49 +226,49 @@ void ObjectEditor::drawZ(DisplayObject& object)
 
 	//back plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Blue)
 	);
 
 	//front plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue)
 	);
 
 	//sidePlate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, cubeRadius, 0.f}, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, cubeRadius, cubeRadius * 2}, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, -cubeRadius, cubeRadius * 2}, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, -cubeRadius, 0.f}, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, cubeRadius, 0.f}, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, cubeRadius, cubeRadius * 2}, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, -cubeRadius, cubeRadius * 2}, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{-cubeRadius, -cubeRadius, 0.f}, DirectX::Colors::Blue)
 	);
 
 	//otherSidePlate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Blue)
 	);
 
 	//top plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, cubeRadius, 0.f }, DirectX::Colors::Blue)
 	);
 
 	//bottom plate
 	primitiveBatch->DrawQuad(
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Green),
-		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Green)
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, DirectX::Colors::Blue),
+		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, DirectX::Colors::Blue)
 	);
 }
