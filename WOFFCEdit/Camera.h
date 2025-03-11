@@ -13,10 +13,9 @@ public:
 	Camera();
 	~Camera();
 
-	DirectX::SimpleMath::Matrix Update(DX::StepTimer const& timer);
+	void Update(DX::StepTimer const& timer, RECT winRect);
 
 	DirectX::SimpleMath::Vector3 getPosition() { return m_camPosition; }
-
 
 	virtual void KeyDown(int key) override;
 	virtual void KeyUp(int key) override;
@@ -45,6 +44,9 @@ public:
 	float m_movespeed = 9.f;
 private:
 
+	DirectX::SimpleMath::Matrix view;
+	DirectX::SimpleMath::Matrix projection;
+
 	float previousMouseX = -1;
 	float previousMouseY = -1;
 
@@ -62,5 +64,9 @@ private:
 	std::map<MouseInput, bool> miceDown;
 	float mouseWheelDelta = 0.f;
 	const float mouseWheelSensitivity = 5.f;
+
+public:
+	DirectX::SimpleMath::Matrix getView() { return view; }
+	DirectX::SimpleMath::Matrix getProjection() { return projection; }
 };
 

@@ -28,15 +28,26 @@ public:
 
 	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev);
 
-	void DrawTranslators(DisplayObject& object, Matrix view, Matrix projection);
+	void DrawTranslators(Matrix view, Matrix projection, Vector2 mousePos, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources);
+
+	void updateObject(DisplayObject* object);
+
+	bool objectSelected = false;
 
 private:
 
-	void drawX(DisplayObject& object);
-	void drawY(DisplayObject& object);
-	void drawZ(DisplayObject& object);
+	void drawX();
+	void drawY();
+	void drawZ();
+
+	float translatorLength = 2.f;
+	int collidedTranslator = -1;
+
+	DisplayObject* selectedObject = nullptr;
 
 	//std::shared_ptr<DX::DeviceResources> deviceResources;
+
+	float cubeRadius = 0.1f;
 
 	ID3D11DeviceContext* context;
 	ID3D11Device* device;

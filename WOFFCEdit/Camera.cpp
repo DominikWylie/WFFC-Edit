@@ -20,7 +20,7 @@ Camera::~Camera() {
 
 }
 
-Matrix Camera::Update(DX::StepTimer const& timer) {
+void Camera::Update(DX::StepTimer const& timer, RECT winRect) {
 
 	//camera motion is on a plane, so kill the 7 component of the look direction
 	Vector3 planarMotionVector = m_camLookDirection;
@@ -102,7 +102,23 @@ Matrix Camera::Update(DX::StepTimer const& timer) {
 	m_camLookAt = m_camPosition + m_camLookDirection;
 
 	//apply camera vectors
-	return Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
+	view = Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
+
+	// Initialize in setup
+	projection = Matrix::CreatePerspectiveFieldOfView(
+		XMConvertToRadians(45.0f),
+		(float)winRect.bottom / (float)winRect.right,
+		0.1f,
+		1000.0f
+	);
+
+	//// Initialize in setup
+	//m_projection = Matrix::CreatePerspectiveFieldOfView(
+	//	XMConvertToRadians(45.0f),
+	//	(float)screenWidth / (float)screenHeight,
+	//	0.1f,
+	//	1000.0f
+	//);
 
 	mouseWheelDelta = 0.f;
 }
