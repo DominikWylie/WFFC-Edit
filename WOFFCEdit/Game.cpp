@@ -122,9 +122,10 @@ void Game::Update(DX::StepTimer const& timer)
 	camera->Update(timer, winRect);
     
     m_view = camera->getView();
-    m_projection = camera->getProjection();
+    //m_projection = camera->getProjection();
 
     m_batchEffect->SetView(m_view);
+    //m_batchEffect->SetProjection(m_projection);
     m_batchEffect->SetWorld(Matrix::Identity);
 	m_displayChunk.m_terrainEffect->SetView(m_view);
 	m_displayChunk.m_terrainEffect->SetWorld(Matrix::Identity);
@@ -241,7 +242,7 @@ void Game::Render(int selectedObject)
     //m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);
 
     //mouse
-    std::wstring mousePrint = L"MouseX: " + std::to_wstring(m_InputCommands->mousePosX) + L" MouseY: " + std::to_wstring(m_InputCommands->mousePosY);
+    std::wstring mousePrint = L"MouseX: " + std::to_wstring(mousePos.x) + L" MouseY: " + std::to_wstring(mousePos.y);
     m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);    
     
 

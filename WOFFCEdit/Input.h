@@ -13,7 +13,7 @@ public:
 	Input(InputCommands& toolInput);
 	~Input();
 
-	void Update(MSG *msg);
+	void Update(MSG *msg, int windowX, int windowY);
 	void Tick();
 
 	void AttachObserver(InputObserver* observer);

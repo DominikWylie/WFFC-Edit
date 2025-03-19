@@ -302,9 +302,9 @@ void ToolMain::Tick(MSG *msg)
 
 void ToolMain::UpdateInput(MSG * msg)
 {
-	input.Update(msg);
-
 	GetWindowRect(m_toolHandle, &windowRect);
+
+	input.Update(msg, windowRect.left, windowRect.top);
 }
 
 void ToolMain::mouseDown(MouseInput mouse)

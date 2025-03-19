@@ -9,7 +9,7 @@ Input::~Input()
 
 }
 
-void Input::Update(MSG* msg)
+void Input::Update(MSG* msg, int windowX, int windowY)
 {
 	switch (msg->message)
 	{
@@ -32,7 +32,7 @@ void Input::Update(MSG* msg)
 
 	case WM_MOUSEMOVE:
 	{
-		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(msg->pt.x, msg->pt.y);
+		DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(msg->pt.x - windowX, msg->pt.y - windowY);
 
 		for (InputObserver* observer : observerMousePositionArray) {
 			observer->mousePosition(pos);

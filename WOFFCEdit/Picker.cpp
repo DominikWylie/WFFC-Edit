@@ -22,6 +22,8 @@ int Picker::MousePick(
     std::vector<int> selectedIDs;
     std::vector<float> pickedDistances;
 
+    //winRect.left;
+
     //setup near and far planes of frustum with mouse X and mouse y passed down from Toolmain. 
     //they may look the same but note, the difference in Z
     const XMVECTOR nearSource = XMVectorSet(mousePos.x, mousePos.y, 0.0f, 1.0f);

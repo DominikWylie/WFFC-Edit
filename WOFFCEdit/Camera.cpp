@@ -54,7 +54,7 @@ void Camera::Update(DX::StepTimer const& timer, RECT winRect) {
 
 		//reset mouse pos to anchor
 
-		SetCursorPos(mouseAnchor.x, mouseAnchor.y);
+		SetCursorPos(mouseAnchor.x + winRect.left, mouseAnchor.y + winRect.top);
 
 		m_movespeed += mouseWheelDelta * mouseWheelSensitivity;
 		mouseWheelDelta = 0.f;
@@ -76,6 +76,7 @@ void Camera::Update(DX::StepTimer const& timer, RECT winRect) {
 	m_camLookDirection.x = sinf(yaw) * cosf(pitch);
 	m_camLookDirection.y = sinf(pitch);
 	m_camLookDirection.z = cosf(pitch) * cosf(yaw);
+	m_camLookDirection.Normalize();
 
 	//create right vector from look Direction
 	m_camLookDirection.Cross(Vector3::UnitY, m_camRight);
@@ -104,13 +105,13 @@ void Camera::Update(DX::StepTimer const& timer, RECT winRect) {
 	//apply camera vectors
 	view = Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
 
-	// Initialize in setup
-	projection = Matrix::CreatePerspectiveFieldOfView(
-		XMConvertToRadians(45.0f),
-		(float)winRect.bottom / (float)winRect.right,
-		0.1f,
-		1000.0f
-	);
+	//// Initialize in setup
+	//projection = Matrix::CreatePerspectiveFieldOfView(
+	//	XMConvertToRadians(45.0f),
+	//	(float)winRect.bottom / (float)winRect.right,
+	//	0.1f,
+	//	1000.0f
+	//);
 
 	//// Initialize in setup
 	//m_projection = Matrix::CreatePerspectiveFieldOfView(
