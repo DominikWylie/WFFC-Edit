@@ -73,6 +73,16 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 
 	collidedTranslator = Picker::MousePick(mousePos, boxList, m_world, projection, view, winRect, deviceResources);
 
+	if (collidedTranslator != -1) {
+
+		//get the axis
+		//set the location of the respective plane to where the mouse is
+		//make a plane on that axis sounds easier and will let me move 2 axes at the same time
+
+
+		//boxList
+	}
+
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> oldDepthStencilState;
 

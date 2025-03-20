@@ -58,6 +58,12 @@ private:
 
 	Vector2 mousePos = Vector2(1, 1);
 
+	enum {
+		dx,
+		dy,
+		dz
+	} dragAxis;
+
 	DisplayObject* selectedObject = nullptr;
 
 	//std::shared_ptr<DX::DeviceResources> deviceResources;
