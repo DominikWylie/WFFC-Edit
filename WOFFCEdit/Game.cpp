@@ -122,10 +122,8 @@ void Game::Update(DX::StepTimer const& timer)
 	camera->Update(timer, winRect);
     
     m_view = camera->getView();
-    //m_projection = camera->getProjection();
 
     m_batchEffect->SetView(m_view);
-    //m_batchEffect->SetProjection(m_projection);
     m_batchEffect->SetWorld(Matrix::Identity);
 	m_displayChunk.m_terrainEffect->SetView(m_view);
 	m_displayChunk.m_terrainEffect->SetWorld(Matrix::Identity);

@@ -52,7 +52,7 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, Vector2 mouse
 
 	DirectX::BoundingBox boxX;
 
-	boxX.Center = selectedObject->m_position + DirectX::XMFLOAT3(translatorLength / 2, 0.f, 0.f);
+	boxX.Center = selectedObject->m_position + DirectX::XMFLOAT3((translatorLength / 2), 0.f, 0.f);
 	boxX.Extents = DirectX::XMFLOAT3(translatorLength / 2, cubeRadius, cubeRadius);
 
 	boxList.push_back(boxX);
