@@ -105,22 +105,6 @@ void Camera::Update(DX::StepTimer const& timer, RECT winRect) {
 	//apply camera vectors
 	view = Matrix::CreateLookAt(m_camPosition, m_camLookAt, Vector3::UnitY);
 
-	//// Initialize in setup
-	//projection = Matrix::CreatePerspectiveFieldOfView(
-	//	XMConvertToRadians(45.0f),
-	//	(float)winRect.bottom / (float)winRect.right,
-	//	0.1f,
-	//	1000.0f
-	//);
-
-	//// Initialize in setup
-	//m_projection = Matrix::CreatePerspectiveFieldOfView(
-	//	XMConvertToRadians(45.0f),
-	//	(float)screenWidth / (float)screenHeight,
-	//	0.1f,
-	//	1000.0f
-	//);
-
 	mouseWheelDelta = 0.f;
 }
 

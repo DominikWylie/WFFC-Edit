@@ -68,7 +68,9 @@
     <ClCompile Include="ObjectEditor.cpp">
       <Filter>Tool</Filter>
     </ClCompile>
-    <ClCompile Include="Picker.cpp" />
+    <ClCompile Include="Picker.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h">
@@ -130,7 +132,9 @@
     <ClInclude Include="ObjectEditor.h">
       <Filter>Tool</Filter>
     </ClInclude>
-    <ClInclude Include="Picker.h" />
+    <ClInclude Include="Picker.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

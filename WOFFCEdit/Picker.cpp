@@ -26,6 +26,7 @@ int Picker::MousePick(
 
     //setup near and far planes of frustum with mouse X and mouse y passed down from Toolmain. 
     //they may look the same but note, the difference in Z
+
     const XMVECTOR nearSource = XMVectorSet(mousePos.x, mousePos.y, 0.0f, 1.0f);
     const XMVECTOR farSource = XMVectorSet(mousePos.x, mousePos.y, 1.0f, 1.0f);
 
@@ -45,8 +46,8 @@ int Picker::MousePick(
         XMMATRIX local = m_world * XMMatrixTransformation(g_XMZero, Quaternion::Identity, scale, g_XMZero, rotate, translate);
 
         //Unproject the points on the near and far plane, with respect to the matrix we just created.
-        XMVECTOR nearPoint = XMVector3Unproject(nearSource, 0.0f, 0.0f, winRect.right, winRect.bottom, m_deviceResources->GetScreenViewport().MinDepth, m_deviceResources->GetScreenViewport().MaxDepth, m_projection, m_view, local);
-        XMVECTOR farPoint = XMVector3Unproject(farSource, 0.0f, 0.0f, winRect.right, winRect.bottom, m_deviceResources->GetScreenViewport().MinDepth, m_deviceResources->GetScreenViewport().MaxDepth, m_projection, m_view, local);
+        XMVECTOR nearPoint = XMVector3Unproject(nearSource, 0.0f, 0.0f, winRect.right - winRect.left, winRect.bottom - winRect.top, m_deviceResources->GetScreenViewport().MinDepth, m_deviceResources->GetScreenViewport().MaxDepth, m_projection, m_view, local);
+        XMVECTOR farPoint = XMVector3Unproject(farSource, 0.0f, 0.0f, winRect.right - winRect.left, winRect.bottom - winRect.top, m_deviceResources->GetScreenViewport().MinDepth, m_deviceResources->GetScreenViewport().MaxDepth, m_projection, m_view, local);
 
         //turn the transformed points into our picking vector. 
         XMVECTOR pickingVector = farPoint - nearPoint;
