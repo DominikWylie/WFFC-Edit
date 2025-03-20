@@ -39,9 +39,10 @@ Game::~Game()
 }
 
 // Initialize the Direct3D resources required to run.
-void Game::Initialize(HWND window, int width, int height, Camera *cam)
+void Game::Initialize(HWND window, int width, int height, Camera *cam, ObjectEditor* oEditor)
 {
     camera = cam;
+    objectEditor = oEditor;
 
     m_gamePad = std::make_unique<GamePad>();
 
@@ -58,7 +59,7 @@ void Game::Initialize(HWND window, int width, int height, Camera *cam)
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
 
-    objectEditor.Initialize(m_deviceResources->GetD3DDeviceContext(), m_deviceResources->GetD3DDevice());
+    objectEditor->Initialize(m_deviceResources->GetD3DDeviceContext(), m_deviceResources->GetD3DDevice());
 
 
 #ifdef DXTK_AUDIO
@@ -226,7 +227,7 @@ void Game::Render(int selectedObject)
     //Render the batch,  This is handled in the Display chunk becuase it has the potential to get complex
     m_displayChunk.RenderBatch(m_deviceResources);
     if (selectedObject >= 0) {
-        objectEditor.DrawTranslators(m_view, m_projection, mousePos, m_world, winRect, m_deviceResources);
+        objectEditor->DrawTranslators(m_view, m_projection, m_world, winRect, m_deviceResources);
     }
 
     //CAMERA POSITION ON HUD
@@ -471,11 +472,11 @@ int Game::MousePicking()
     int pickedObject = Picker::MousePick(mousePos, m_displayList, m_world, m_projection, m_view, winRect, m_deviceResources);
 
     if (pickedObject < 0) {
-        objectEditor.objectSelected = false;
+        objectEditor->objectSelected = false;
     }
     else {
-        objectEditor.objectSelected = true;
-        objectEditor.updateObject(&m_displayList[pickedObject]);
+        objectEditor->objectSelected = true;
+        objectEditor->updateObject(&m_displayList[pickedObject]);
     }
 
     return pickedObject;

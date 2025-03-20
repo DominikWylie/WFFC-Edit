@@ -2,9 +2,10 @@
 
 #include "pch.h"
 #include <memory>
-#include <d3d11.h>
+//#include <d3d11.h>
 #include <SimpleMath.h>
 #include "DeviceResources.h"
+#include "InputObserver.h"
 
 class DisplayObject;
 class ID3D11DeviceContext;
@@ -20,7 +21,7 @@ namespace XD {
 
 using namespace DirectX::SimpleMath;
 
-class ObjectEditor
+class ObjectEditor : public InputObserver
 {
 public:
 	ObjectEditor();
@@ -28,11 +29,23 @@ public:
 
 	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev);
 
-	void DrawTranslators(Matrix view, Matrix projection, Vector2 mousePos, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources);
+	void DrawTranslators(Matrix view, Matrix projection, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources);
 
 	void updateObject(DisplayObject* object);
 
 	bool objectSelected = false;
+
+	virtual void KeyDown(int key) override;
+	virtual void KeyUp(int key) override;
+	virtual void mouseDown(MouseInput mouse) override;
+	virtual void mouseUp(MouseInput mouse) override;
+	virtual void scrollWheelMove(float wheel) override;
+	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
+
+	virtual std::vector<int> getKeysToObserve() override { return{}; };
+	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{ LMB }; };
+	virtual bool getScrollWheelToObserve() override { return false; };
+	virtual bool getMousePositionToObserve() override { return true; };
 
 private:
 
@@ -42,6 +55,8 @@ private:
 
 	float translatorLength = 2.f;
 	int collidedTranslator = -1;
+
+	Vector2 mousePos = Vector2(1, 1);
 
 	DisplayObject* selectedObject = nullptr;
 

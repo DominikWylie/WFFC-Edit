@@ -9,6 +9,7 @@
 #include <vector>
 #include "Input.h"
 #include "Camera.h"
+#include "ObjectEditor.h"
 
 class ToolMain : public InputObserver
 {
@@ -45,6 +46,7 @@ public:	//variables
 	int m_selectedObject = -1;
 
 	Camera camera;
+	ObjectEditor objectEditor;
 	
 	//ID of current Selection
 

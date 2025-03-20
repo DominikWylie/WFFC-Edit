@@ -29,7 +29,7 @@ public:
 	~Game();
 
 	// Initialization and management
-	void Initialize(HWND window, int width, int height, Camera *cam);
+	void Initialize(HWND window, int width, int height, Camera *cam, ObjectEditor* oEditor);
 	void SetGridState(bool state);
 
 	// Basic game loop
@@ -73,7 +73,7 @@ public:
 	DirectX::SimpleMath::Vector2 mousePos;
 	void DrawMovers(int displayLisrIndex);
 
-	ObjectEditor objectEditor;
+	ObjectEditor* objectEditor;
 
 #ifdef DXTK_AUDIO
 	void NewAudioDevice();

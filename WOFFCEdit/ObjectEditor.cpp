@@ -42,7 +42,7 @@ void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 	);
 }
 
-void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, Vector2 mousePos, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources)
+void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources)
 {
 	if (!objectSelected) {
 		return;
@@ -114,6 +114,31 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, Vector2 mouse
 void ObjectEditor::updateObject(DisplayObject* object)
 {
 	selectedObject = object;
+}
+
+void ObjectEditor::KeyDown(int key)
+{
+}
+
+void ObjectEditor::KeyUp(int key)
+{
+}
+
+void ObjectEditor::mouseDown(MouseInput mouse)
+{
+}
+
+void ObjectEditor::mouseUp(MouseInput mouse)
+{
+}
+
+void ObjectEditor::scrollWheelMove(float wheel)
+{
+}
+
+void ObjectEditor::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
+{
+	mousePos = mousePosition;
 }
 
 void ObjectEditor::drawX()
