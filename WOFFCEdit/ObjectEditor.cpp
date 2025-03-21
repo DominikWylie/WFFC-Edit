@@ -40,6 +40,8 @@ void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 		shaderBytecode, bytecodeLength,
 		inputLayout.GetAddressOf()
 	);
+
+	planeTranslatorLength = translatorLength / 3.f;
 }
 
 void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources)
@@ -47,29 +49,6 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 	if (!objectSelected) {
 		return;
 	}
-
-	std::vector<DirectX::BoundingBox> boxList;
-
-	DirectX::BoundingBox boxX;
-
-	boxX.Center = selectedObject->m_position + DirectX::XMFLOAT3((translatorLength / 2), 0.f, 0.f);
-	boxX.Extents = DirectX::XMFLOAT3(translatorLength / 2, cubeRadius, cubeRadius);
-
-	boxList.push_back(boxX);
-
-	DirectX::BoundingBox boxY;
-
-	boxY.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, translatorLength / 2, 0.f);
-	boxY.Extents = DirectX::XMFLOAT3(cubeRadius, translatorLength / 2, cubeRadius);
-
-	boxList.push_back(boxY);
-
-	DirectX::BoundingBox boxZ;
-
-	boxZ.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, 0.f, translatorLength / 2);
-	boxZ.Extents = DirectX::XMFLOAT3(cubeRadius, cubeRadius, translatorLength / 2);
-
-	boxList.push_back(boxZ);
 
 	collidedTranslator = Picker::MousePick(mousePos, boxList, m_world, projection, view, winRect, deviceResources);
 
@@ -116,6 +95,10 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 	drawY();
 	drawZ();
 
+	drawXY();
+	drawYZ();
+	drawZX();
+
 	primitiveBatch->End();
 
 	context->OMSetDepthStencilState(oldDepthStencilState.Get(), 0);
@@ -124,6 +107,50 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 void ObjectEditor::updateObject(DisplayObject* object)
 {
 	selectedObject = object;
+
+
+	boxList.clear();
+
+	DirectX::BoundingBox boxX;
+	DirectX::BoundingBox boxY;
+	DirectX::BoundingBox boxZ;
+
+	boxX.Center = selectedObject->m_position + DirectX::XMFLOAT3((translatorLength / 2), 0.f, 0.f);
+	boxX.Extents = DirectX::XMFLOAT3(translatorLength / 2, cubeRadius, cubeRadius);
+
+	boxList.push_back(boxX);
+
+	boxY.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, translatorLength / 2, 0.f);
+	boxY.Extents = DirectX::XMFLOAT3(cubeRadius, translatorLength / 2, cubeRadius);
+
+	boxList.push_back(boxY);
+
+	boxZ.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, 0.f, translatorLength / 2);
+	boxZ.Extents = DirectX::XMFLOAT3(cubeRadius, cubeRadius, translatorLength / 2);
+
+	boxList.push_back(boxZ);
+
+	//plane movers
+
+	DirectX::BoundingBox boxXY;
+	DirectX::BoundingBox boxYZ;
+	DirectX::BoundingBox boxZX;
+
+	boxXY.Center = selectedObject->m_position + DirectX::XMFLOAT3(planeTranslatorLength / 2, planeTranslatorLength / 2, 0.f);
+	boxXY.Extents = DirectX::XMFLOAT3(planeTranslatorLength / 2, planeTranslatorLength / 2, 0.1f);
+
+	boxList.push_back(boxXY);
+
+	boxYZ.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, planeTranslatorLength / 2, planeTranslatorLength / 2);
+	boxYZ.Extents = DirectX::XMFLOAT3(0.1f, planeTranslatorLength / 2, planeTranslatorLength / 2);
+
+	boxList.push_back(boxYZ);
+
+	boxZX.Center = selectedObject->m_position + DirectX::XMFLOAT3(planeTranslatorLength / 2, 0.f, planeTranslatorLength / 2);
+	boxZX.Extents = DirectX::XMFLOAT3(planeTranslatorLength / 2, 0.1f, planeTranslatorLength / 2);
+
+	boxList.push_back(boxZX);
+
 }
 
 void ObjectEditor::KeyDown(int key)
@@ -300,7 +327,7 @@ void ObjectEditor::drawZ()
 	//z
 	primitiveBatch->DrawLine(
 		DirectX::VertexPositionColor(selectedObject->m_position, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, 2.f }, colour)
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, translatorLength }, colour)
 	);
 
 	//make cube - migh change so it overlaps the line
@@ -354,5 +381,71 @@ void ObjectEditor::drawZ()
 		DirectX::VertexPositionColor(endPos + Vector3{ -cubeRadius, -cubeRadius, cubeRadius * 2 }, colour),
 		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, cubeRadius * 2 }, colour),
 		DirectX::VertexPositionColor(endPos + Vector3{ cubeRadius, -cubeRadius, 0.f }, colour)
+	);
+}
+
+void ObjectEditor::drawXY()
+{
+	DirectX::XMVECTORF32 colour;
+
+	if (collidedTranslator == 3) {
+		colour = DirectX::Colors::White;
+	}
+	else {
+		colour = DirectX::Colors::Orange;
+	}
+
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, 0.f }, colour),
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, planeTranslatorLength, 0.f }, colour)
+	);
+
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, 0.f }, colour),
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, planeTranslatorLength, 0.f }, colour)
+	);
+}
+
+void ObjectEditor::drawYZ()
+{
+	DirectX::XMVECTORF32 colour;
+
+	if (collidedTranslator == 4) {
+		colour = DirectX::Colors::White;
+	}
+	else {
+		colour = DirectX::Colors::Orange;
+	}
+
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, 0.f }, colour),
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, planeTranslatorLength }, colour)
+	);
+
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, planeTranslatorLength }, colour),
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, planeTranslatorLength }, colour)
+	);
+}
+
+void ObjectEditor::drawZX()
+{
+	DirectX::XMVECTORF32 colour;
+
+	if (collidedTranslator == 5) {
+		colour = DirectX::Colors::White;
+	}
+	else {
+		colour = DirectX::Colors::Orange;
+	}
+
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, planeTranslatorLength }, colour),
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, planeTranslatorLength }, colour)
+	);
+
+	primitiveBatch->DrawLine(
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, 0.f }, colour),
+		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, planeTranslatorLength }, colour)
 	);
 }

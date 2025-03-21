@@ -59,7 +59,6 @@ int Picker::MousePick(
 			//checking for ray intersection
 			if (m_displayList[i].m_model.get()->meshes[y]->boundingBox.Intersects(nearPoint, pickingVector, pickedDistance))
 			{
-				//selectedID = i;
 				selectedIDs.push_back(i);
 				pickedDistances.push_back(pickedDistance);
 
@@ -118,14 +117,13 @@ int Picker::MousePick(
 		XMVECTOR nearPoint = XMVector3Unproject(nearSource, 0.0f, 0.0f, winRect.right - winRect.left, winRect.bottom - winRect.top, m_deviceResources->GetScreenViewport().MinDepth, m_deviceResources->GetScreenViewport().MaxDepth, m_projection, m_view, local);
 		XMVECTOR farPoint = XMVector3Unproject(farSource, 0.0f, 0.0f, winRect.right - winRect.left, winRect.bottom - winRect.top, m_deviceResources->GetScreenViewport().MinDepth, m_deviceResources->GetScreenViewport().MaxDepth, m_projection, m_view, local);
 
-		//turn the transformed points into our picking vector. 
+		//turn the transformed points into our picking vector.
 		XMVECTOR pickingVector = farPoint - nearPoint;
 		pickingVector = XMVector3Normalize(pickingVector);
 
 		//checking for ray intersection
 		if (m_boxList[i].Intersects(nearPoint, pickingVector, pickedDistance))
 		{
-			//selectedID = i;
 			selectedIDs.push_back(i);
 			pickedDistances.push_back(pickedDistance);
 
@@ -142,4 +140,30 @@ int Picker::MousePick(
 
 	//if we got a hit.  return it.  
 	return selectedIDs.at(indexOfCloasest);
+}
+
+DirectX::SimpleMath::Vector3 Picker::TranstorPlaneIntersect(
+	DirectX::SimpleMath::Vector2& mousePos, 
+	DirectX::SimpleMath::Vector3 location, 
+	Axes axis, 
+	DirectX::SimpleMath::Matrix& m_world, 
+	DirectX::SimpleMath::Matrix& m_projection, 
+	DirectX::SimpleMath::Matrix& m_view, 
+	RECT& winRect, 
+	std::shared_ptr<DX::DeviceResources>& m_deviceResources)
+{
+
+	XMVECTOR plane;
+
+	switch (axis) {
+	case xAxis:
+		plane = XMVectorSet(1.0f, 0.0f, 0.0f, location.x);
+	case yAxis:
+		plane = XMVectorSet(0.0f, 1.0f, 0.0f, location.y);
+	case zAxis:
+		plane = XMVectorSet(0.0f, 0.0f, 1.0f, location.z);
+	}
+
+
+	return DirectX::SimpleMath::Vector3();
 }

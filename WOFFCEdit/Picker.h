@@ -19,6 +19,11 @@ namespace DX {
 
 class DisplayObject;
 
+enum Axes {
+	xAxis,
+	yAxis,
+	zAxis
+};
 
 class Picker
 {
@@ -36,6 +41,17 @@ public:
 	static int MousePick(
 		DirectX::SimpleMath::Vector2& mousePos,
 		std::vector<DirectX::BoundingBox>& boxList,
+		DirectX::SimpleMath::Matrix& m_world,
+		DirectX::SimpleMath::Matrix& m_projection,
+		DirectX::SimpleMath::Matrix& m_view,
+		RECT& winRect,
+		std::shared_ptr<DX::DeviceResources>& m_deviceResources
+	);
+
+	static DirectX::SimpleMath::Vector3 TranstorPlaneIntersect(
+		DirectX::SimpleMath::Vector2& mousePos,
+		DirectX::SimpleMath::Vector3 location,
+		Axes axes,
 		DirectX::SimpleMath::Matrix& m_world,
 		DirectX::SimpleMath::Matrix& m_projection,
 		DirectX::SimpleMath::Matrix& m_view,

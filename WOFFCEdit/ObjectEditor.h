@@ -53,10 +53,17 @@ private:
 	void drawY();
 	void drawZ();
 
+	void drawXY();
+	void drawYZ();
+	void drawZX();
+
 	float translatorLength = 2.f;
+	float planeTranslatorLength;
 	int collidedTranslator = -1;
 
 	Vector2 mousePos = Vector2(1, 1);
+
+	std::vector<DirectX::BoundingBox> boxList;
 
 	enum {
 		dx,
