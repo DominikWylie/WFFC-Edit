@@ -48,10 +48,9 @@ public:
 		std::shared_ptr<DX::DeviceResources>& m_deviceResources
 	);
 
-	static DirectX::SimpleMath::Vector3 TranstorPlaneIntersect(
+	static DirectX::SimpleMath::Vector3 TranslatorPlaneIntersect(
 		DirectX::SimpleMath::Vector2& mousePos,
-		DirectX::SimpleMath::Vector3 location,
-		Axes axes,
+		DirectX::XMVECTOR plane,
 		DirectX::SimpleMath::Matrix& m_world,
 		DirectX::SimpleMath::Matrix& m_projection,
 		DirectX::SimpleMath::Matrix& m_view,

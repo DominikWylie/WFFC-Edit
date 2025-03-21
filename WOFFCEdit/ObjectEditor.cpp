@@ -2,8 +2,9 @@
 #include "DisplayObject.h"
 #include "DeviceResources.h"
 #include "Picker.h"
+#include <DirectXMath.h>
 
-
+using namespace DirectX;
 
 //ObjectEditor::ObjectEditor(ID3D11DeviceContext* con, ID3D11Device* dev) : context(con), device(dev)
 //{
@@ -50,11 +51,49 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 		return;
 	}
 
-	collidedTranslator = Picker::MousePick(mousePos, boxList, m_world, projection, view, winRect, deviceResources);
+	//if not dragging
+	if (!RMBDown) {
+		collidedTranslator = Picker::MousePick(mousePos, boxList, m_world, projection, view, winRect, deviceResources);
+	}
 
-	if (collidedTranslator != -1) {
+	if (collidedTranslator != -1 && RMBDown) {
 
-		//get the axis
+		//get the axis (do planes first)
+
+		//make the plane here and pass it in to the function that will do the intersection and translation stuff
+
+		XMVECTOR plane = XMVectorSet(0.f, 0.f, 0.f, 0.f);
+
+		switch (collidedTranslator) {
+		case 0:
+		case 1:
+		case 2:
+			return;
+		case 3:
+			//xy plane
+			plane = XMVectorSet(0.0f, 0.0f, 1.0f, selectedObject->m_position.z);
+			break;
+		case 4:
+			//yz plane
+			plane = XMVectorSet(1.0f, 0.0f, 0.0f, selectedObject->m_position.x);
+			break;
+		case 5:
+			plane = XMVectorSet(0.0f, 1.0f, 0.0f, selectedObject->m_position.y);
+			//zx plane
+		}
+
+		Vector3 planePoint = Picker::TranslatorPlaneIntersect(mousePos, plane, m_world, projection, view, winRect, deviceResources);
+
+		Vector3 objectCentreOffset = planePoint - selectedObject->m_position;
+
+		selectedObject->m_position = planePoint + objectCentreOffset;
+
+		//dragAxis = collidedTranslator;
+		 
+		//if (collidedTranslator == 3) {
+		//	//xy plane
+		//}
+		
 		//set the location of the respective plane to where the mouse is
 		//make a plane on that axis sounds easier and will let me move 2 axes at the same time
 
@@ -163,10 +202,12 @@ void ObjectEditor::KeyUp(int key)
 
 void ObjectEditor::mouseDown(MouseInput mouse)
 {
+	RMBDown = true;
 }
 
 void ObjectEditor::mouseUp(MouseInput mouse)
 {
+	RMBDown = false;
 }
 
 void ObjectEditor::scrollWheelMove(float wheel)

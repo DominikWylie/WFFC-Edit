@@ -68,8 +68,14 @@ private:
 	enum {
 		dx,
 		dy,
-		dz
+		dz,
+		dxy,
+		dyz,
+		dzx
 	} dragAxis;
+
+	bool RMBDown = false;
+
 
 	DisplayObject* selectedObject = nullptr;
 
