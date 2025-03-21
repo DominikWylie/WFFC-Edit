@@ -20,6 +20,7 @@ namespace XD {
 //}
 
 using namespace DirectX::SimpleMath;
+using namespace DirectX;
 
 class ObjectEditor : public InputObserver
 {
@@ -73,6 +74,8 @@ private:
 		dyz,
 		dzx
 	} dragAxis;
+
+	XMVECTOR chosenPlane = XMVectorSet(0.f, 0.f, 0.f, 0.f);
 
 	bool RMBDown = false;
 

@@ -4,8 +4,6 @@
 #include "Picker.h"
 #include <DirectXMath.h>
 
-using namespace DirectX;
-
 //ObjectEditor::ObjectEditor(ID3D11DeviceContext* con, ID3D11Device* dev) : context(con), device(dev)
 //{
 //}
@@ -58,34 +56,18 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 
 	if (collidedTranslator != -1 && RMBDown) {
 
-		//get the axis (do planes first)
+		//evrey time
 
-		//make the plane here and pass it in to the function that will do the intersection and translation stuff
+		//grabs the point
+		Vector3 planePoint = Picker::TranslatorPlaneIntersect(mousePos, chosenPlane, m_world, projection, view, winRect, deviceResources);
 
-		XMVECTOR plane = XMVectorSet(0.f, 0.f, 0.f, 0.f);
+		//selectedObject->m_position = Picker::TranslatorPlaneIntersect(mousePos, plane, m_world, projection, view, winRect, deviceResources);
 
-		switch (collidedTranslator) {
-		case 0:
-		case 1:
-		case 2:
-			return;
-		case 3:
-			//xy plane
-			plane = XMVectorSet(0.0f, 0.0f, 1.0f, selectedObject->m_position.z);
-			break;
-		case 4:
-			//yz plane
-			plane = XMVectorSet(1.0f, 0.0f, 0.0f, selectedObject->m_position.x);
-			break;
-		case 5:
-			plane = XMVectorSet(0.0f, 1.0f, 0.0f, selectedObject->m_position.y);
-			//zx plane
-		}
-
-		Vector3 planePoint = Picker::TranslatorPlaneIntersect(mousePos, plane, m_world, projection, view, winRect, deviceResources);
-
+		//ideally once
+		//gets the offset of the location of the object
 		Vector3 objectCentreOffset = planePoint - selectedObject->m_position;
-
+		
+		//sets the location in relation to the offset
 		selectedObject->m_position = planePoint + objectCentreOffset;
 
 		//dragAxis = collidedTranslator;
@@ -203,6 +185,26 @@ void ObjectEditor::KeyUp(int key)
 void ObjectEditor::mouseDown(MouseInput mouse)
 {
 	RMBDown = true;
+
+	switch (collidedTranslator) {
+	case -1:
+		return;
+	case 0:
+	case 1:
+	case 2:
+		return;
+	case 3:
+		//xy plane
+		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, selectedObject->m_position.z);
+		break;
+	case 4:
+		//yz plane
+		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, selectedObject->m_position.x);
+		break;
+	case 5:
+		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, selectedObject->m_position.y);
+		//zx plane
+	}
 }
 
 void ObjectEditor::mouseUp(MouseInput mouse)
