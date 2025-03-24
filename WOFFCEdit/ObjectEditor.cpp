@@ -198,19 +198,18 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 	case -1:
 		return;
 	case 0:
-	case 1:
-	case 2:
-		return;
 	case 3:
 		//xy plane
 		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -selectedObject->m_position.z);
 		//chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, 0);
 		break;
+	case 1:
 	case 4:
 		//yz plane
 		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, -selectedObject->m_position.x);
 		//chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, 0);
 		break;
+	case 2:
 	case 5:
 		//zx plane
 		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, -selectedObject->m_position.y);

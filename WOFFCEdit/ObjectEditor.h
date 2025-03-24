@@ -72,12 +72,10 @@ private:
 	std::vector<DirectX::BoundingBox> boxList;
 
 	enum {
-		dx,
-		dy,
-		dz,
-		dxy,
-		dyz,
-		dzx
+		x,
+		y,
+		z,
+		none
 	} dragAxis;
 
 	XMVECTOR chosenPlane = XMVectorSet(0.f, 0.f, 0.f, 0.f);
