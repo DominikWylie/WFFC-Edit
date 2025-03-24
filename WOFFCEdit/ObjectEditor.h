@@ -33,6 +33,9 @@ public:
 	void DrawTranslators(Matrix view, Matrix projection, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources);
 
 	void updateObject(DisplayObject* object);
+	DisplayObject* getDisplayObject();
+
+	bool getTranslatorHovered();
 
 	bool objectSelected = false;
 
@@ -61,6 +64,8 @@ private:
 	float translatorLength = 2.f;
 	float planeTranslatorLength;
 	int collidedTranslator = -1;
+	bool translatorHovered = false;
+
 
 	Vector2 mousePos = Vector2(1, 1);
 

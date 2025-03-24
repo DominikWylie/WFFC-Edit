@@ -166,6 +166,12 @@ DirectX::SimpleMath::Vector3 Picker::TranslatorPlaneIntersect(
 	// Calculate the intersection of the line defined by near and far points with the plane
 	XMVECTOR intersection = XMPlaneIntersectLine(plane, nearPoint, farPoint);
 
+	float x = XMVectorGetX(intersection);
+	float y = XMVectorGetY(intersection);
+	float z = XMVectorGetZ(intersection);
+
+	return DirectX::SimpleMath::Vector3(x, y, z);
+
 	// Return the intersection point as a SimpleMath::Vector3
-	return DirectX::SimpleMath::Vector3(XMVectorGetX(intersection), XMVectorGetY(intersection), XMVectorGetZ(intersection));
+	//return DirectX::SimpleMath::Vector3(XMVectorGetX(intersection), XMVectorGetY(intersection), XMVectorGetZ(intersection));
 }

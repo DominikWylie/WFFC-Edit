@@ -245,8 +245,13 @@ void Game::Render(int selectedObject)
     m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);    
     
 
-    std::wstring efwnoj = L"scrollspeed: " + std::to_wstring(m_InputCommands->wheelDelta) + L" camspeed: " + std::to_wstring(camera->m_movespeed);
-    m_font->DrawString(m_sprites.get(), efwnoj.c_str(), XMFLOAT2(10, 60), Colors::Blue);
+    std::wstring scrollspeedPrint = L"scrollspeed: " + std::to_wstring(m_InputCommands->wheelDelta) + L" camspeed: " + std::to_wstring(camera->m_movespeed);
+    m_font->DrawString(m_sprites.get(), scrollspeedPrint.c_str(), XMFLOAT2(10, 60), Colors::Blue);
+
+    if (objectEditor->objectSelected) {
+        std::wstring chodenObjPrint = L"chosed object: " + std::to_wstring(objectEditor->getDisplayObject()->m_position.x) + L", " + std::to_wstring(objectEditor->getDisplayObject()->m_position.y) + L", " + std::to_wstring(objectEditor->getDisplayObject()->m_position.z);
+        m_font->DrawString(m_sprites.get(), chodenObjPrint.c_str(), XMFLOAT2(10, 80), Colors::Blue);
+    }
 
     m_sprites->End();
 

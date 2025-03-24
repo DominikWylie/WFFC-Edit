@@ -310,7 +310,9 @@ void ToolMain::UpdateInput(MSG * msg)
 
 void ToolMain::mouseDown(MouseInput mouse)
 {
-	m_selectedObject = m_d3dRenderer.MousePicking();
+	if (!objectEditor.getTranslatorHovered()) {
+		m_selectedObject = m_d3dRenderer.MousePicking();
+	}
 }
 
 void ToolMain::mouseUp(MouseInput mouse)

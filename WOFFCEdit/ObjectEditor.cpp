@@ -54,41 +54,29 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 		collidedTranslator = Picker::MousePick(mousePos, boxList, m_world, projection, view, winRect, deviceResources);
 	}
 
+	if (collidedTranslator != -1) {
+		translatorHovered = true;
+	}
+	else {
+		translatorHovered = false;
+	}
+
 	if (collidedTranslator != -1 && RMBDown) {
 
 		if (!firstRound) {
 			selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
 		}
 
-		//evrey time
-
-		//grabs the point
 		cursorPlanePoint = Picker::TranslatorPlaneIntersect(mousePos, chosenPlane, m_world, projection, view, winRect, deviceResources);
 
-		//selectedObject->m_position = Picker::TranslatorPlaneIntersect(mousePos, plane, m_world, projection, view, winRect, deviceResources);
-
-		//ideally once
-		//gets the offset of the location of the object
 		if (firstRound) {
 			objectCentreOffset = selectedObject->m_position - cursorPlanePoint;
 		}
+
+		selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
 		
 		firstRound = false;
 
-		////sets the location in relation to the offset
-		//selectedObject->m_position = planePoint + objectCentreOffset;
-
-		//dragAxis = collidedTranslator;
-		 
-		//if (collidedTranslator == 3) {
-		//	//xy plane
-		//}
-		
-		//set the location of the respective plane to where the mouse is
-		//make a plane on that axis sounds easier and will let me move 2 axes at the same time
-
-
-		//boxList
 	}
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
@@ -182,6 +170,16 @@ void ObjectEditor::updateObject(DisplayObject* object)
 
 }
 
+DisplayObject* ObjectEditor::getDisplayObject()
+{
+	return selectedObject;
+}
+
+bool ObjectEditor::getTranslatorHovered()
+{
+	return translatorHovered;
+}
+
 void ObjectEditor::KeyDown(int key)
 {
 }
@@ -194,6 +192,8 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 {
 	RMBDown = true;
 
+	//putting in negative, as some where the coords are flipped?? no clue maybe a future issue but this fixes it
+
 	switch (collidedTranslator) {
 	case -1:
 		return;
@@ -203,15 +203,18 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 		return;
 	case 3:
 		//xy plane
-		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, selectedObject->m_position.z);
+		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -selectedObject->m_position.z);
+		//chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, 0);
 		break;
 	case 4:
 		//yz plane
-		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, selectedObject->m_position.x);
+		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, -selectedObject->m_position.x);
+		//chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, 0);
 		break;
 	case 5:
-		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, selectedObject->m_position.y);
 		//zx plane
+		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, -selectedObject->m_position.y);
+		//chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, 0);
 	}
 }
 
@@ -219,6 +222,8 @@ void ObjectEditor::mouseUp(MouseInput mouse)
 {
 	RMBDown = false;
 	firstRound = true;
+
+	updateObject(selectedObject);
 }
 
 void ObjectEditor::scrollWheelMove(float wheel)
