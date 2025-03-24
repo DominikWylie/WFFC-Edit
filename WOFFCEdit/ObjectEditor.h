@@ -79,8 +79,11 @@ private:
 
 	bool RMBDown = false;
 
-
 	DisplayObject* selectedObject = nullptr;
+
+	Vector3 cursorPlanePoint = Vector3(0, 0, 0);
+	Vector3 objectCentreOffset = Vector3(0, 0, 0);
+	bool firstRound = true;
 
 	//std::shared_ptr<DX::DeviceResources> deviceResources;
 

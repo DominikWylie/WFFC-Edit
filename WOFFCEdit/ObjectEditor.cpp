@@ -56,19 +56,27 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 
 	if (collidedTranslator != -1 && RMBDown) {
 
+		if (!firstRound) {
+			selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
+		}
+
 		//evrey time
 
 		//grabs the point
-		Vector3 planePoint = Picker::TranslatorPlaneIntersect(mousePos, chosenPlane, m_world, projection, view, winRect, deviceResources);
+		cursorPlanePoint = Picker::TranslatorPlaneIntersect(mousePos, chosenPlane, m_world, projection, view, winRect, deviceResources);
 
 		//selectedObject->m_position = Picker::TranslatorPlaneIntersect(mousePos, plane, m_world, projection, view, winRect, deviceResources);
 
 		//ideally once
 		//gets the offset of the location of the object
-		Vector3 objectCentreOffset = planePoint - selectedObject->m_position;
+		if (firstRound) {
+			objectCentreOffset = selectedObject->m_position - cursorPlanePoint;
+		}
 		
-		//sets the location in relation to the offset
-		selectedObject->m_position = planePoint + objectCentreOffset;
+		firstRound = false;
+
+		////sets the location in relation to the offset
+		//selectedObject->m_position = planePoint + objectCentreOffset;
 
 		//dragAxis = collidedTranslator;
 		 
@@ -210,6 +218,7 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 void ObjectEditor::mouseUp(MouseInput mouse)
 {
 	RMBDown = false;
+	firstRound = true;
 }
 
 void ObjectEditor::scrollWheelMove(float wheel)
