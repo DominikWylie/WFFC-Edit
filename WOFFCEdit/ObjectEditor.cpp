@@ -64,7 +64,22 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 	if (collidedTranslator != -1 && RMBDown) {
 
 		if (!firstRound) {
-			selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
+			if (linearTransltion) {
+				switch (linearAxis) {
+				case axisX:
+					selectedObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
+					break;
+				case axisY:
+					selectedObject->m_position.y = (cursorPlanePoint + objectCentreOffset).y;
+					break;
+				case axisZ:
+					selectedObject->m_position.z = (cursorPlanePoint + objectCentreOffset).z;
+					break;
+				}
+			}
+			else {
+				selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
+			}
 		}
 
 		cursorPlanePoint = Picker::TranslatorPlaneIntersect(mousePos, chosenPlane, m_world, projection, view, winRect, deviceResources);
@@ -72,8 +87,6 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 		if (firstRound) {
 			objectCentreOffset = selectedObject->m_position - cursorPlanePoint;
 		}
-
-		selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
 		
 		firstRound = false;
 
@@ -194,22 +207,30 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 
 	//putting in negative, as some where the coords are flipped?? no clue maybe a future issue but this fixes it
 
+	linearTransltion = false;
+
 	switch (collidedTranslator) {
 	case -1:
 		return;
 	case 0:
+		linearTransltion = true;
+		linearAxis = axisX;
 	case 3:
 		//xy plane
 		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -selectedObject->m_position.z);
 		//chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, 0);
 		break;
 	case 1:
+		linearTransltion = true;
+		linearAxis = axisY;
 	case 4:
 		//yz plane
 		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, -selectedObject->m_position.x);
 		//chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, 0);
 		break;
 	case 2:
+		linearTransltion = true;
+		linearAxis = axisZ;
 	case 5:
 		//zx plane
 		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, -selectedObject->m_position.y);

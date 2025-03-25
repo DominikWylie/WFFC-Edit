@@ -66,17 +66,16 @@ private:
 	int collidedTranslator = -1;
 	bool translatorHovered = false;
 
+	bool linearTransltion = false;
+	enum {
+		axisX, 
+		axisY, 
+		axisZ
+	}linearAxis;
 
 	Vector2 mousePos = Vector2(1, 1);
 
 	std::vector<DirectX::BoundingBox> boxList;
-
-	enum {
-		x,
-		y,
-		z,
-		none
-	} dragAxis;
 
 	XMVECTOR chosenPlane = XMVectorSet(0.f, 0.f, 0.f, 0.f);
 
