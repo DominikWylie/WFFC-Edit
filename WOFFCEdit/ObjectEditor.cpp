@@ -51,6 +51,8 @@ void ObjectEditor::DrawTranslators(
 		return;
 	}
 
+	mouseDelta = prevMousePos - mousePos;
+
 	//if not dragging
 	if (!RMBDown) {
 		collidedTranslator = Picker::MousePick(mousePos, boxList, m_world, projection, view, winRect, deviceResources);
@@ -69,13 +71,28 @@ void ObjectEditor::DrawTranslators(
 			if (lineTransltion) {
 				switch (lineAxis) {
 				case axisX:
-					selectedObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
+					if (editState == translate) {
+						selectedObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
+					}
+					else if (editState == rotate) {
+						selectedObject->m_orientation.x += mouseDelta.y;
+					}
 					break;
 				case axisY:
-					selectedObject->m_position.y = (cursorPlanePoint + objectCentreOffset).y;
+					if (editState == translate) {
+						selectedObject->m_position.y = (cursorPlanePoint + objectCentreOffset).y;
+					}
+					else if (editState == rotate) {
+						selectedObject->m_orientation.y += mouseDelta.x;
+					}
 					break;
 				case axisZ:
-					selectedObject->m_position.z = (cursorPlanePoint + objectCentreOffset).z;
+					if (editState == translate) {
+						selectedObject->m_position.z = (cursorPlanePoint + objectCentreOffset).z;
+					}
+					else if (editState == rotate) {
+						selectedObject->m_orientation.z += mouseDelta.y;
+					}
 					break;
 				}
 			}
@@ -133,12 +150,13 @@ void ObjectEditor::DrawTranslators(
 	primitiveBatch->End();
 
 	context->OMSetDepthStencilState(oldDepthStencilState.Get(), 0);
+
+	prevMousePos = mousePos;
 }
 
 void ObjectEditor::updateObject(DisplayObject* object)
 {
 	selectedObject = object;
-
 
 	boxList.clear();
 
@@ -196,14 +214,18 @@ bool ObjectEditor::getTranslatorHovered()
 
 void ObjectEditor::KeyDown(int key)
 {
-	if (key == VK_SHIFT) {
+	if(key == VK_SHIFT) {
 		editState = scale;
+	}
+
+	if (key == VK_CONTROL) {
+		editState = rotate;
 	}
 }
 
 void ObjectEditor::KeyUp(int key)
 {
-	if (key == VK_SHIFT) {
+	if (key == VK_SHIFT || key == VK_CONTROL) {
 		editState = translate;
 	}
 }
@@ -263,7 +285,25 @@ void ObjectEditor::scrollWheelMove(float wheel)
 
 void ObjectEditor::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
 {
+	prevMousePos = mousePos;
 	mousePos = mousePosition;
+	//mouseDelta = prevMousePos - mousePos;
+
+	//float threshHold = 0.2f;
+
+	//if (prevMousePos.x - mousePos.x < threshHold && prevMousePos.x - mousePos.x > -threshHold) {
+	//	mouseDelta.x = 0.f;
+	//}
+	//else {
+	//	mouseDelta.x = prevMousePos.x - mousePos.x;
+	//}
+	//
+	//if (prevMousePos.y - mousePos.y < threshHold && prevMousePos.y - mousePos.y > -threshHold){
+	//	mouseDelta.y = 0.f;
+	//}
+	//else {
+	//	mouseDelta.y = prevMousePos.y - mousePos.y;
+	//}
 }
 
 void ObjectEditor::drawX()

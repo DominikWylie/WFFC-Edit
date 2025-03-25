@@ -48,7 +48,7 @@ public:
 	virtual void scrollWheelMove(float wheel) override;
 	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
 
-	virtual std::vector<int> getKeysToObserve() override { return {VK_SHIFT}; };
+	virtual std::vector<int> getKeysToObserve() override { return {VK_SHIFT, VK_CONTROL}; };
 	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{ LMB }; };
 	virtual bool getScrollWheelToObserve() override { return true; };
 	virtual bool getMousePositionToObserve() override { return true; };
@@ -77,12 +77,18 @@ private:
 
 	enum {
 		translate,
-		scale
+		scale,
+		rotate
 	}editState = translate;
+
+	int circleSegments = 25;
+	float circleRadius = 5.f;
 
 	float scaleMultiplier = 0.1f;
 
 	Vector2 mousePos = Vector2(1, 1);
+	Vector2 prevMousePos = Vector2(1, 1);
+	Vector2 mouseDelta = Vector2(1, 1);
 
 	std::vector<DirectX::BoundingBox> boxList;
 
