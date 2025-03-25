@@ -35,7 +35,7 @@ public: //methods
 	virtual void scrollWheelMove(float wheel) override {};
 	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
 
-	virtual std::vector<int> getKeysToObserve() override { return{}; };
+	virtual std::vector<int> getKeysToObserve() override { return{VK_LSHIFT}; };
 	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{ LMB }; };
 	virtual bool getScrollWheelToObserve() override { return false; };
 	virtual bool getMousePositionToObserve() override { return true; };

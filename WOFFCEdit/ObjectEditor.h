@@ -15,10 +15,6 @@ namespace XD {
 	class DeviceResources;
 }
 
-//namespace std {
-//	class shared_ptr;
-//}
-
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
@@ -30,7 +26,13 @@ public:
 
 	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev);
 
-	void DrawTranslators(Matrix view, Matrix projection, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources);
+	void DrawTranslators(
+		Matrix view, 
+		Matrix projection, 
+		DirectX::SimpleMath::Matrix& m_world, 
+		RECT winRect, 
+		std::shared_ptr<DX::DeviceResources>& deviceResources
+	);
 
 	void updateObject(DisplayObject* object);
 	DisplayObject* getDisplayObject();
@@ -46,9 +48,9 @@ public:
 	virtual void scrollWheelMove(float wheel) override;
 	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
 
-	virtual std::vector<int> getKeysToObserve() override { return{}; };
+	virtual std::vector<int> getKeysToObserve() override { return {VK_SHIFT}; };
 	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{ LMB }; };
-	virtual bool getScrollWheelToObserve() override { return false; };
+	virtual bool getScrollWheelToObserve() override { return true; };
 	virtual bool getMousePositionToObserve() override { return true; };
 
 private:
@@ -66,12 +68,19 @@ private:
 	int collidedTranslator = -1;
 	bool translatorHovered = false;
 
-	bool linearTransltion = false;
+	bool lineTransltion = false;
 	enum {
 		axisX, 
 		axisY, 
 		axisZ
-	}linearAxis;
+	}lineAxis;
+
+	enum {
+		translate,
+		scale
+	}editState = translate;
+
+	float scaleMultiplier = 0.1f;
 
 	Vector2 mousePos = Vector2(1, 1);
 
@@ -86,8 +95,6 @@ private:
 	Vector3 cursorPlanePoint = Vector3(0, 0, 0);
 	Vector3 objectCentreOffset = Vector3(0, 0, 0);
 	bool firstRound = true;
-
-	//std::shared_ptr<DX::DeviceResources> deviceResources;
 
 	float cubeRadius = 0.1f;
 

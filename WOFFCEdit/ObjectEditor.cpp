@@ -4,9 +4,6 @@
 #include "Picker.h"
 #include <DirectXMath.h>
 
-//ObjectEditor::ObjectEditor(ID3D11DeviceContext* con, ID3D11Device* dev) : context(con), device(dev)
-//{
-//}
 
 ObjectEditor::ObjectEditor() 
 {
@@ -43,7 +40,12 @@ void ObjectEditor::Initialize(ID3D11DeviceContext* con, ID3D11Device* dev)
 	planeTranslatorLength = translatorLength / 3.f;
 }
 
-void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::SimpleMath::Matrix& m_world, RECT winRect, std::shared_ptr<DX::DeviceResources>& deviceResources)
+void ObjectEditor::DrawTranslators(
+	Matrix view, 
+	Matrix projection, 
+	DirectX::SimpleMath::Matrix& m_world, 
+	RECT winRect, 
+	std::shared_ptr<DX::DeviceResources>& deviceResources)
 {
 	if (!objectSelected) {
 		return;
@@ -64,8 +66,8 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 	if (collidedTranslator != -1 && RMBDown) {
 
 		if (!firstRound) {
-			if (linearTransltion) {
-				switch (linearAxis) {
+			if (lineTransltion) {
+				switch (lineAxis) {
 				case axisX:
 					selectedObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
 					break;
@@ -86,10 +88,9 @@ void ObjectEditor::DrawTranslators(Matrix view, Matrix projection, DirectX::Simp
 
 		if (firstRound) {
 			objectCentreOffset = selectedObject->m_position - cursorPlanePoint;
+			firstRound = false;
 		}
 		
-		firstRound = false;
-
 	}
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
@@ -195,46 +196,53 @@ bool ObjectEditor::getTranslatorHovered()
 
 void ObjectEditor::KeyDown(int key)
 {
+	if (key == VK_SHIFT) {
+		editState = scale;
+	}
 }
 
 void ObjectEditor::KeyUp(int key)
 {
+	if (key == VK_SHIFT) {
+		editState = translate;
+	}
 }
 
 void ObjectEditor::mouseDown(MouseInput mouse)
 {
 	RMBDown = true;
 
-	//putting in negative, as some where the coords are flipped?? no clue maybe a future issue but this fixes it
+	lineTransltion = false;
 
-	linearTransltion = false;
+	//0-2 is line translation
+	//3-5 is plane translation
 
 	switch (collidedTranslator) {
 	case -1:
 		return;
 	case 0:
-		linearTransltion = true;
-		linearAxis = axisX;
+		//linear x
+		lineTransltion = true;
+		lineAxis = axisX;
 	case 3:
 		//xy plane
 		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -selectedObject->m_position.z);
-		//chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, 0);
 		break;
 	case 1:
-		linearTransltion = true;
-		linearAxis = axisY;
+		//linear y
+		lineTransltion = true;
+		lineAxis = axisY;
 	case 4:
 		//yz plane
 		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, -selectedObject->m_position.x);
-		//chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, 0);
 		break;
 	case 2:
-		linearTransltion = true;
-		linearAxis = axisZ;
+		//linear z
+		lineTransltion = true;
+		lineAxis = axisZ;
 	case 5:
 		//zx plane
 		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, -selectedObject->m_position.y);
-		//chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, 0);
 	}
 }
 
@@ -248,6 +256,9 @@ void ObjectEditor::mouseUp(MouseInput mouse)
 
 void ObjectEditor::scrollWheelMove(float wheel)
 {
+	if (editState == scale && objectSelected) {
+		selectedObject->m_scale += Vector3(wheel, wheel, wheel) * scaleMultiplier;
+	}
 }
 
 void ObjectEditor::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
