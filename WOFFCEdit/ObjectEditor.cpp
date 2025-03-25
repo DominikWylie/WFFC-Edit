@@ -287,23 +287,6 @@ void ObjectEditor::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
 {
 	prevMousePos = mousePos;
 	mousePos = mousePosition;
-	//mouseDelta = prevMousePos - mousePos;
-
-	//float threshHold = 0.2f;
-
-	//if (prevMousePos.x - mousePos.x < threshHold && prevMousePos.x - mousePos.x > -threshHold) {
-	//	mouseDelta.x = 0.f;
-	//}
-	//else {
-	//	mouseDelta.x = prevMousePos.x - mousePos.x;
-	//}
-	//
-	//if (prevMousePos.y - mousePos.y < threshHold && prevMousePos.y - mousePos.y > -threshHold){
-	//	mouseDelta.y = 0.f;
-	//}
-	//else {
-	//	mouseDelta.y = prevMousePos.y - mousePos.y;
-	//}
 }
 
 void ObjectEditor::drawX()
