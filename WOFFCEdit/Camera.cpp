@@ -92,11 +92,11 @@ void Camera::Update(DX::StepTimer const& timer, RECT winRect) {
 	}
 	if (KeysDown.at('D'))
 	{
-		m_camPosition += (m_camRight * m_movespeed) * dt;
+		m_camPosition += (XMVector3Normalize(m_camRight) * m_movespeed) * dt;
 	}
 	if (KeysDown.at('A'))
 	{
-		m_camPosition -= (m_camRight * m_movespeed) * dt;
+		m_camPosition -= (XMVector3Normalize(m_camRight) * m_movespeed) * dt;
 	}
 
 	//update lookat point
