@@ -77,6 +77,9 @@ void ObjectEditor::DrawTranslators(
 					else if (editState == rotate) {
 						selectedObject->m_orientation.x += mouseDelta.y;
 					}
+					else if (editState == scale) {
+						selectedObject->m_scale.x += mouseDelta.x * scaleMultiplier;
+					}
 					break;
 				case axisY:
 					if (editState == translate) {
@@ -85,6 +88,9 @@ void ObjectEditor::DrawTranslators(
 					else if (editState == rotate) {
 						selectedObject->m_orientation.y += mouseDelta.x;
 					}
+					else if (editState == scale) {
+						selectedObject->m_scale.y += mouseDelta.y * scaleMultiplier;
+					}
 					break;
 				case axisZ:
 					if (editState == translate) {
@@ -92,6 +98,9 @@ void ObjectEditor::DrawTranslators(
 					}
 					else if (editState == rotate) {
 						selectedObject->m_orientation.z += mouseDelta.y;
+					}
+					else if (editState == scale) {
+						selectedObject->m_scale.z += mouseDelta.x * scaleMultiplier;
 					}
 					break;
 				}
