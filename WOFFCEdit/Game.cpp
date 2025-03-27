@@ -363,6 +363,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 
 void Game::BuildDisplayList(std::vector<SceneObject> * SceneGraph)
 {
+    m_SceneGraph = SceneGraph;
+
 	auto device = m_deviceResources->GetD3DDevice();
 	auto devicecontext = m_deviceResources->GetD3DDeviceContext();
 
@@ -441,6 +443,23 @@ void Game::BuildDisplayList(std::vector<SceneObject> * SceneGraph)
 		
 		
 		
+}
+
+void Game::SaveSceneObject()
+{
+    for (int i = 0; i < m_displayList.size(); i++) {
+        m_SceneGraph->at(i).posX = m_displayList.at(i).m_position.x;
+        m_SceneGraph->at(i).posY = m_displayList.at(i).m_position.y;
+        m_SceneGraph->at(i).posZ = m_displayList.at(i).m_position.z;
+
+        m_SceneGraph->at(i).rotX = m_displayList.at(i).m_orientation.x;
+        m_SceneGraph->at(i).rotY = m_displayList.at(i).m_orientation.y;
+        m_SceneGraph->at(i).rotZ = m_displayList.at(i).m_orientation.z;
+
+        m_SceneGraph->at(i).scaX = m_displayList.at(i).m_scale.x;
+        m_SceneGraph->at(i).scaY = m_displayList.at(i).m_scale.y;
+        m_SceneGraph->at(i).scaZ = m_displayList.at(i).m_scale.z;
+    }
 }
 
 void Game::BuildDisplayChunk(ChunkObject * SceneChunk)

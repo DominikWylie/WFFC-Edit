@@ -191,6 +191,8 @@ void ToolMain::onActionLoad()
 
 void ToolMain::onActionSave()
 {
+	m_d3dRenderer.SaveSceneObject();
+
 	//SQL
 	int rc;
 	char *sqlCommand;

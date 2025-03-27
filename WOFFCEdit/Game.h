@@ -51,7 +51,8 @@ public:
 	void OnWindowSizeChanged(int width, int height);
 
 	//tool specific
-	void BuildDisplayList(std::vector<SceneObject> * SceneGraph); //note vector passed by reference 
+	void BuildDisplayList(std::vector<SceneObject> * SceneGraph); //note vector passed by reference
+	void SaveSceneObject();
 	void BuildDisplayChunk(ChunkObject *SceneChunk);
 	void SaveDisplayChunk(ChunkObject *SceneChunk);	//saves geometry et al
 	void ClearDisplayList();
@@ -96,6 +97,8 @@ private:
 	Camera *camera;
 	//Camera camera;
 	RECT winRect;
+
+	std::vector<SceneObject>* m_SceneGraph; //to save the scene graph tectures models etc for saving i am only changing the transforms
 
 	//control variables
 	bool m_grid;							//grid rendering on / off
