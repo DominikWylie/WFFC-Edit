@@ -194,7 +194,6 @@
     <ClInclude Include="DisplayObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="InputCommands.h" />
     <ClInclude Include="InputObserver.h" />
     <ClInclude Include="MFCFrame.h" />
     <ClInclude Include="MFCRenderFrame.h" />

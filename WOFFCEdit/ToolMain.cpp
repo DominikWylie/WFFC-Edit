@@ -10,7 +10,7 @@
 
 //
 //ToolMain Class
-ToolMain::ToolMain() : input(m_toolInputCommands)
+ToolMain::ToolMain()
 {
 	m_currentChunk = 0;		//default value
 	m_selectedObject = 0;	//initial selection ID
@@ -299,7 +299,7 @@ void ToolMain::Tick(MSG *msg)
 	//if (m_toolInputCommands.LMBClicked) {
 	//	m_selectedObject = m_d3dRenderer.MousePicking();
 	//}
-	m_d3dRenderer.Tick(&m_toolInputCommands, windowRect, m_selectedObject);
+	m_d3dRenderer.Tick(windowRect, m_selectedObject);
 	//input.Tick();
 }
 

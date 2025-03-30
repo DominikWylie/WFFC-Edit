@@ -2,7 +2,6 @@
 
 #include "d3d11.h"
 #include <SimpleMath.h>
-#include "InputCommands.h"
 #include "StepTimer.h"
 #include "InputObserver.h"
 #include <map>

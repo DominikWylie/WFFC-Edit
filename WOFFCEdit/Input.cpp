@@ -1,7 +1,7 @@
 #include "Input.h"
 
 
-Input::Input(InputCommands& toolInput) : m_toolInputCommands(toolInput) {
+Input::Input(){
 }
 
 Input::~Input()

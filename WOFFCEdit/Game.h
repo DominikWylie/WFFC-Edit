@@ -10,7 +10,6 @@
 #include "DisplayObject.h"
 #include "DisplayChunk.h"
 #include "ChunkObject.h"
-#include "InputCommands.h"
 #include "InputObserver.h"
 #include <vector>
 
@@ -33,7 +32,7 @@ public:
 	void SetGridState(bool state);
 
 	// Basic game loop
-	void Tick(InputCommands * Input, RECT windowRect, int selectedObject);
+	void Tick(RECT windowRect, int selectedObject);
 	void Render(int selectedObject);
 
 	// Rendering helpers
@@ -92,7 +91,6 @@ private:
 	//tool specific
 	std::vector<DisplayObject>			m_displayList;
 	DisplayChunk						m_displayChunk;
-	InputCommands*						m_InputCommands;
 
 	Camera *camera;
 	//Camera camera;

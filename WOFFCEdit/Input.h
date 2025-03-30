@@ -2,7 +2,6 @@
 
 #include <afxwin.h>
 #include <afxext.h>
-#include "InputCommands.h"
 #include "InputObserver.h"
 #include <vector>
 #include <map>
@@ -10,7 +9,7 @@
 class Input
 {
 public:
-	Input(InputCommands& toolInput);
+	Input();
 	~Input();
 
 	void Update(MSG *msg, int windowX, int windowY);
@@ -21,7 +20,6 @@ public:
 private:
 	static const int KEYARRAYSIZE = 256;
 	char	m_keyArray[KEYARRAYSIZE];
-	InputCommands& m_toolInputCommands;
 
 	std::vector<InputObserver*> observerKeyArray[256];
 	std::vector<InputObserver*> observerMouseArray[3];
