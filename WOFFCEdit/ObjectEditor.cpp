@@ -76,13 +76,6 @@ void ObjectEditor::DrawTranslators(
 				case axisX:
 					if (editState == translate) {
 						masterObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
-
-						//loop through the vector, setting all the selected objects to the master + the relative offset
-						for (DisplayObject* object : selectedObjects) {
-							Vector3 offset = oldMasterPosition - masterObject->m_position;
-
-							object->m_position.x = masterObject->m_position.x + offset.x;
-						}
 					}
 					else if (editState == rotate) {
 						masterObject->m_orientation.x += mouseDelta.y;
@@ -94,13 +87,6 @@ void ObjectEditor::DrawTranslators(
 				case axisY:
 					if (editState == translate) {
 						masterObject->m_position.y = (cursorPlanePoint + objectCentreOffset).y;
-
-						//loop through the vector, setting all the selected objects to the master + the relative offset
-						for (DisplayObject* object : selectedObjects) {
-							Vector3 offset = oldMasterPosition - masterObject->m_position;
-
-							object->m_position.y = masterObject->m_position.y + offset.y;
-						}
 					}
 					else if (editState == rotate) {
 						masterObject->m_orientation.y += mouseDelta.x;
@@ -112,13 +98,6 @@ void ObjectEditor::DrawTranslators(
 				case axisZ:
 					if (editState == translate) {
 						masterObject->m_position.z = (cursorPlanePoint + objectCentreOffset).z;
-
-						//loop through the vector, setting all the selected objects to the master + the relative offset
-						for (DisplayObject* object : selectedObjects) {
-							Vector3 offset = oldMasterPosition - masterObject->m_position;
-
-							object->m_position.z = masterObject->m_position.z + offset.z;
-						}
 					}
 					else if (editState == rotate) {
 						masterObject->m_orientation.z += mouseDelta.y;
@@ -131,10 +110,12 @@ void ObjectEditor::DrawTranslators(
 			}
 			else {
 				masterObject->m_position = cursorPlanePoint + objectCentreOffset;
+			}
 
+			if (editState == translate) {
 				//loop through the vector, setting all the selected objects to the master + the relative offset
 				for (DisplayObject* object : selectedObjects) {
-					Vector3 offset = oldMasterPosition - masterObject->m_position;
+					Vector3 offset = object->m_position - oldMasterPosition;
 
 					object->m_position = masterObject->m_position + offset;
 				}
@@ -205,14 +186,13 @@ void ObjectEditor::updateObject(DisplayObject* object)
 	}
 	else if (multiSelect) {
 		selectedObjects.push_back(object);
+		return;
 	}
 	else {
+		//to remove the multiselect
 		selectedObjects.clear();
-		//selectedObjects.push_back(object);
 		masterObject = object;
 	}
-
-	//masterObject = selectedObjects.at(0);
 
 	// if only 1, if more, leave it on the first
 	boxList.clear();
