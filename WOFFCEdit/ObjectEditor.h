@@ -95,8 +95,12 @@ private:
 	XMVECTOR chosenPlane = XMVectorSet(0.f, 0.f, 0.f, 0.f);
 
 	bool RMBDown = false;
+	bool multiSelect = false;
 
-	DisplayObject* selectedObject = nullptr;
+	DisplayObject* masterObject = nullptr;
+
+	//masterobject is not here, only the secondary selected objects
+	std::vector<DisplayObject*> selectedObjects;
 
 	Vector3 cursorPlanePoint = Vector3(0, 0, 0);
 	Vector3 objectCentreOffset = Vector3(0, 0, 0);

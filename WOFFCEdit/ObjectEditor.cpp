@@ -68,52 +68,83 @@ void ObjectEditor::DrawTranslators(
 	if (collidedTranslator != -1 && RMBDown) {
 
 		if (!firstRound) {
+
+			Vector3 oldMasterPosition = masterObject->m_position;
+
 			if (lineTransltion) {
 				switch (lineAxis) {
 				case axisX:
 					if (editState == translate) {
-						selectedObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
+						masterObject->m_position.x = (cursorPlanePoint + objectCentreOffset).x;
+
+						//loop through the vector, setting all the selected objects to the master + the relative offset
+						for (DisplayObject* object : selectedObjects) {
+							Vector3 offset = oldMasterPosition - masterObject->m_position;
+
+							object->m_position.x = masterObject->m_position.x + offset.x;
+						}
 					}
 					else if (editState == rotate) {
-						selectedObject->m_orientation.x += mouseDelta.y;
+						masterObject->m_orientation.x += mouseDelta.y;
 					}
 					else if (editState == scale) {
-						selectedObject->m_scale.x += mouseDelta.x * scaleMultiplier;
+						masterObject->m_scale.x += mouseDelta.x * scaleMultiplier;
 					}
 					break;
 				case axisY:
 					if (editState == translate) {
-						selectedObject->m_position.y = (cursorPlanePoint + objectCentreOffset).y;
+						masterObject->m_position.y = (cursorPlanePoint + objectCentreOffset).y;
+
+						//loop through the vector, setting all the selected objects to the master + the relative offset
+						for (DisplayObject* object : selectedObjects) {
+							Vector3 offset = oldMasterPosition - masterObject->m_position;
+
+							object->m_position.y = masterObject->m_position.y + offset.y;
+						}
 					}
 					else if (editState == rotate) {
-						selectedObject->m_orientation.y += mouseDelta.x;
+						masterObject->m_orientation.y += mouseDelta.x;
 					}
 					else if (editState == scale) {
-						selectedObject->m_scale.y += mouseDelta.y * scaleMultiplier;
+						masterObject->m_scale.y += mouseDelta.y * scaleMultiplier;
 					}
 					break;
 				case axisZ:
 					if (editState == translate) {
-						selectedObject->m_position.z = (cursorPlanePoint + objectCentreOffset).z;
+						masterObject->m_position.z = (cursorPlanePoint + objectCentreOffset).z;
+
+						//loop through the vector, setting all the selected objects to the master + the relative offset
+						for (DisplayObject* object : selectedObjects) {
+							Vector3 offset = oldMasterPosition - masterObject->m_position;
+
+							object->m_position.z = masterObject->m_position.z + offset.z;
+						}
 					}
 					else if (editState == rotate) {
-						selectedObject->m_orientation.z += mouseDelta.y;
+						masterObject->m_orientation.z += mouseDelta.y;
 					}
 					else if (editState == scale) {
-						selectedObject->m_scale.z += mouseDelta.x * scaleMultiplier;
+						masterObject->m_scale.z += mouseDelta.x * scaleMultiplier;
 					}
 					break;
 				}
 			}
 			else {
-				selectedObject->m_position = cursorPlanePoint + objectCentreOffset;
+				masterObject->m_position = cursorPlanePoint + objectCentreOffset;
+
+				//loop through the vector, setting all the selected objects to the master + the relative offset
+				for (DisplayObject* object : selectedObjects) {
+					Vector3 offset = oldMasterPosition - masterObject->m_position;
+
+					object->m_position = masterObject->m_position + offset;
+				}
 			}
 		}
 
 		cursorPlanePoint = Picker::TranslatorPlaneIntersect(mousePos, chosenPlane, m_world, projection, view, winRect, deviceResources);
 
 		if (firstRound) {
-			objectCentreOffset = selectedObject->m_position - cursorPlanePoint;
+			objectCentreOffset = masterObject->m_position - cursorPlanePoint;
 			firstRound = false;
 		}
 		
@@ -165,25 +196,42 @@ void ObjectEditor::DrawTranslators(
 
 void ObjectEditor::updateObject(DisplayObject* object)
 {
-	selectedObject = object;
+	//multi select
+	//if shift is held just add to list, leave gizmo as first one
+	//get relative locations of others to first one
+	//and translate others relative to first one
+	if (masterObject == nullptr) {
+		masterObject = object;
+	}
+	else if (multiSelect) {
+		selectedObjects.push_back(object);
+	}
+	else {
+		selectedObjects.clear();
+		//selectedObjects.push_back(object);
+		masterObject = object;
+	}
 
+	//masterObject = selectedObjects.at(0);
+
+	// if only 1, if more, leave it on the first
 	boxList.clear();
 
 	DirectX::BoundingBox boxX;
 	DirectX::BoundingBox boxY;
 	DirectX::BoundingBox boxZ;
 
-	boxX.Center = selectedObject->m_position + DirectX::XMFLOAT3((translatorLength / 2), 0.f, 0.f);
+	boxX.Center = masterObject->m_position + DirectX::XMFLOAT3((translatorLength / 2), 0.f, 0.f);
 	boxX.Extents = DirectX::XMFLOAT3(translatorLength / 2, cubeRadius, cubeRadius);
 
 	boxList.push_back(boxX);
 
-	boxY.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, translatorLength / 2, 0.f);
+	boxY.Center = masterObject->m_position + DirectX::XMFLOAT3(0.f, translatorLength / 2, 0.f);
 	boxY.Extents = DirectX::XMFLOAT3(cubeRadius, translatorLength / 2, cubeRadius);
 
 	boxList.push_back(boxY);
 
-	boxZ.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, 0.f, translatorLength / 2);
+	boxZ.Center = masterObject->m_position + DirectX::XMFLOAT3(0.f, 0.f, translatorLength / 2);
 	boxZ.Extents = DirectX::XMFLOAT3(cubeRadius, cubeRadius, translatorLength / 2);
 
 	boxList.push_back(boxZ);
@@ -194,26 +242,25 @@ void ObjectEditor::updateObject(DisplayObject* object)
 	DirectX::BoundingBox boxYZ;
 	DirectX::BoundingBox boxZX;
 
-	boxXY.Center = selectedObject->m_position + DirectX::XMFLOAT3(planeTranslatorLength / 2, planeTranslatorLength / 2, 0.f);
+	boxXY.Center = masterObject->m_position + DirectX::XMFLOAT3(planeTranslatorLength / 2, planeTranslatorLength / 2, 0.f);
 	boxXY.Extents = DirectX::XMFLOAT3(planeTranslatorLength / 2, planeTranslatorLength / 2, 0.1f);
 
 	boxList.push_back(boxXY);
 
-	boxYZ.Center = selectedObject->m_position + DirectX::XMFLOAT3(0.f, planeTranslatorLength / 2, planeTranslatorLength / 2);
+	boxYZ.Center = masterObject->m_position + DirectX::XMFLOAT3(0.f, planeTranslatorLength / 2, planeTranslatorLength / 2);
 	boxYZ.Extents = DirectX::XMFLOAT3(0.1f, planeTranslatorLength / 2, planeTranslatorLength / 2);
 
 	boxList.push_back(boxYZ);
 
-	boxZX.Center = selectedObject->m_position + DirectX::XMFLOAT3(planeTranslatorLength / 2, 0.f, planeTranslatorLength / 2);
+	boxZX.Center = masterObject->m_position + DirectX::XMFLOAT3(planeTranslatorLength / 2, 0.f, planeTranslatorLength / 2);
 	boxZX.Extents = DirectX::XMFLOAT3(planeTranslatorLength / 2, 0.1f, planeTranslatorLength / 2);
 
 	boxList.push_back(boxZX);
-
 }
 
 DisplayObject* ObjectEditor::getDisplayObject()
 {
-	return selectedObject;
+	return masterObject;
 }
 
 bool ObjectEditor::getTranslatorHovered()
@@ -225,6 +272,7 @@ void ObjectEditor::KeyDown(int key)
 {
 	if(key == VK_SHIFT) {
 		editState = scale;
+		multiSelect = true;
 	}
 
 	if (key == VK_CONTROL) {
@@ -236,11 +284,17 @@ void ObjectEditor::KeyUp(int key)
 {
 	if (key == VK_SHIFT || key == VK_CONTROL) {
 		editState = translate;
+		multiSelect = false;
 	}
 }
 
 void ObjectEditor::mouseDown(MouseInput mouse)
 {
+	//currently not subscribed to these but a bit of safety
+	if (mouse == RMB || mouse == MMB) {
+		return;
+	}
+
 	RMBDown = true;
 
 	lineTransltion = false;
@@ -257,7 +311,7 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 		lineAxis = axisX;
 	case 3:
 		//xy plane
-		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -selectedObject->m_position.z);
+		chosenPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -masterObject->m_position.z);
 		break;
 	case 1:
 		//linear y
@@ -265,7 +319,7 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 		lineAxis = axisY;
 	case 4:
 		//yz plane
-		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, -selectedObject->m_position.x);
+		chosenPlane = XMVectorSet(1.0f, 0.0f, 0.0f, -masterObject->m_position.x);
 		break;
 	case 2:
 		//linear z
@@ -273,7 +327,7 @@ void ObjectEditor::mouseDown(MouseInput mouse)
 		lineAxis = axisZ;
 	case 5:
 		//zx plane
-		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, -selectedObject->m_position.y);
+		chosenPlane = XMVectorSet(0.0f, 1.0f, 0.0f, -masterObject->m_position.y);
 	}
 }
 
@@ -282,13 +336,13 @@ void ObjectEditor::mouseUp(MouseInput mouse)
 	RMBDown = false;
 	firstRound = true;
 
-	updateObject(selectedObject);
+	updateObject(masterObject);
 }
 
 void ObjectEditor::scrollWheelMove(float wheel)
 {
 	if (editState == scale && objectSelected) {
-		selectedObject->m_scale += Vector3(wheel, wheel, wheel) * scaleMultiplier;
+		masterObject->m_scale += Vector3(wheel, wheel, wheel) * scaleMultiplier;
 	}
 }
 
@@ -309,11 +363,11 @@ void ObjectEditor::drawX()
 		colour = DirectX::Colors::Red;
 	}
 
-	DirectX::SimpleMath::Vector3 endPos = selectedObject->m_position + Vector3{ translatorLength, 0.f, 0.f };
+	DirectX::SimpleMath::Vector3 endPos = masterObject->m_position + Vector3{ translatorLength, 0.f, 0.f };
 
 	//x
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position, colour),
+		DirectX::VertexPositionColor(masterObject->m_position, colour),
 		DirectX::VertexPositionColor(endPos, colour)
 	);
 
@@ -377,11 +431,11 @@ void ObjectEditor::drawY()
 		colour = DirectX::Colors::Green;
 	}
 
-	DirectX::SimpleMath::Vector3 endPos = selectedObject->m_position + Vector3{ 0.f, translatorLength, 0.f };
+	DirectX::SimpleMath::Vector3 endPos = masterObject->m_position + Vector3{ 0.f, translatorLength, 0.f };
 
 	//y
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position, colour),
+		DirectX::VertexPositionColor(masterObject->m_position, colour),
 		DirectX::VertexPositionColor(endPos, colour)
 	);
 
@@ -446,14 +500,14 @@ void ObjectEditor::drawZ()
 	}
 	//z
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, translatorLength }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, 0.f, translatorLength }, colour)
 	);
 
 	//make cube - migh change so it overlaps the line
 	//so end is the centre of the back quad
 
-	DirectX::SimpleMath::Vector3 endPos = selectedObject->m_position + Vector3{ 0.f, 0.f, translatorLength };
+	DirectX::SimpleMath::Vector3 endPos = masterObject->m_position + Vector3{ 0.f, 0.f, translatorLength };
 
 	//back plate
 	primitiveBatch->DrawQuad(
@@ -516,13 +570,13 @@ void ObjectEditor::drawXY()
 	}
 
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, 0.f }, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, planeTranslatorLength, 0.f }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ planeTranslatorLength, 0.f, 0.f }, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ planeTranslatorLength, planeTranslatorLength, 0.f }, colour)
 	);
 
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, 0.f }, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, planeTranslatorLength, 0.f }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, planeTranslatorLength, 0.f }, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ planeTranslatorLength, planeTranslatorLength, 0.f }, colour)
 	);
 }
 
@@ -538,13 +592,13 @@ void ObjectEditor::drawYZ()
 	}
 
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, 0.f }, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, planeTranslatorLength }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, planeTranslatorLength, 0.f }, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, planeTranslatorLength, planeTranslatorLength }, colour)
 	);
 
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, planeTranslatorLength }, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, planeTranslatorLength, planeTranslatorLength }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, 0.f, planeTranslatorLength }, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, planeTranslatorLength, planeTranslatorLength }, colour)
 	);
 }
 
@@ -560,12 +614,12 @@ void ObjectEditor::drawZX()
 	}
 
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ 0.f, 0.f, planeTranslatorLength }, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, planeTranslatorLength }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ 0.f, 0.f, planeTranslatorLength }, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ planeTranslatorLength, 0.f, planeTranslatorLength }, colour)
 	);
 
 	primitiveBatch->DrawLine(
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, 0.f }, colour),
-		DirectX::VertexPositionColor(selectedObject->m_position + Vector3{ planeTranslatorLength, 0.f, planeTranslatorLength }, colour)
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ planeTranslatorLength, 0.f, 0.f }, colour),
+		DirectX::VertexPositionColor(masterObject->m_position + Vector3{ planeTranslatorLength, 0.f, planeTranslatorLength }, colour)
 	);
 }

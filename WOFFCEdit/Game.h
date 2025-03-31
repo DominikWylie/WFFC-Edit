@@ -32,8 +32,8 @@ public:
 	void SetGridState(bool state);
 
 	// Basic game loop
-	void Tick(RECT windowRect, int selectedObject);
-	void Render(int selectedObject);
+	void Tick(RECT windowRect, std::vector<int> selectedObjects);
+	void Render(std::vector<int> selectedObjects);
 
 	// Rendering helpers
 	void Clear();

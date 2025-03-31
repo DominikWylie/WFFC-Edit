@@ -93,7 +93,7 @@ void Game::SetGridState(bool state)
 
 #pragma region Frame Update
 // Executes the basic game loop.
-void Game::Tick(RECT windowRect, int selectedObject)
+void Game::Tick(RECT windowRect, std::vector<int> selectedObjects)
 {
 	//copy over the input commands so we have a local version to use elsewhere.
     winRect = windowRect;
@@ -112,7 +112,7 @@ void Game::Tick(RECT windowRect, int selectedObject)
     }
 #endif
 
-    Render(selectedObject);
+    Render(selectedObjects);
 }
 
 // Updates the world.
@@ -159,7 +159,7 @@ void Game::Update(DX::StepTimer const& timer)
 
 #pragma region Frame Render
 // Draws the scene.
-void Game::Render(int selectedObject)
+void Game::Render(std::vector<int> selectedObjects)
 {
     // Don't try to render anything before the first Update.
     if (m_timer.GetFrameCount() == 0)
@@ -196,7 +196,15 @@ void Game::Render(int selectedObject)
 
 		XMMATRIX local = m_world * XMMatrixTransformation(g_XMZero, Quaternion::Identity, scale, g_XMZero, rotate, translate);
 
-        if (i == selectedObject) {
+        bool highlight = false;
+
+        for (int object : selectedObjects) {
+            if (object == i) {
+                highlight = true;
+            }
+        }
+
+        if (highlight) {
             m_displayList[i].m_model->UpdateEffects(
                 [](DirectX::IEffect* effect) {
                     static_cast<BasicEffect*>(effect)->SetColorAndAlpha({ 1.f, 0.f, 1.f, 1.f});
@@ -225,7 +233,7 @@ void Game::Render(int selectedObject)
 
     //Render the batch,  This is handled in the Display chunk becuase it has the potential to get complex
     m_displayChunk.RenderBatch(m_deviceResources);
-    if (selectedObject >= 0) {
+    if (!selectedObjects.empty()) {
         objectEditor->DrawTranslators(m_view, m_projection, m_world, winRect, m_deviceResources);
     }
 

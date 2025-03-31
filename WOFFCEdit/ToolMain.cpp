@@ -299,7 +299,7 @@ void ToolMain::Tick(MSG *msg)
 	//if (m_toolInputCommands.LMBClicked) {
 	//	m_selectedObject = m_d3dRenderer.MousePicking();
 	//}
-	m_d3dRenderer.Tick(windowRect, m_selectedObject);
+	m_d3dRenderer.Tick(windowRect, m_selectedObjects);
 	//input.Tick();
 }
 
@@ -310,10 +310,32 @@ void ToolMain::UpdateInput(MSG * msg)
 	input.Update(msg, windowRect.left, windowRect.top);
 }
 
+void ToolMain::KeyDown(int key)
+{
+	if (key == VK_SHIFT) {
+		m_multiSelect = true;
+	}
+}
+
+void ToolMain::KeyUp(int key)
+{
+	if (key == VK_SHIFT) {
+		m_multiSelect = false;
+	}
+}
+
 void ToolMain::mouseDown(MouseInput mouse)
 {
 	if (!objectEditor.getTranslatorHovered()) {
-		m_selectedObject = m_d3dRenderer.MousePicking();
+		//m_selectedObject = m_d3dRenderer.MousePicking();
+
+		if (m_multiSelect) {
+			m_selectedObjects.push_back(m_d3dRenderer.MousePicking());
+		}
+		else {
+			m_selectedObjects.clear();
+			m_selectedObjects.push_back(m_d3dRenderer.MousePicking());
+		}
 	}
 }
 
