@@ -7,6 +7,7 @@
 #include "DeviceResources.h"
 #include "InputObserver.h"
 #include <unordered_map>
+#include "HistoryManager.h"
 
 class DisplayObject;
 class ID3D11DeviceContext;
@@ -72,6 +73,7 @@ private:
 	int collidedTranslator = -1;
 	bool translatorHovered = false;
 	bool shiftHeld = false;
+	bool justMoved = false;
 
 	bool lineTransltion = false;
 	enum {
@@ -103,6 +105,8 @@ private:
 	bool multiSelect = false;
 
 	DisplayObject* masterObject = nullptr;
+
+	HistoryManager historyManager;
 
 	//masterobject is not here, only the secondary selected objects
 	//std::vector<DisplayObject*> selectedObjects;

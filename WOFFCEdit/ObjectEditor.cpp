@@ -147,7 +147,33 @@ void ObjectEditor::DrawTranslators(
 			firstRound = false;
 		}
 		
+		justMoved = true;
 	}
+
+	//add history
+	//make vector of thing
+	
+	//std::vector<ObjectDelta> newHistory;
+
+	//ObjectDelta masterDelta;
+	//masterDelta.object = masterObject;
+	//masterDelta.translate = masterObject->m_position;
+	//masterDelta.rotate = masterObject->m_orientation;
+	//masterDelta.scale = masterObject->m_scale;
+	//newHistory.push_back(masterDelta);
+
+	//for (const auto object : selectedObjects) {
+	//	ObjectDelta selectedObjectDelta;
+	//	selectedObjectDelta.object = object.first;
+	//	selectedObjectDelta.translate = object.first->m_position;
+	//	selectedObjectDelta.rotate = object.first->m_orientation;
+	//	selectedObjectDelta.scale = object.first->m_scale;
+	//	newHistory.push_back(selectedObjectDelta);
+	//}
+
+	//historyManager.addHistory(newHistory);
+
+	//historyManager.addHistory()
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> oldDepthStencilState;
@@ -353,6 +379,31 @@ void ObjectEditor::mouseUp(MouseInput mouse)
 	firstRound = true;
 
 	updateObject(masterObject);
+
+	if (justMoved) {
+
+		std::vector<ObjectDelta> newHistory;
+
+		ObjectDelta masterDelta;
+		masterDelta.object = masterObject;
+		masterDelta.translate = masterObject->m_position;
+		masterDelta.rotate = masterObject->m_orientation;
+		masterDelta.scale = masterObject->m_scale;
+		newHistory.push_back(masterDelta);
+
+		for (const auto object : selectedObjects) {
+			ObjectDelta selectedObjectDelta;
+			selectedObjectDelta.object = object.first;
+			selectedObjectDelta.translate = object.first->m_position;
+			selectedObjectDelta.rotate = object.first->m_orientation;
+			selectedObjectDelta.scale = object.first->m_scale;
+			newHistory.push_back(selectedObjectDelta);
+		}
+
+		historyManager.addHistory(newHistory);
+
+		justMoved = false;
+	}
 }
 
 void ObjectEditor::scrollWheelMove(float wheel)

@@ -22,12 +22,6 @@ void Input::Update(MSG* msg, int windowX, int windowY)
 
 		break;
 
-	//case WM_SYSKEYDOWN:
-
-	//	if (msg->wParam == VK_LSHIFT) {
-	//		int reee = 2;
-	//	}
-
 	case WM_KEYUP:
 
 		for (InputObserver* observer : observerKeyArray[msg->wParam]) {
