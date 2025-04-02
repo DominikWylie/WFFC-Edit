@@ -79,9 +79,15 @@ void ObjectEditor::DrawTranslators(
 					}
 					else if (editState == rotate) {
 						masterObject->m_orientation.x += mouseDelta.y;
+						for (const auto object : selectedObjects) {
+							object.first->m_orientation.x += mouseDelta.y;
+						}
 					}
 					else if (editState == scale) {
 						masterObject->m_scale.x += mouseDelta.x * scaleMultiplier;
+						for (const auto object : selectedObjects) {
+							object.first->m_scale.x += mouseDelta.x * scaleMultiplier;
+						}
 					}
 					break;
 				case axisY:
@@ -90,9 +96,15 @@ void ObjectEditor::DrawTranslators(
 					}
 					else if (editState == rotate) {
 						masterObject->m_orientation.y += mouseDelta.x;
+						for (const auto object : selectedObjects) {
+							object.first->m_orientation.y += mouseDelta.x;
+						}
 					}
 					else if (editState == scale) {
 						masterObject->m_scale.y += mouseDelta.y * scaleMultiplier;
+						for (const auto object : selectedObjects) {
+							object.first->m_scale.y += mouseDelta.y * scaleMultiplier;
+						}
 					}
 					break;
 				case axisZ:
@@ -101,9 +113,15 @@ void ObjectEditor::DrawTranslators(
 					}
 					else if (editState == rotate) {
 						masterObject->m_orientation.z += mouseDelta.y;
+						for (const auto object : selectedObjects) {
+							object.first->m_orientation.z += mouseDelta.y;
+						}
 					}
 					else if (editState == scale) {
 						masterObject->m_scale.z += mouseDelta.x * scaleMultiplier;
+						for (const auto object : selectedObjects) {
+							object.first->m_scale.z += mouseDelta.x * scaleMultiplier;
+						}
 					}
 					break;
 				}
