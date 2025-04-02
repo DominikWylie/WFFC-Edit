@@ -6,6 +6,7 @@
 #include <SimpleMath.h>
 #include "DeviceResources.h"
 #include "InputObserver.h"
+#include <unordered_map>
 
 class DisplayObject;
 class ID3D11DeviceContext;
@@ -39,6 +40,9 @@ public:
 
 	bool getTranslatorHovered();
 
+	//set multiselect for game 
+	void setMultiselect(bool set);
+
 	bool objectSelected = false;
 
 	virtual void KeyDown(int key) override;
@@ -67,6 +71,7 @@ private:
 	float planeTranslatorLength;
 	int collidedTranslator = -1;
 	bool translatorHovered = false;
+	bool shiftHeld = false;
 
 	bool lineTransltion = false;
 	enum {
@@ -100,7 +105,9 @@ private:
 	DisplayObject* masterObject = nullptr;
 
 	//masterobject is not here, only the secondary selected objects
-	std::vector<DisplayObject*> selectedObjects;
+	//std::vector<DisplayObject*> selectedObjects;
+	std::unordered_map<DisplayObject*, Vector3> selectedObjects;
+
 
 	Vector3 cursorPlanePoint = Vector3(0, 0, 0);
 	Vector3 objectCentreOffset = Vector3(0, 0, 0);

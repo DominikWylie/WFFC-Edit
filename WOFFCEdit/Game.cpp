@@ -504,6 +504,7 @@ int Game::MousePicking()
 
     if (pickedObject < 0) {
         objectEditor->objectSelected = false;
+        objectEditor->setMultiselect(false);
     }
     else {
         objectEditor->objectSelected = true;

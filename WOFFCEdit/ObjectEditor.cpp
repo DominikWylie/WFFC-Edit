@@ -114,10 +114,10 @@ void ObjectEditor::DrawTranslators(
 
 			if (editState == translate) {
 				//loop through the vector, setting all the selected objects to the master + the relative offset
-				for (DisplayObject* object : selectedObjects) {
-					Vector3 offset = object->m_position - oldMasterPosition;
+				for (const auto object : selectedObjects) {
+					//Vector3 offset = object.first->m_position - object.second;
 
-					object->m_position = masterObject->m_position + offset;
+					object.first->m_position = masterObject->m_position + object.second;
 				}
 			}
 		}
@@ -181,11 +181,16 @@ void ObjectEditor::updateObject(DisplayObject* object)
 	//if shift is held just add to list, leave gizmo as first one
 	//get relative locations of others to first one
 	//and translate others relative to first one
-	if (masterObject == nullptr) {
+	if (masterObject == object) {
+		//skip this
+	}
+	else if (masterObject == nullptr || !shiftHeld) {
 		masterObject = object;
+		//multiSelect = false;
+		setMultiselect(false);
 	}
 	else if (multiSelect) {
-		selectedObjects.push_back(object);
+		selectedObjects.insert({object, object->m_position - masterObject->m_position});
 		return;
 	}
 	else {
@@ -248,11 +253,21 @@ bool ObjectEditor::getTranslatorHovered()
 	return translatorHovered;
 }
 
+void ObjectEditor::setMultiselect(bool set)
+{
+	multiSelect = set;
+
+	if (!set) {
+		selectedObjects.clear();
+	}
+}
+
 void ObjectEditor::KeyDown(int key)
 {
 	if(key == VK_SHIFT) {
 		editState = scale;
 		multiSelect = true;
+		shiftHeld = true;
 	}
 
 	if (key == VK_CONTROL) {
@@ -264,7 +279,10 @@ void ObjectEditor::KeyUp(int key)
 {
 	if (key == VK_SHIFT || key == VK_CONTROL) {
 		editState = translate;
-		multiSelect = false;
+	}
+
+	if (key == VK_SHIFT) {
+		shiftHeld = false;
 	}
 }
 
