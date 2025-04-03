@@ -12,10 +12,10 @@ class CommandManager : public InputObserver
 public:
 	virtual void KeyDown(int key) override;
 	virtual void KeyUp(int key) override;
-	virtual void mouseDown(MouseInput mouse) override;
-	virtual void mouseUp(MouseInput mouse) override;
-	virtual void scrollWheelMove(float wheel) override;
-	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override;
+	virtual void mouseDown(MouseInput mouse) override {};
+	virtual void mouseUp(MouseInput mouse) override {};
+	virtual void scrollWheelMove(float wheel) override {};
+	virtual void mousePosition(DirectX::SimpleMath::Vector2 mousePosition) override {};
 
 	virtual std::vector<int> getKeysToObserve() override { return {VK_CONTROL, 'Z', 'C', 'V', 'Y'}; };
 	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{}; };

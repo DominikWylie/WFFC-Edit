@@ -9,6 +9,7 @@
 #include "Input.h"
 #include "Camera.h"
 #include "ObjectEditor.h"
+//#include "CommandManager.h"
 
 class ToolMain : public InputObserver
 {
@@ -62,6 +63,7 @@ private:	//variables
 	char	m_keyArray[256];
 	sqlite3 *m_databaseConnection;	//sqldatabase handle
 	Input input;
+	//CommandManager commandManager;
 
 	int m_width;		//dimensions passed to directX
 	int m_height;

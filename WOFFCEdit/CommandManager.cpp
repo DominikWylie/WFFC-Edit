@@ -2,27 +2,7 @@
 
 void CommandManager::KeyDown(int key)
 {
-	//key called
-	
 	keysDown.push_back(key);
-	
-	//check the combos
-	//for (auto keyCombo : keyCombos) {
-
-	//	//check of all keys are pressed
-	//	bool comboActive = false;
-	//	for (int combo : keyCombo.second) {
-
-	//		//check if the combo key is held down
-
-	//		for (auto it = keysDown.begin(); it != keysDown.end(); ++it) {
-	//			if (combo == *it) {
-	//				//keep ckecking else give up
-	//			}
-	//		}
-	//	}
-
-	//}
 }
 
 void CommandManager::KeyUp(int key)
@@ -63,15 +43,15 @@ void CommandManager::checkAndCallObservers()
 			}
 
 			if (!keyFound) {
-				//yea ust move on to next
+				//yea just move on to next
 				allKeysFound = false;
 			}
 		}
 
-		if (!allKeysFound) {
-			//combo found?
-
-
+		if (allKeysFound) {
+			for (CommandObserver* observer : observerList[keyCombo.first]) {
+				observer->commandCall(keyCombo.first);
+			}
 		}
 	}
 

@@ -77,7 +77,9 @@
     <ClCompile Include="CommandManager.cpp">
       <Filter>Tool</Filter>
     </ClCompile>
-    <ClCompile Include="CommandObserver.cpp" />
+    <ClCompile Include="CommandObserver.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h">
@@ -145,7 +147,9 @@
     <ClInclude Include="CommandManager.h">
       <Filter>Tool</Filter>
     </ClInclude>
-    <ClInclude Include="CommandObserver.h" />
+    <ClInclude Include="CommandObserver.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
