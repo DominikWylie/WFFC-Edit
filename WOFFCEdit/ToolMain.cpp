@@ -43,7 +43,7 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 	input.AttachObserver(&m_d3dRenderer);
 	input.AttachObserver(this);
 	input.AttachObserver(&objectEditor);
-	//input.AttachObserver(&commandManager);
+	input.AttachObserver(&commandManager);
 	
 
 	m_toolHandle = handle;
