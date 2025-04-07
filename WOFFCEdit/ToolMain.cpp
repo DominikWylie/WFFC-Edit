@@ -1,4 +1,7 @@
 #include "ToolMain.h"
+
+//#include <afxext.h>
+
 #include "resource.h"
 #include <vector>
 #include <sstream>
@@ -37,14 +40,17 @@ void ToolMain::onActionInitialise(HWND handle, int width, int height)
 	m_width		= width;
 	m_height	= height;
 	
-	m_d3dRenderer.Initialize(handle, m_width, m_height, &camera, &objectEditor);
+	m_d3dRenderer.Initialize(handle, m_width, m_height, &camera, &objectEditor, &historyManager);
 
 	input.AttachObserver(&camera);
 	input.AttachObserver(&m_d3dRenderer);
 	input.AttachObserver(this);
 	input.AttachObserver(&objectEditor);
 	input.AttachObserver(&commandManager);
-	
+
+	commandManager.AttachObserver(&objectEditor);
+
+	//objectEditor.setToolMain(this);
 
 	m_toolHandle = handle;
 
@@ -183,7 +189,7 @@ void ToolMain::onActionLoad()
 	m_chunk.tex_splat_3_tiling = sqlite3_column_int(pResultsChunk, 17);
 	m_chunk.tex_splat_4_tiling = sqlite3_column_int(pResultsChunk, 18);
 
-
+	
 	//Process REsults into renderable
 	m_d3dRenderer.BuildDisplayList(&m_sceneGraph);
 	//build the renderable chunk 

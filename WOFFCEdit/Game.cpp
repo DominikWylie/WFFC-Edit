@@ -39,10 +39,12 @@ Game::~Game()
 }
 
 // Initialize the Direct3D resources required to run.
-void Game::Initialize(HWND window, int width, int height, Camera *cam, ObjectEditor* oEditor)
+void Game::Initialize(HWND window, int width, int height, Camera *cam, ObjectEditor* oEditor, HistoryManager* hManager)
 {
     camera = cam;
     objectEditor = oEditor;
+
+    objectEditor->setGameObject(this);
 
     m_gamePad = std::make_unique<GamePad>();
 
@@ -59,7 +61,7 @@ void Game::Initialize(HWND window, int width, int height, Camera *cam, ObjectEdi
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
 
-    objectEditor->Initialize(m_deviceResources->GetD3DDeviceContext(), m_deviceResources->GetD3DDevice());
+    objectEditor->Initialize(m_deviceResources->GetD3DDeviceContext(), m_deviceResources->GetD3DDevice(), hManager);
 
 
 #ifdef DXTK_AUDIO
@@ -450,6 +452,85 @@ void Game::BuildDisplayList(std::vector<SceneObject> * SceneGraph)
 		
 		
 		
+}
+
+void Game::RebuildDisplylist()
+{
+    auto device = m_deviceResources->GetD3DDevice();
+    auto devicecontext = m_deviceResources->GetD3DDeviceContext();
+
+    if (!m_displayList.empty())		//is the vector empty
+    {
+        m_displayList.clear();		//if not, empty it
+    }
+
+    //for every item in the m_SceneGraph
+    int numObjects = m_SceneGraph->size();
+    for (int i = 0; i < numObjects; i++)
+    {
+
+        //create a temp display object that we will populate then append to the display list.
+        DisplayObject newDisplayObject;
+
+        //load model
+        std::wstring modelwstr = StringToWCHART(m_SceneGraph->at(i).model_path);							//convect string to Wchar
+        newDisplayObject.m_model = Model::CreateFromCMO(device, modelwstr.c_str(), *m_fxFactory, true);	//get DXSDK to load model "False" for LH coordinate system (maya)
+
+        //Load Texture
+        std::wstring texturewstr = StringToWCHART(m_SceneGraph->at(i).tex_diffuse_path);								//convect string to Wchar
+        HRESULT rs;
+        rs = CreateDDSTextureFromFile(device, texturewstr.c_str(), nullptr, &newDisplayObject.m_texture_diffuse);	//load tex into Shader resource
+
+        //if texture fails.  load error default
+        if (rs)
+        {
+            CreateDDSTextureFromFile(device, L"database/data/Error.dds", nullptr, &newDisplayObject.m_texture_diffuse);	//load tex into Shader resource
+        }
+
+        //apply new texture to models effect
+        newDisplayObject.m_model->UpdateEffects([&](IEffect* effect) //This uses a Lambda function,  if you dont understand it: Look it up.
+            {
+                auto lights = dynamic_cast<BasicEffect*>(effect);
+                if (lights)
+                {
+                    lights->SetTexture(newDisplayObject.m_texture_diffuse);
+                }
+            });
+
+        //set position
+        newDisplayObject.m_position.x = m_SceneGraph->at(i).posX;
+        newDisplayObject.m_position.y = m_SceneGraph->at(i).posY;
+        newDisplayObject.m_position.z = m_SceneGraph->at(i).posZ;
+
+        //setorientation
+        newDisplayObject.m_orientation.x = m_SceneGraph->at(i).rotX;
+        newDisplayObject.m_orientation.y = m_SceneGraph->at(i).rotY;
+        newDisplayObject.m_orientation.z = m_SceneGraph->at(i).rotZ;
+
+        //set scale
+        newDisplayObject.m_scale.x = m_SceneGraph->at(i).scaX;
+        newDisplayObject.m_scale.y = m_SceneGraph->at(i).scaY;
+        newDisplayObject.m_scale.z = m_SceneGraph->at(i).scaZ;
+
+        //set wireframe / render flags
+        newDisplayObject.m_render = m_SceneGraph->at(i).editor_render;
+        newDisplayObject.m_wireframe = m_SceneGraph->at(i).editor_wireframe;
+
+        newDisplayObject.m_light_type = m_SceneGraph->at(i).light_type;
+        newDisplayObject.m_light_diffuse_r = m_SceneGraph->at(i).light_diffuse_r;
+        newDisplayObject.m_light_diffuse_g = m_SceneGraph->at(i).light_diffuse_g;
+        newDisplayObject.m_light_diffuse_b = m_SceneGraph->at(i).light_diffuse_b;
+        newDisplayObject.m_light_specular_r = m_SceneGraph->at(i).light_specular_r;
+        newDisplayObject.m_light_specular_g = m_SceneGraph->at(i).light_specular_g;
+        newDisplayObject.m_light_specular_b = m_SceneGraph->at(i).light_specular_b;
+        newDisplayObject.m_light_spot_cutoff = m_SceneGraph->at(i).light_spot_cutoff;
+        newDisplayObject.m_light_constant = m_SceneGraph->at(i).light_constant;
+        newDisplayObject.m_light_linear = m_SceneGraph->at(i).light_linear;
+        newDisplayObject.m_light_quadratic = m_SceneGraph->at(i).light_quadratic;
+
+        m_displayList.push_back(newDisplayObject);
+
+    }
 }
 
 void Game::SaveSceneObject()

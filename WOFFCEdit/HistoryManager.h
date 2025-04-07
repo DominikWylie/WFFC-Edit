@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <SimpleMath.h>
+#include "CommandObserver.h"
 
 class DisplayObject;
 

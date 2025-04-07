@@ -7,11 +7,21 @@
 #include "DeviceResources.h"
 #include "InputObserver.h"
 #include <unordered_map>
-#include "HistoryManager.h"
+#include "CommandObserver.h"
 
 class DisplayObject;
 class ID3D11DeviceContext;
 class ID3D11Device;
+class HistoryManager;
+
+//i need to call the load to reset all the objects back to the origional states when undoing back to the load state, 
+// iether this or hold a reference to all objects just loaded in which is a hole load of duplaicate data if theres loads of objects
+// :(
+//i mean technacly tool main will only ever not exist when this doesnt exist i think so might be alright practice cos this is a object in tool main
+//class ToolMain;
+
+//another idea
+class Game;
 
 namespace XD {
 	class DeviceResources;
@@ -20,13 +30,13 @@ namespace XD {
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
-class ObjectEditor : public InputObserver
+class ObjectEditor : public InputObserver, public CommandObserver
 {
 public:
 	ObjectEditor();
 	~ObjectEditor();
 
-	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev);
+	void Initialize(ID3D11DeviceContext* con, ID3D11Device* dev, HistoryManager* historyManager);
 
 	void DrawTranslators(
 		Matrix view, 
@@ -57,6 +67,13 @@ public:
 	virtual std::vector<MouseInput> getMouseInputsToObserve() override { return{ LMB }; };
 	virtual bool getScrollWheelToObserve() override { return true; };
 	virtual bool getMousePositionToObserve() override { return true; };
+
+	virtual void commandCall(Command command) override;
+
+	virtual std::vector<Command> getCommandsToObserve() override { return {Command::undo, Command::redo}; };
+
+	//void setToolMain(ToolMain* toolM) { toolMain = toolM; };
+	void setGameObject(Game* gam) { game = gam; };
 
 private:
 
@@ -106,7 +123,10 @@ private:
 
 	DisplayObject* masterObject = nullptr;
 
-	HistoryManager historyManager;
+	HistoryManager* historyManager = nullptr;
+
+	//ToolMain* toolMain = nullptr;
+	Game* game = nullptr;
 
 	//masterobject is not here, only the secondary selected objects
 	//std::vector<DisplayObject*> selectedObjects;

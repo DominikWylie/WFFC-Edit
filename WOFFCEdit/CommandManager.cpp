@@ -73,34 +73,34 @@ void CommandManager::checkAndCallObservers()
 	
 	
 	
-	for(auto keyCombo : keyCombos){
+	//for(auto keyCombo : keyCombos){
 
-		bool allKeysFound = true;
+	//	bool allKeysFound = true;
 
 
-		for (int keyForCombo : keyCombo.second) {
-			//loop through, if not found key on pressed keys continue to next combo
+	//	for (int keyForCombo : keyCombo.second) {
+	//		//loop through, if not found key on pressed keys continue to next combo
 
-			bool keyFound = false;
+	//		bool keyFound = false;
 
-			for (int keyDown : keysDown) {
-				if (keyDown == keyForCombo) {
-					keyFound = true;
-				}
-			}
+	//		for (int keyDown : keysDown) {
+	//			if (keyDown == keyForCombo) {
+	//				keyFound = true;
+	//			}
+	//		}
 
-			if (!keyFound) {
-				//yea just move on to next
-				allKeysFound = false;
-			}
-		}
+	//		if (!keyFound) {
+	//			//yea just move on to next
+	//			allKeysFound = false;
+	//		}
+	//	}
 
-		if (allKeysFound) {
-			for (CommandObserver* observer : observerList[keyCombo.first]) {
-				observer->commandCall(keyCombo.first);
-			}
-		}
+	//	if (allKeysFound) {
+	//		for (CommandObserver* observer : observerList[keyCombo.first]) {
+	//			observer->commandCall(keyCombo.first);
+	//		}
+	//	}
 
-	}
+	//}
 
 }

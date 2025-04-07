@@ -5,14 +5,6 @@
 #include "d3d11.h"
 #include "SimpleMath.h"
 
-//namespace DirectX {
-//	namespace SimpleMath {
-//		class Vector2;
-//		class Matrix;
-//		//struct BoundingBox;
-//	}
-//}
-
 namespace DX {
 	class DeviceResources;
 }

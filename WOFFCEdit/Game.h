@@ -16,6 +16,8 @@
 #include "Camera.h"
 #include "ObjectEditor.h"
 
+class HistoryManager;
+
 //class Input;
 
 // A basic game implementation that creates a D3D11 device and
@@ -28,7 +30,7 @@ public:
 	~Game();
 
 	// Initialization and management
-	void Initialize(HWND window, int width, int height, Camera *cam, ObjectEditor* oEditor);
+	void Initialize(HWND window, int width, int height, Camera *cam, ObjectEditor* oEditor, HistoryManager* hManager);
 	void SetGridState(bool state);
 
 	// Basic game loop
@@ -51,6 +53,7 @@ public:
 
 	//tool specific
 	void BuildDisplayList(std::vector<SceneObject> * SceneGraph); //note vector passed by reference
+	void RebuildDisplylist(); //to reset if user undoos to start
 	void SaveSceneObject();
 	void BuildDisplayChunk(ChunkObject *SceneChunk);
 	void SaveDisplayChunk(ChunkObject *SceneChunk);	//saves geometry et al
