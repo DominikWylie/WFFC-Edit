@@ -203,10 +203,14 @@ void ObjectEditor::updateObject(DisplayObject* object)
 	//if shift is held just add to list, leave gizmo as first one
 	//get relative locations of others to first one
 	//and translate others relative to first one
-	if (masterObject == object) {
+	if (masterObject == object && masterObject != nullptr && object != nullptr) {
 		//skip this
 	}
 	else if (masterObject == nullptr || !shiftHeld) {
+		if (object == nullptr) {
+			//if evreything null, BAIL
+			return;
+		}
 		masterObject = object;
 		//multiSelect = false;
 		setMultiselect(false);
