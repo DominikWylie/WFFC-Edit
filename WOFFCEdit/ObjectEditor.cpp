@@ -148,9 +148,29 @@ void ObjectEditor::DrawTranslators(
 		if (firstRound) {
 			objectCentreOffset = masterObject->m_position - cursorPlanePoint;
 			firstRound = false;
+
+			std::vector<ObjectDelta> newHistory;
+
+			ObjectDelta masterDelta;
+			masterDelta.object = masterObject;
+			masterDelta.translate = masterObject->m_position;
+			masterDelta.rotate = masterObject->m_orientation;
+			masterDelta.scale = masterObject->m_scale;
+			newHistory.push_back(masterDelta);
+
+			for (const auto object : selectedObjects) {
+				ObjectDelta selectedObjectDelta;
+				selectedObjectDelta.object = object.first;
+				selectedObjectDelta.translate = object.first->m_position;
+				selectedObjectDelta.rotate = object.first->m_orientation;
+				selectedObjectDelta.scale = object.first->m_scale;
+				newHistory.push_back(selectedObjectDelta);
+			}
+
+			historyManager->addHistory(newHistory);
 		}
 		
-		justMoved = true;
+		//justMoved = true;
 	}
 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dissableDepthStencilState;
@@ -361,31 +381,6 @@ void ObjectEditor::mouseUp(MouseInput mouse)
 	firstRound = true;
 
 	updateObject(masterObject);
-
-	if (justMoved) {
-
-		std::vector<ObjectDelta> newHistory;
-
-		ObjectDelta masterDelta;
-		masterDelta.object = masterObject;
-		masterDelta.translate = masterObject->m_position;
-		masterDelta.rotate = masterObject->m_orientation;
-		masterDelta.scale = masterObject->m_scale;
-		newHistory.push_back(masterDelta);
-
-		for (const auto object : selectedObjects) {
-			ObjectDelta selectedObjectDelta;
-			selectedObjectDelta.object = object.first;
-			selectedObjectDelta.translate = object.first->m_position;
-			selectedObjectDelta.rotate = object.first->m_orientation;
-			selectedObjectDelta.scale = object.first->m_scale;
-			newHistory.push_back(selectedObjectDelta);
-		}
-
-		historyManager->addHistory(newHistory);
-
-		justMoved = false;
-	}
 }
 
 void ObjectEditor::scrollWheelMove(float wheel)
@@ -403,11 +398,12 @@ void ObjectEditor::mousePosition(DirectX::SimpleMath::Vector2 mousePosition)
 
 void ObjectEditor::commandCall(Command command)
 {
-	if (command == Command::undo) {
+	switch (command) {
+	case undo:
+	{
 		std::vector<ObjectDelta> history = historyManager->goBack();
 
 		if (history.size() == 0) {
-			//toolMain->onActionLoad();
 			game->RebuildDisplylist();
 			return;
 		}
@@ -417,7 +413,42 @@ void ObjectEditor::commandCall(Command command)
 			objectDelta.object->m_orientation = objectDelta.rotate;
 			objectDelta.object->m_scale = objectDelta.scale;
 		}
+		break;
 	}
+	case redo:
+	{
+		std::vector<ObjectDelta> history = historyManager->goForward();
+
+		if (history.size() == 0) {
+			game->RebuildDisplylist();
+			return;
+		}
+
+		for (ObjectDelta objectDelta : history) {
+			objectDelta.object->m_position = objectDelta.translate;
+			objectDelta.object->m_orientation = objectDelta.rotate;
+			objectDelta.object->m_scale = objectDelta.scale;
+		}
+		break;
+	}
+	}
+	
+	
+	
+	//if (command == Command::undo) {
+	//	std::vector<ObjectDelta> history = historyManager->goBack();
+
+	//	if (history.size() == 0) {
+	//		game->RebuildDisplylist();
+	//		return;
+	//	}
+
+	//	for (ObjectDelta objectDelta : history) {
+	//		objectDelta.object->m_position = objectDelta.translate;
+	//		objectDelta.object->m_orientation = objectDelta.rotate;
+	//		objectDelta.object->m_scale = objectDelta.scale;
+	//	}
+	//}
 }
 
 void ObjectEditor::drawX()

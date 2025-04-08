@@ -28,6 +28,8 @@ public:
 	std::vector<ObjectDelta> goBack();
 	std::vector<ObjectDelta> goForward();
 
+	int getPositionFromfront() { return positionFromFront; };
+
 private:
 
 	int positionFromFront = 0;

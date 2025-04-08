@@ -9,6 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include "Picker.h"
+#include "HistoryManager.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -62,6 +63,8 @@ void Game::Initialize(HWND window, int width, int height, Camera *cam, ObjectEdi
     CreateWindowSizeDependentResources();
 
     objectEditor->Initialize(m_deviceResources->GetD3DDeviceContext(), m_deviceResources->GetD3DDevice(), hManager);
+
+    hisManager = hManager;
 
 
 #ifdef DXTK_AUDIO
@@ -254,8 +257,8 @@ void Game::Render(std::vector<int> selectedObjects)
     m_font->DrawString(m_sprites.get(), mousePrint.c_str(), XMFLOAT2(10, 40), Colors::Blue);    
     
 
-    //std::wstring scrollspeedPrint = L"scrollspeed: " + std::to_wstring(m_InputCommands->wheelDelta) + L" camspeed: " + std::to_wstring(camera->m_movespeed);
-    //m_font->DrawString(m_sprites.get(), scrollspeedPrint.c_str(), XMFLOAT2(10, 60), Colors::Blue);
+    std::wstring scrollspeedPrint = L"history pos from front: " + std::to_wstring(hisManager->getPositionFromfront());
+    m_font->DrawString(m_sprites.get(), scrollspeedPrint.c_str(), XMFLOAT2(10, 60), Colors::Beige);
 
     if (objectEditor->objectSelected) {
         std::wstring chodenObjPrint = L"chosed object: " + std::to_wstring(objectEditor->getDisplayObject()->m_position.x) + L", " + std::to_wstring(objectEditor->getDisplayObject()->m_position.y) + L", " + std::to_wstring(objectEditor->getDisplayObject()->m_position.z);

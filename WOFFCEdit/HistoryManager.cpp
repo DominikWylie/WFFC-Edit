@@ -1,4 +1,5 @@
 #include "HistoryManager.h"
+#include "DisplayObject.h"
 
 HistoryManager::HistoryManager()
 {
@@ -7,10 +8,6 @@ HistoryManager::HistoryManager()
 HistoryManager::~HistoryManager()
 {
 }
-
-//diary for tomorrow:
-
-//so when you select nothing first, theres issue with some psyco read access error in in sime dx11 math library. maybe try a diffrent pc?
 
 //position from front isnt wotking properly and goes out of sync
 
@@ -21,17 +18,39 @@ void HistoryManager::addHistory(std::vector<ObjectDelta> newHistory)
 		positionFromFront--;
 	}
 
+	//so this is the real location, the history starts 1 step pack
+	positionFromFront = -1;
+
 	history.push_back(newHistory);
 }
 
 std::vector<ObjectDelta> HistoryManager::goBack()
 {
-	switch (history.size()) {
-	case 1:
+	
+	//if went back from end, record the end
+	if (positionFromFront = -1) {
+
+		std::vector<ObjectDelta> newHistory;
+
+		for (const auto object : history.at(history.size())) {
+			ObjectDelta objectTorecord;
+			objectTorecord.object = object.object;
+			objectTorecord.translate = object.object->m_position;
+			objectTorecord.rotate = object.object->m_orientation;
+			objectTorecord.scale = object.object->m_scale;
+			newHistory.push_back(objectTorecord);
+		}
+
+		positionFromFront = 0;
+	}
+
+	//i need to go now, contonue working on the hhgistory and redo, abouve is to record the crrent state of the changed objects when going back incase user goes back forward
+	
+	if (history.size() - 1 == positionFromFront) {
 		positionFromFront++;
-		//history.clear();
-	case 0:
-		//an empty vector implies reload object
+		return std::vector<ObjectDelta> {};
+	}
+	else if(history.size() == 0){
 		return std::vector<ObjectDelta> {};
 	}
 
@@ -44,12 +63,12 @@ std::vector<ObjectDelta> HistoryManager::goBack()
 
 std::vector<ObjectDelta> HistoryManager::goForward()
 {
-	//if go forawrd when at front do nothing
-	if (positionFromFront == 0) {
-		return history.at(history.size() - 1);
+	int index = positionFromFront;
+	
+	if (positionFromFront > 0) {
+		positionFromFront -= 2;
 	}
 
-	positionFromFront--;
-	return history.at((history.size() - 1) - positionFromFront);
+	return history.at((history.size() - 1) - index);
 }
 

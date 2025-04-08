@@ -342,13 +342,6 @@ void ToolMain::mouseDown(MouseInput mouse)
 		}
 		else {
 			m_selectedObjects.clear();
-			
-			//int pickedObject = m_d3dRenderer.MousePicking();
-
-			//if (pickedObject != -1) {
-			//	m_selectedObjects.push_back(pickedObject);
-			//}
-			
 			m_selectedObjects.push_back(m_d3dRenderer.MousePicking());
 		}
 	}

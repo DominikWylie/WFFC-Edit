@@ -147,7 +147,8 @@ private:
     DirectX::SimpleMath::Matrix                                             m_view;
     DirectX::SimpleMath::Matrix                                             m_projection;
 
-
+	//debug temp remove in future and include
+	HistoryManager* hisManager;
 };
 
 std::wstring StringToWCHART(std::string s);
