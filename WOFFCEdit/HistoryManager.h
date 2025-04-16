@@ -33,10 +33,12 @@ public:
 private:
 
 	int positionFromFront = 0;
+	int positionOfFutureHistoryrecorded = 0;
 
 	//record deltas
 	//vector(for each transform change) of vectors(for evrey object) of structs(object reference and scale, rot, trans vec3s)
 
 	std::vector<std::vector<ObjectDelta>> history;
+	std::vector<std::vector<ObjectDelta>> futureHistory;
 };
 

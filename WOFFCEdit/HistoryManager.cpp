@@ -18,8 +18,11 @@ void HistoryManager::addHistory(std::vector<ObjectDelta> newHistory)
 		positionFromFront--;
 	}
 
+	//will need to remove the data from the future history - maybe just empty the vector?
+
 	//so this is the real location, the history starts 1 step pack
 	positionFromFront = -1;
+	positionOfFutureHistoryrecorded = -1;
 
 	history.push_back(newHistory);
 }
@@ -27,12 +30,12 @@ void HistoryManager::addHistory(std::vector<ObjectDelta> newHistory)
 std::vector<ObjectDelta> HistoryManager::goBack()
 {
 	
-	//if went back from end, record the end
-	if (positionFromFront == -1) {
+	//add to the future history
+	if (positionOfFutureHistoryrecorded < positionFromFront + 1) {
 
 		std::vector<ObjectDelta> newHistory;
 
-		for (const auto object : history.at(history.size() - 1)) {
+		for (const auto object : history.at((history.size() - 1) + positionFromFront + 1)) {
 			ObjectDelta objectTorecord;
 			objectTorecord.object = object.object;
 			objectTorecord.translate = object.object->m_position;
@@ -41,18 +44,16 @@ std::vector<ObjectDelta> HistoryManager::goBack()
 			newHistory.push_back(objectTorecord);
 		}
 
-		history.push_back(newHistory);
+		futureHistory.push_back(newHistory);
 
-		positionFromFront = 0;
+		positionOfFutureHistoryrecorded++;
 	}
 
-	//i need to go now, contonue working on the hhgistory and redo, abouve is to record the crrent state of the changed objects when going back incase user goes back forward
-	
 	if (history.size() - 1 == positionFromFront) {
-		positionFromFront++;
+		//positionFromFront++;
 		return std::vector<ObjectDelta> {};
 	}
-	else if(history.size() == 0){
+	else if(history.size() == 0 || history.size() == positionFromFront){
 		return std::vector<ObjectDelta> {};
 	}
 
@@ -60,17 +61,24 @@ std::vector<ObjectDelta> HistoryManager::goBack()
 	positionFromFront++;
 	return history.at((history.size() - 1) - positionFromFront);
 
-	//need to use the oriogional state, maybe reload from db?
 }
 
 std::vector<ObjectDelta> HistoryManager::goForward()
 {
+	//when you go back take the object references and record where the pocation is befoire you go back
+
+
 	int index = positionFromFront;
 	
 	if (positionFromFront > 0) {
-		positionFromFront -= 2;
+		//positionFromFront -= 2;
+		positionFromFront--;
 	}
 
-	return history.at((history.size() - 1) - index);
+	////return history.at((history.size() - 1) - index);
+	return futureHistory.at((history.size() - 1) - positionFromFront);
+
+
+
 }
 
