@@ -13,7 +13,7 @@ HistoryManager::~HistoryManager()
 
 void HistoryManager::addHistory(std::vector<ObjectDelta> newHistory)
 {
-	while (positionFromFront != 0) {
+	while (positionFromFront > 0) {
 		history.pop_back();
 		positionFromFront--;
 	}
@@ -28,11 +28,11 @@ std::vector<ObjectDelta> HistoryManager::goBack()
 {
 	
 	//if went back from end, record the end
-	if (positionFromFront = -1) {
+	if (positionFromFront == -1) {
 
 		std::vector<ObjectDelta> newHistory;
 
-		for (const auto object : history.at(history.size())) {
+		for (const auto object : history.at(history.size() - 1)) {
 			ObjectDelta objectTorecord;
 			objectTorecord.object = object.object;
 			objectTorecord.translate = object.object->m_position;
@@ -40,6 +40,8 @@ std::vector<ObjectDelta> HistoryManager::goBack()
 			objectTorecord.scale = object.object->m_scale;
 			newHistory.push_back(objectTorecord);
 		}
+
+		history.push_back(newHistory);
 
 		positionFromFront = 0;
 	}
