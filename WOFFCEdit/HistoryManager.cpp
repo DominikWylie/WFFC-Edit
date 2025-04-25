@@ -35,7 +35,7 @@ std::vector<ObjectDelta> HistoryManager::goBack()
 
 		std::vector<ObjectDelta> newHistory;
 
-		for (const auto object : history.at((history.size() - 1) + positionFromFront + 1)) {
+		for (const auto object : history.at((history.size() - 1) - (positionFromFront + 1))) {
 			ObjectDelta objectTorecord;
 			objectTorecord.object = object.object;
 			objectTorecord.translate = object.object->m_position;
