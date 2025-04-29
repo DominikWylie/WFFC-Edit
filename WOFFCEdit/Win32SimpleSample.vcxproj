@@ -33,8 +33,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <VCToolsVersion>
-    </VCToolsVersion>
+    <VCToolsVersion>14.42.34433</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -181,6 +180,7 @@
     <ClCompile Include="MFCFrame.cpp" />
     <ClCompile Include="MFCRenderFrame.cpp" />
     <ClCompile Include="ObjectEditor.cpp" />
+    <ClCompile Include="ObjectViewer.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="MFCMain.cpp" />
     <ClCompile Include="Picker.cpp" />
@@ -204,6 +204,7 @@
     <ClInclude Include="MFCFrame.h" />
     <ClInclude Include="MFCRenderFrame.h" />
     <ClInclude Include="ObjectEditor.h" />
+    <ClInclude Include="ObjectViewer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Picker.h" />
     <ClInclude Include="resource.h" />

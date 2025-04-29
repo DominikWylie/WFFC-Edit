@@ -80,6 +80,9 @@
     <ClCompile Include="CommandObserver.cpp">
       <Filter>Tool</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectViewer.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="CommandObserver.h">
       <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectViewer.h">
+      <Filter>MFC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
