@@ -39,6 +39,9 @@ BOOL MFCMain::InitInstance()
 
 	m_ToolSystem.onActionInitialise(m_toolHandle, m_width, m_height);
 
+	objectViewer.Create(IDD_DIALOG2);
+	objectViewer.ShowWindow(SW_SHOW);
+
 	return TRUE;
 }
 
