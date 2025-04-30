@@ -337,6 +337,8 @@ void ToolMain::mouseDown(MouseInput mouse)
 		else {
 			m_selectedObjects.clear();
 			m_selectedObjects.push_back(m_d3dRenderer.MousePicking());
+
+			//the first one thing
 		}
 	}
 }

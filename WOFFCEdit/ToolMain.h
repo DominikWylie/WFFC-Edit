@@ -10,6 +10,9 @@
 #include "Camera.h"
 #include "ObjectEditor.h"
 #include "CommandManager.h"
+//#include "ObjectViewer.h"
+
+//class ObjectViewer;
 
 class ToolMain : public InputObserver
 {
@@ -70,5 +73,7 @@ private:	//variables
 	int m_currentChunk;			//the current chunk of thedatabase that we are operating on.  Dictates loading and saving. 
 	
 	RECT windowRect;
+
+	//ObjectViewer viewer;
 	
 };
