@@ -40,8 +40,6 @@ BOOL MFCMain::InitInstance()
 
 	m_ToolSystem.onActionInitialise(m_toolHandle, m_width, m_height);
 
-	//objectViewer.Create(IDD_DIALOG2);
-
 	return TRUE;
 }
 
@@ -125,7 +123,6 @@ MFCMain::~MFCMain()
 
 void MFCMain::OnMenuObjectViewerPressed()
 {
-	// TODO: Add your command handler code here
 
 	DisplayObject* object = m_ToolSystem.getMasterObject();
 
@@ -135,8 +132,6 @@ void MFCMain::OnMenuObjectViewerPressed()
 		objectViewer.Create(IDD_DIALOG2);
 
 		objectViewer.ShowWindow(SW_SHOW);
-
-		//objectViewer.UpdateXtranslatetext();
 	}
 
 }

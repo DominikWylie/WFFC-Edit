@@ -34,5 +34,6 @@ public:
 	afx_msg void OnByincrease();
 	afx_msg void OnBzdecrease();
 	afx_msg void OnBzincrease();
+	afx_msg void OnUpdatValues();
 };
 

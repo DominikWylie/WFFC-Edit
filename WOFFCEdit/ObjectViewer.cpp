@@ -12,6 +12,7 @@ ON_COMMAND(IDC_BYDECREASE, &ObjectViewer::OnBydecrease)
 ON_COMMAND(IDC_BYINCREASE, &ObjectViewer::OnByincrease)
 ON_COMMAND(IDC_BZDECREASE, &ObjectViewer::OnBzdecrease)
 ON_COMMAND(IDC_BZINCREASE, &ObjectViewer::OnBzincrease)
+ON_COMMAND(IDC_UPDAT_VALUES, &ObjectViewer::OnUpdatValues)
 END_MESSAGE_MAP()
 
 ObjectViewer::ObjectViewer(CWnd* pParent)
@@ -117,5 +118,11 @@ void ObjectViewer::OnBzincrease()
 
 	masterObject->m_position.z += positionIncriment;
 
+	UpdateData(true);
+}
+
+
+void ObjectViewer::OnUpdatValues()
+{
 	UpdateData(true);
 }
