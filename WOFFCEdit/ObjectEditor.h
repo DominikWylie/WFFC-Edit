@@ -46,6 +46,8 @@ public:
 
 	bool objectSelected = false;
 
+	DisplayObject* getMasterObject();
+
 	virtual void KeyDown(int key) override;
 	virtual void KeyUp(int key) override;
 	virtual void mouseDown(MouseInput mouse) override;

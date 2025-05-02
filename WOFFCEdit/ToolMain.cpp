@@ -312,6 +312,11 @@ void ToolMain::UpdateInput(MSG * msg)
 	input.Update(msg, windowRect.left, windowRect.top);
 }
 
+DisplayObject* ToolMain::getMasterObject()
+{
+	return objectEditor.getMasterObject();
+}
+
 void ToolMain::KeyDown(int key)
 {
 	if (key == VK_SHIFT) {

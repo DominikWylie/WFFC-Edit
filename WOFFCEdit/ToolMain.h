@@ -31,6 +31,8 @@ public: //methods
 	void	Tick(MSG *msg);
 	void	UpdateInput(MSG *msg);
 
+	DisplayObject* getMasterObject();
+
 	virtual void KeyDown(int key) override;
 	virtual void KeyUp(int key) override;
 	virtual void mouseDown(MouseInput mouse) override;

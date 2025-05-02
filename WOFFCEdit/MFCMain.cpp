@@ -1,6 +1,6 @@
 #include "MFCMain.h"
 #include "resource.h"
-
+#include "ObjectViewer.h"
 
 BEGIN_MESSAGE_MAP(MFCMain, CWinApp)
 	ON_COMMAND(ID_FILE_QUIT,	&MFCMain::MenuFileQuit)
@@ -40,7 +40,7 @@ BOOL MFCMain::InitInstance()
 
 	m_ToolSystem.onActionInitialise(m_toolHandle, m_width, m_height);
 
-	objectViewer.Create(IDD_DIALOG2);
+	//objectViewer.Create(IDD_DIALOG2);
 
 	return TRUE;
 }
@@ -120,12 +120,23 @@ MFCMain::MFCMain()
 
 MFCMain::~MFCMain()
 {
-}
 
+}
 
 void MFCMain::OnMenuObjectViewerPressed()
 {
 	// TODO: Add your command handler code here
 
-	objectViewer.ShowWindow(SW_SHOW);
+	DisplayObject* object = m_ToolSystem.getMasterObject();
+
+	if (object) {
+		objectViewer.SetObjectData(object);
+
+		objectViewer.Create(IDD_DIALOG2);
+
+		objectViewer.ShowWindow(SW_SHOW);
+
+		//objectViewer.UpdateXtranslatetext();
+	}
+
 }

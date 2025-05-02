@@ -306,6 +306,11 @@ void ObjectEditor::setMultiselect(bool set)
 	}
 }
 
+DisplayObject* ObjectEditor::getMasterObject()
+{
+	return masterObject;
+}
+
 void ObjectEditor::KeyDown(int key)
 {
 	if(key == VK_SHIFT) {
