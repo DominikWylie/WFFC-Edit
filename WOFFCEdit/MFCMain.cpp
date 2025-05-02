@@ -8,6 +8,7 @@ BEGIN_MESSAGE_MAP(MFCMain, CWinApp)
 	ON_COMMAND(ID_EDIT_SELECT, &MFCMain::MenuEditSelect)
 	ON_COMMAND(ID_BUTTON40001,	&MFCMain::ToolBarButton1)
 	ON_UPDATE_COMMAND_UI(ID_INDICATOR_TOOL, &CMyFrame::OnUpdatePage)
+	ON_COMMAND(ID_MENU_OBJECT_VIEWER, &MFCMain::OnMenuObjectViewerPressed)
 END_MESSAGE_MAP()
 
 BOOL MFCMain::InitInstance()
@@ -40,7 +41,6 @@ BOOL MFCMain::InitInstance()
 	m_ToolSystem.onActionInitialise(m_toolHandle, m_width, m_height);
 
 	objectViewer.Create(IDD_DIALOG2);
-	objectViewer.ShowWindow(SW_SHOW);
 
 	return TRUE;
 }
@@ -120,4 +120,12 @@ MFCMain::MFCMain()
 
 MFCMain::~MFCMain()
 {
+}
+
+
+void MFCMain::OnMenuObjectViewerPressed()
+{
+	// TODO: Add your command handler code here
+
+	objectViewer.ShowWindow(SW_SHOW);
 }

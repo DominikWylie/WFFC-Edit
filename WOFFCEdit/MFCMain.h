@@ -39,4 +39,6 @@ private:
 
 
 	DECLARE_MESSAGE_MAP()	// required macro for message map functionality  One per class
+public:
+	afx_msg void OnMenuObjectViewerPressed();
 };
