@@ -129,7 +129,10 @@ void MFCMain::OnMenuObjectViewerPressed()
 	if (object) {
 		objectViewer.SetObjectData(object);
 
-		objectViewer.Create(IDD_DIALOG2);
+		if (objectViewer.GetSafeHwnd() == nullptr)
+		{
+			objectViewer.Create(IDD_DIALOG2);
+		}
 
 		objectViewer.ShowWindow(SW_SHOW);
 	}
