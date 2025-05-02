@@ -377,10 +377,11 @@ void ObjectEditor::mouseUp(MouseInput mouse)
 {
 	RMBDown = false;
 	firstRound = true;
+	if (masterObject) {
+		updateObject(masterObject);
+	}
 
-	updateObject(masterObject);
-
-	if (justMoved) {
+	if (justMoved && masterObject) {
 
 		std::vector<ObjectDelta> newHistory;
 
