@@ -6,26 +6,17 @@
 IMPLEMENT_DYNAMIC(ObjectViewer, CDialogEx)
 
 BEGIN_MESSAGE_MAP(ObjectViewer, CDialogEx)
-//	ON_COMMAND(ID_BUTTON40001, &ObjectViewer::test)
-//	ON_UPDATE_COMMAND_UI(ID_BUTTON40001, &ObjectViewer::reetest)
 ON_COMMAND(IDC_BXINCREASE, &ObjectViewer::OnBxincrease)
-ON_UPDATE_COMMAND_UI(IDC_XTRANSLATETEXT, &ObjectViewer::OnUpdateXtranslatetext)
+ON_COMMAND(IDC_BXDECREASE, &ObjectViewer::OnBxdecrease)
+ON_COMMAND(IDC_BYDECREASE, &ObjectViewer::OnBydecrease)
+ON_COMMAND(IDC_BYINCREASE, &ObjectViewer::OnByincrease)
+ON_COMMAND(IDC_BZDECREASE, &ObjectViewer::OnBzdecrease)
+ON_COMMAND(IDC_BZINCREASE, &ObjectViewer::OnBzincrease)
 END_MESSAGE_MAP()
 
 ObjectViewer::ObjectViewer(CWnd* pParent)
 	: CDialogEx(IDD_DIALOG2, pParent)
 {
-}
-
-void ObjectViewer::OnBxincrease()
-{
-	// TODO: Add your command handler code here
-}
-
-
-void ObjectViewer::OnUpdateXtranslatetext(CCmdUI* pCmdUI)
-{
-	// TODO: Add your command update UI handler code here
 }
 
 void ObjectViewer::DoDataExchange(CDataExchange* pDX)
@@ -44,7 +35,6 @@ void ObjectViewer::DoDataExchange(CDataExchange* pDX)
 	
 	CDialogEx::DoDataExchange(pDX);
 
-	//CStatic m_xTranslateLabel;
 	DDX_Control(pDX, IDC_XTRANSLATETEXT, m_xTranslateLabel);
 	m_xTranslateLabel.SetWindowText(posXText);
 
@@ -58,23 +48,74 @@ void ObjectViewer::DoDataExchange(CDataExchange* pDX)
 void ObjectViewer::SetObjectData(DisplayObject* dObject)
 {
 	masterObject = dObject;
-
-
-	//m_xTranslateLabel.SetWindowText(_T("New X Translate Value"));
 }
 
-void ObjectViewer::UpdateXtranslatetext(CCmdUI* pCmdUI)
+void ObjectViewer::OnBxincrease()
 {
-	//m_xTranslateLabel.SetWindowText(_T("New X Translate Value"));
+	if (!masterObject) {
+		return;
+	}
 
-	//CStatic m_xTranslateLabel;
+	masterObject->m_position.x += positionIncriment;
 
-	//DDX_Control(pDX, IDC_XTRANSLATE_STATIC, m_xTranslateLabel);
+	UpdateData(true);
+}
 
-	//CWnd* pWnd = GetDlgItem(IDC_XTRANSLATE_STATIC);
-	//if (pWnd)
-	//	pWnd->SetWindowText(_T("New X Translate Value"));
+void ObjectViewer::OnBxdecrease()
+{
+	if (!masterObject) {
+		return;
+	}
 
-	//OnUpdateXtranslatetext(pCmdUI);
+	masterObject->m_position.x -= positionIncriment;
 
+	UpdateData(true);
+}
+
+
+void ObjectViewer::OnBydecrease()
+{
+	if (!masterObject) {
+		return;
+	}
+
+	masterObject->m_position.y -= positionIncriment;
+
+	UpdateData(true);
+}
+
+
+void ObjectViewer::OnByincrease()
+{
+	if (!masterObject) {
+		return;
+	}
+
+	masterObject->m_position.y += positionIncriment;
+
+	UpdateData(true);
+}
+
+
+void ObjectViewer::OnBzdecrease()
+{
+	if (!masterObject) {
+		return;
+	}
+
+	masterObject->m_position.z -= positionIncriment;
+
+	UpdateData(true);
+}
+
+
+void ObjectViewer::OnBzincrease()
+{
+	if (!masterObject) {
+		return;
+	}
+
+	masterObject->m_position.z += positionIncriment;
+
+	UpdateData(true);
 }
